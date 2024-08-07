@@ -1,5 +1,9 @@
 function Home() {
-    return <div className="font-main">welcome home</div>;
+    return (
+        <div>
+            <div className="text-content">welcome home</div>
+        </div>
+    );
 }
 
 export default Home;

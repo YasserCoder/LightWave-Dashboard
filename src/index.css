@@ -3,3 +3,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --color-main: #202224;
+        --color-secondary: #b1b1b1;
+        --color-bkg: #ffffff;
+        --color-secondary-bkg: #f5f6fa;
+        --color-table: #f1f4f9;
+        --color-input: #f5f6fa;
+    }
+    :root[class="dark"] {
+        --color-main: #f5f6fa;
+        --color-secondary: #c4c8cf66;
+        --color-bkg: #1a1a1a;
+        --color-secondary-bkg: #2a2a2a;
+        --color-table: #2e2e2e;
+        --color-input: #3a3a3a;
+    }
+}

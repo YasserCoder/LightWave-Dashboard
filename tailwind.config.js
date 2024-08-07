@@ -8,9 +8,23 @@ export default {
         },
         extend: {
             fontFamily: {
-                main: ["Nunito Sans"],
+                body: ["Nunito Sans"],
+            },
+            colors: {
+                main: "var(--color-main)",
+                content: "var(--color-secondary)",
+                bkg: {
+                    main: "var(--color-bkg)",
+                    secondary: "var(--color-secondary-bkg)",
+                },
+                table: "var(--color-table)",
+                input: "var(--color-input)",
+                colored: "#4880ff",
+            },
+            screens: {
+                xs: "400px",
             },
         },
     },
-    plugins: [],
+    darkMode: "selector",
 };
