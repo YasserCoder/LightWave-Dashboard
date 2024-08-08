@@ -1,13 +1,19 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import { useState } from "react";
+import Sidebar from "./Sidebar";
 
 function AppLayout() {
     const [dark, setDark] = useState(false);
     return (
         <>
             <Header />
-            <Outlet />
+            <main className="flex h-[calc(100vh-117px)] xs:h-[calc(100vh-132px)] md:h-[calc(100vh-70px)]">
+                <Sidebar />
+                <div className="w-full overflow-auto bg-bkg-secondary">
+                    <Outlet />
+                </div>
+            </main>
             <button
                 className="fixed bottom-7 right-7 bg-gray-400 p-4 rounded-full"
                 onClick={() => {

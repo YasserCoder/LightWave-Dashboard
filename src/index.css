@@ -22,3 +22,14 @@
         --color-input: #3a3a3a;
     }
 }
+.active {
+    color: white;
+    background-color: #4880ff;
+}
+.active + span {
+    background-color: #4880ff;
+}
+aside a:hover:not(.active) {
+    background: var(--color-secondary);
+    color: white;
+}

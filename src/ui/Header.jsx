@@ -10,8 +10,8 @@ import avatar from "../assets/react.svg";
 function Header() {
     const { screenSize: isSmallScreen } = useScreenSize(768);
     return (
-        <header className="container flex flex-col gap-y-5 items-center  py-3">
-            <div className="flex justify-between items-center w-full">
+        <header className="flex flex-col gap-y-5 items-center bg-bkg-main py-3">
+            <div className="container flex justify-between items-center w-full">
                 <h1 className="font-extrabold text-xl xs:text-3xl">
                     <Link to={"/home"}>
                         <span className="capitalize text-colored">dash</span>
@@ -41,7 +41,7 @@ function Header() {
                 </div>
             </div>
             {isSmallScreen && (
-                <div className="flex items-center gap-x-4 sm:gap-x-10  w-full">
+                <div className="container flex items-center gap-x-4 sm:gap-x-10  w-full">
                     <HamburgerIcon />
                     <SearchBar />
                 </div>
