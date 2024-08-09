@@ -8,10 +8,14 @@ import {
 } from "react-icons/pi";
 import { NavLink } from "react-router-dom";
 
-function Sidebar() {
+function Sidebar({ open }) {
     return (
-        <aside className="bg-bkg-main pt-4 h-[calc(100vh-117px)] xs:h-[calc(100vh-132px)] md:h-[calc(100vh-70px)]">
-            <ul className="flex flex-col gap-y-4">
+        <aside
+            className={`bg-bkg-main pt-4 h-[calc(100vh-117px)] xs:h-[calc(100vh-132px)] md:h-[calc(100vh-70px)] absolute left-0 top-0 ${
+                open ? "translate-x-0" : "-translate-x-full"
+            } duration-300 md:translate-x-0  z-30 md:static`}
+        >
+            <ul className="flex flex-col gap-y-4 items-start">
                 <li className="flex flex-row-reverse gap-x-3 mr-5">
                     <NavLink
                         to={"/home"}
@@ -24,7 +28,7 @@ function Sidebar() {
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>
-                <li className="flex flex-row-reverse gap-x-3 mr-5">
+                <li className="flex flex-row-reverse gap-x-3 mr-7">
                     <NavLink
                         to={"/products"}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center`}
@@ -36,7 +40,7 @@ function Sidebar() {
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>
-                <li className="flex flex-row-reverse gap-x-3 mr-5">
+                <li className="flex flex-row-reverse gap-x-3 mr-7">
                     <NavLink
                         to={"/orders"}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center`}
@@ -48,7 +52,7 @@ function Sidebar() {
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>
-                <li className="flex flex-row-reverse gap-x-3 mr-5">
+                <li className="flex flex-row-reverse gap-x-3 mr-7">
                     <NavLink
                         to={"/inbox"}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center `}
@@ -60,7 +64,7 @@ function Sidebar() {
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md "></span>
                 </li>
-                <li className="flex flex-row-reverse gap-x-3 mr-5">
+                <li className="flex flex-row-reverse gap-x-3 mr-7">
                     <NavLink
                         to={"/users"}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center`}
@@ -73,7 +77,7 @@ function Sidebar() {
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>
                 <span className="w-full h-[1px] bg-content"></span>
-                <li className="flex flex-row-reverse gap-x-3 mr-5">
+                <li className="flex flex-row-reverse gap-x-3 mr-7">
                     <NavLink
                         to={"/settings"}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center`}
@@ -85,7 +89,7 @@ function Sidebar() {
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>
-                <li className="flex flex-row-reverse gap-x-3 mr-5">
+                <li className="flex flex-row-reverse gap-x-3 mr-7">
                     <button
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center hover:bg-content hover:text-white`}
                     >

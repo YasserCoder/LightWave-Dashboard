@@ -7,7 +7,7 @@ import styles from "./hamburger.module.css";
 import { IoIosSearch } from "react-icons/io";
 
 import avatar from "../assets/react.svg";
-function Header() {
+function Header({ open, setOpen }) {
     const { screenSize: isSmallScreen } = useScreenSize(768);
     return (
         <header className="flex flex-col gap-y-5 items-center bg-bkg-main py-3">
@@ -19,8 +19,8 @@ function Header() {
                     </Link>
                 </h1>
                 {!isSmallScreen && (
-                    <div className="flex items-center gap-x-4 lg:gap-x-8 xl:gap-x-10">
-                        <HamburgerIcon />
+                    <div>
+                        {/* <HamburgerIcon /> */}
                         <SearchBar />
                     </div>
                 )}
@@ -42,15 +42,14 @@ function Header() {
             </div>
             {isSmallScreen && (
                 <div className="container flex items-center gap-x-4 sm:gap-x-10  w-full">
-                    <HamburgerIcon />
+                    <HamburgerIcon open={open} setOpen={setOpen} />
                     <SearchBar />
                 </div>
             )}
         </header>
     );
 }
-function HamburgerIcon() {
-    const [open, setOpen] = useState(false);
+function HamburgerIcon({ open, setOpen }) {
     return (
         <label className={styles.buttonsBurger} htmlFor={styles.burger}>
             <input
@@ -77,7 +76,7 @@ function SearchBar() {
                 console.log(value);
             }}
         >
-            <div className="flex w-full gap-x-2 items-center py-2 md:py-2.5 px-3 rounded-full border border-content bg-input">
+            <div className="flex w-full md:w-auto gap-x-2 items-center py-2 md:py-2.5 px-3 rounded-full border border-content bg-input">
                 <IoIosSearch className="text-lg" />
                 <input
                     value={value}
