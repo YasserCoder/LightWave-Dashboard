@@ -1,6 +1,6 @@
 function Home() {
     return (
-        <div className="">
+        <div className="h-[1500px]">
             <div className="text-content">welcome home</div>
         </div>
     );

@@ -7,6 +7,7 @@ import styles from "./hamburger.module.css";
 import { IoIosSearch } from "react-icons/io";
 
 import avatar from "../assets/react.svg";
+import DarkToggleSwitch from "./DarkToggleSwitch";
 function Header({ open, setOpen }) {
     const { screenSize: isSmallScreen } = useScreenSize(768);
     return (
@@ -20,24 +21,26 @@ function Header({ open, setOpen }) {
                 </h1>
                 {!isSmallScreen && (
                     <div>
-                        {/* <HamburgerIcon /> */}
                         <SearchBar />
                     </div>
                 )}
-                <div className="flex items-center gap-x-2">
-                    <img
-                        src={avatar}
-                        alt=""
-                        className="rounded-full size-7 xs:size-10"
-                    />
-                    <div className="sm:space-y-[2px]">
-                        <h3 className="capitalize text-sm xs:text-base font-semibold">
-                            name
-                        </h3>
-                        <p className="text-content text-[10px] font-light xs:text-sm ">
-                            Admin
-                        </p>
+                <div className="flex items-center gap-x-6">
+                    <div className="flex items-center gap-x-2">
+                        <img
+                            src={avatar}
+                            alt=""
+                            className="rounded-full size-7 xs:size-10"
+                        />
+                        <div className="sm:space-y-[2px]">
+                            <h3 className="capitalize text-sm xs:text-base font-semibold">
+                                name
+                            </h3>
+                            <p className="text-content text-[10px] font-light xs:text-sm ">
+                                Admin
+                            </p>
+                        </div>
                     </div>
+                    <DarkToggleSwitch />
                 </div>
             </div>
             {isSmallScreen && (
