@@ -1,15 +1,30 @@
 import { useState } from "react";
+
 import { useScreenSize } from "../hook/useScreenSize";
+import { useLogin } from "../hook/auth/useLogin";
+
+import { FaLock, FaUser } from "react-icons/fa";
 import vector from "../assets/dashbordVector.svg";
 import bg from "../assets/dashbordBg.jpg";
-import { FaLock, FaUser } from "react-icons/fa";
 function Login() {
-    const [email, setEmail] = useState("");
-    const [pwd, setPwd] = useState("");
+    const [email, setEmail] = useState("admin@lightwave.com");
+    const [pwd, setPwd] = useState("lightwavedashbord");
+    const [isEmailFocused, setIsEmailFocused] = useState(false);
+    const [isPwdFocused, setIsPwdFocused] = useState(false);
     const { screenSize: isSmallScreen } = useScreenSize(768);
+    const { login, isLoading } = useLogin();
     function handleSubmit(e) {
         e.preventDefault();
-        console.log("submit");
+        if (!email || !pwd) return;
+        login(
+            { email, password: pwd },
+            {
+                onSettled: () => {
+                    setEmail("");
+                    setPwd("");
+                },
+            }
+        );
     }
     return (
         <div className="h-screen w-screen flex justify-center items-center relative">
@@ -44,7 +59,13 @@ function Login() {
                             <label className="font-semibold xs:font-extrabold capitalize ml-3">
                                 email
                             </label>
-                            <div className="flex gap-x-4 items-center py-2  px-3 rounded-full border border-content bg-input">
+                            <div
+                                className={`flex gap-x-4 items-center py-2  px-3 rounded-full border  ${
+                                    isEmailFocused
+                                        ? "outline outline-[3px] outline-colored"
+                                        : " border-content"
+                                } bg-input`}
+                            >
                                 <FaUser className="xs:text-lg" />
                                 <input
                                     value={email}
@@ -52,6 +73,8 @@ function Login() {
                                     placeholder="Email"
                                     className="w-40 xs:w-48 sm:w-64 bg-input outline-none text-sm xs:text-base"
                                     onChange={(e) => setEmail(e.target.value)}
+                                    onFocus={() => setIsEmailFocused(true)}
+                                    onBlur={() => setIsEmailFocused(false)}
                                 />
                             </div>
                         </div>
@@ -59,7 +82,13 @@ function Login() {
                             <label className="font-semibold xs:font-extrabold capitalize ml-3">
                                 password
                             </label>
-                            <div className="flex gap-x-4 items-center py-2  px-3 rounded-full border border-content bg-input">
+                            <div
+                                className={`flex gap-x-4 items-center py-2  px-3 rounded-full border ${
+                                    isPwdFocused
+                                        ? "outline outline-[3px] outline-colored"
+                                        : " border-content"
+                                } bg-input`}
+                            >
                                 <FaLock className="xs:text-lg" />
                                 <input
                                     value={pwd}
@@ -67,10 +96,15 @@ function Login() {
                                     placeholder="Password"
                                     className="w-40 xs:w-48 sm:w-64 bg-input outline-none text-sm xs:text-base"
                                     onChange={(e) => setPwd(e.target.value)}
+                                    onFocus={() => setIsPwdFocused(true)}
+                                    onBlur={() => setIsPwdFocused(false)}
                                 />
                             </div>
                         </div>
-                        <button className="bg-colored px-14 py-1.5 xs:py-2.5 rounded-full text-white text-lg font-semibold mt-4 hover:bg-sky-700 duration-200 active:translate-y-0.5">
+                        <button
+                            disabled={isLoading}
+                            className="bg-colored px-14 py-1.5 xs:py-2.5 rounded-full text-white text-lg font-semibold mt-4 hover:bg-sky-700 duration-200 active:translate-y-0.5 disabled:cursor-not-allowed disabled:bg-slate-400"
+                        >
                             Login
                         </button>
                     </form>

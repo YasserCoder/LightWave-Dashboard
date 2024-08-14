@@ -1,6 +1,4 @@
 .toggle {
-    width: 40px;
-    height: 40px;
     border-radius: 50%;
     display: grid;
     place-items: center;

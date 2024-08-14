@@ -28,6 +28,7 @@ function AppLayout() {
                             ? "overflow-hidden"
                             : "overflow-auto"
                     }  bg-bkg-secondary`}
+                    id="main"
                 >
                     <Outlet />
                 </div>

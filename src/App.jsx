@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import AppLayout from "./ui/AppLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -24,7 +25,13 @@ function App() {
             />
             <BrowserRouter>
                 <Routes>
-                    <Route element={<AppLayout />}>
+                    <Route
+                        element={
+                            <ProtectedRoute>
+                                <AppLayout />
+                            </ProtectedRoute>
+                        }
+                    >
                         <Route index element={<Navigate replace to="home" />} />
                         <Route path="home" element={<Home />} />
                     </Route>

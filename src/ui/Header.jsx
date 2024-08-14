@@ -8,8 +8,10 @@ import { IoIosSearch } from "react-icons/io";
 
 import avatar from "../assets/react.svg";
 import DarkToggleSwitch from "./DarkToggleSwitch";
+import { useUser } from "../hook/auth/useUser";
 function Header({ open, setOpen }) {
     const { screenSize: isSmallScreen } = useScreenSize(768);
+    const { user } = useUser();
     return (
         <header className="flex flex-col gap-y-5 items-center bg-bkg-main py-3">
             <div className="container flex justify-between items-center w-full">
@@ -33,7 +35,7 @@ function Header({ open, setOpen }) {
                         />
                         <div className="sm:space-y-[2px]">
                             <h3 className="capitalize text-sm xs:text-base font-semibold">
-                                name
+                                {user.user_metadata.name.split(" ")[0]}
                             </h3>
                             <p className="text-content text-[10px] font-light xs:text-sm ">
                                 Admin
@@ -71,6 +73,7 @@ function HamburgerIcon({ open, setOpen }) {
 }
 function SearchBar() {
     const [value, setValue] = useState("");
+    const [isFocused, setIsFocused] = useState(false);
     return (
         <form
             className="flex-1 md:flex-auto"
@@ -79,7 +82,13 @@ function SearchBar() {
                 console.log(value);
             }}
         >
-            <div className="flex w-full md:w-auto gap-x-2 items-center py-2 md:py-2.5 px-3 rounded-full border border-content bg-input">
+            <div
+                className={`flex w-full md:w-auto gap-x-2 items-center py-2 md:py-2.5 px-3 rounded-full border ${
+                    isFocused
+                        ? "outline outline-[3px] outline-colored"
+                        : " border-content"
+                } bg-input`}
+            >
                 <IoIosSearch className="text-lg" />
                 <input
                     value={value}
@@ -88,6 +97,8 @@ function SearchBar() {
                     id="search"
                     className="w-full md:w-72 lg:w-80 xl:w-96 bg-input outline-none text-sm xs:text-base"
                     onChange={(e) => setValue(e.target.value)}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
                 />
             </div>
         </form>

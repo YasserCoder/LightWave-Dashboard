@@ -7,8 +7,11 @@ import {
     PiUserListLight,
 } from "react-icons/pi";
 import { NavLink } from "react-router-dom";
+import { useLogout } from "../hook/auth/useLogout";
+import Swal from "sweetalert2";
 
 function Sidebar({ open }) {
+    const { logout, isLoading } = useLogout();
     return (
         <aside
             className={`bg-bkg-main pt-4 h-[calc(100vh-117px)] xs:h-[calc(100vh-132px)] md:h-[calc(100vh-70px)] absolute left-0 top-0 ${
@@ -91,7 +94,23 @@ function Sidebar({ open }) {
                 </li>
                 <li className="flex flex-row-reverse gap-x-3 mr-7">
                     <button
+                        disabled={isLoading}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center hover:bg-content hover:text-white`}
+                        onClick={() => {
+                            Swal.fire({
+                                title: "Are you sure?",
+                                text: "logout from the dashbord",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#d33",
+                                cancelButtonColor: "#3085d6",
+                                confirmButtonText: "Logout",
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    logout();
+                                }
+                            });
+                        }}
                     >
                         <span>
                             <LiaPowerOffSolid className="text-xl" />
