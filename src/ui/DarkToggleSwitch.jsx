@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useLocalStorageState } from "../hook/useLocalStorageState";
+
 import styles from "./darkToggleSwitch.module.css";
 
 function DarkToggleSwitch() {
-    const [dark, setDark] = useState(false);
+    const [value, setValue] = useLocalStorageState("", "appTheme");
     return (
         <div>
             <label
@@ -13,9 +14,9 @@ function DarkToggleSwitch() {
                     type="checkbox"
                     className={styles.input}
                     id={styles.switch}
-                    checked={dark}
-                    onChange={(e) => {
-                        setDark(e.target.checked);
+                    checked={value === "dark"}
+                    onChange={() => {
+                        setValue(value === "dark" ? "" : "dark");
                         document.documentElement.classList.toggle("dark");
                     }}
                 />

@@ -2,13 +2,16 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useScreenSize } from "../hook/useScreenSize";
+import { useUser } from "../hook/auth/useUser";
+
+import DarkToggleSwitch from "./DarkToggleSwitch";
 
 import styles from "./hamburger.module.css";
+
 import { IoIosSearch } from "react-icons/io";
 
 import avatar from "../assets/react.svg";
-import DarkToggleSwitch from "./DarkToggleSwitch";
-import { useUser } from "../hook/auth/useUser";
+
 function Header({ open, setOpen }) {
     const { screenSize: isSmallScreen } = useScreenSize(768);
     const { user } = useUser();
@@ -83,10 +86,10 @@ function SearchBar() {
             }}
         >
             <div
-                className={`flex w-full md:w-auto gap-x-2 items-center py-2 md:py-2.5 px-3 rounded-full border ${
+                className={`flex w-full md:w-auto gap-x-2 items-center py-2 md:py-2.5 px-3 rounded-full ${
                     isFocused
                         ? "outline outline-[3px] outline-colored"
-                        : " border-content"
+                        : "border border-content"
                 } bg-input`}
             >
                 <IoIosSearch className="text-lg" />

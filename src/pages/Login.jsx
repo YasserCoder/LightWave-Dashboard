@@ -60,10 +60,10 @@ function Login() {
                                 email
                             </label>
                             <div
-                                className={`flex gap-x-4 items-center py-2  px-3 rounded-full border  ${
+                                className={`flex gap-x-4 items-center py-2  px-3 rounded-full ${
                                     isEmailFocused
                                         ? "outline outline-[3px] outline-colored"
-                                        : " border-content"
+                                        : "border border-content"
                                 } bg-input`}
                             >
                                 <FaUser className="xs:text-lg" />
@@ -83,10 +83,10 @@ function Login() {
                                 password
                             </label>
                             <div
-                                className={`flex gap-x-4 items-center py-2  px-3 rounded-full border ${
+                                className={`flex gap-x-4 items-center py-2  px-3 rounded-full ${
                                     isPwdFocused
                                         ? "outline outline-[3px] outline-colored"
-                                        : " border-content"
+                                        : "border border-content"
                                 } bg-input`}
                             >
                                 <FaLock className="xs:text-lg" />

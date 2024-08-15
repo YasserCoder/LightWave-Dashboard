@@ -28,7 +28,9 @@
 
 #main::-webkit-scrollbar-track {
     background: white;
-    border-radius: 10px;
+}
+.dark #main::-webkit-scrollbar-track {
+    background: black;
 }
 #main::-webkit-scrollbar-thumb {
     background: rgb(72, 128, 255, 80%);
