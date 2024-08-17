@@ -3,14 +3,16 @@ import { useState } from "react";
 import { useScreenSize } from "../hook/useScreenSize";
 import { useLogin } from "../hook/auth/useLogin";
 
+import InputText from "../ui/InputText";
+
 import { FaLock, FaUser } from "react-icons/fa";
+
 import vector from "../assets/dashbordVector.svg";
 import bg from "../assets/dashbordBg.jpg";
+
 function Login() {
     const [email, setEmail] = useState("admin@lightwave.com");
     const [pwd, setPwd] = useState("lightwavedashbord");
-    const [isEmailFocused, setIsEmailFocused] = useState(false);
-    const [isPwdFocused, setIsPwdFocused] = useState(false);
     const { screenSize: isSmallScreen } = useScreenSize(768);
     const { login, isLoading } = useLogin();
     function handleSubmit(e) {
@@ -59,47 +61,29 @@ function Login() {
                             <label className="font-semibold xs:font-extrabold capitalize ml-3">
                                 email
                             </label>
-                            <div
-                                className={`flex gap-x-4 items-center py-2  px-3 rounded-full ${
-                                    isEmailFocused
-                                        ? "outline outline-[3px] outline-colored"
-                                        : "border border-content"
-                                } bg-input`}
+                            <InputText
+                                value={email}
+                                setValue={setEmail}
+                                type={"text"}
+                                label={"Email"}
+                                width={"w-40 xs:w-48 sm:w-64"}
                             >
                                 <FaUser className="xs:text-lg" />
-                                <input
-                                    value={email}
-                                    type="text"
-                                    placeholder="Email"
-                                    className="w-40 xs:w-48 sm:w-64 bg-input outline-none text-sm xs:text-base"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    onFocus={() => setIsEmailFocused(true)}
-                                    onBlur={() => setIsEmailFocused(false)}
-                                />
-                            </div>
+                            </InputText>
                         </div>
                         <div className="flex flex-col gap-y-2.5 ">
                             <label className="font-semibold xs:font-extrabold capitalize ml-3">
                                 password
                             </label>
-                            <div
-                                className={`flex gap-x-4 items-center py-2  px-3 rounded-full ${
-                                    isPwdFocused
-                                        ? "outline outline-[3px] outline-colored"
-                                        : "border border-content"
-                                } bg-input`}
+                            <InputText
+                                value={pwd}
+                                setValue={setPwd}
+                                type={"password"}
+                                label={"Password"}
+                                width={"w-40 xs:w-48 sm:w-64"}
                             >
                                 <FaLock className="xs:text-lg" />
-                                <input
-                                    value={pwd}
-                                    type="password"
-                                    placeholder="Password"
-                                    className="w-40 xs:w-48 sm:w-64 bg-input outline-none text-sm xs:text-base"
-                                    onChange={(e) => setPwd(e.target.value)}
-                                    onFocus={() => setIsPwdFocused(true)}
-                                    onBlur={() => setIsPwdFocused(false)}
-                                />
-                            </div>
+                            </InputText>
                         </div>
                         <button
                             disabled={isLoading}

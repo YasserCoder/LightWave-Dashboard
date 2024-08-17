@@ -13,7 +13,7 @@
         --color-table: #f1f4f9;
         --color-input: #f5f6fa;
     }
-    :root[class="dark"] {
+    :root[data-theme="dark"] {
         --color-main: #f5f6fa;
         --color-secondary: #c4c8cf66;
         --color-bkg: #1a1a1a;
@@ -29,7 +29,7 @@
 #main::-webkit-scrollbar-track {
     background: white;
 }
-.dark #main::-webkit-scrollbar-track {
+[data-theme="dark"] #main::-webkit-scrollbar-track {
     background: black;
 }
 #main::-webkit-scrollbar-thumb {

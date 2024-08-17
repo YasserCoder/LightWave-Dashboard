@@ -105,6 +105,9 @@ function Sidebar({ open }) {
                                 confirmButtonColor: "#d33",
                                 cancelButtonColor: "#3085d6",
                                 confirmButtonText: "Logout",
+                                customClass: {
+                                    popup: "dark:bg-gray-800 dark:text-white",
+                                },
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     logout();

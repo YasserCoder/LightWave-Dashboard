@@ -5,6 +5,7 @@ import { useScreenSize } from "../hook/useScreenSize";
 import { useUser } from "../hook/auth/useUser";
 
 import DarkToggleSwitch from "./DarkToggleSwitch";
+import InputText from "./InputText";
 
 import styles from "./hamburger.module.css";
 
@@ -76,7 +77,7 @@ function HamburgerIcon({ open, setOpen }) {
 }
 function SearchBar() {
     const [value, setValue] = useState("");
-    const [isFocused, setIsFocused] = useState(false);
+    // const [isFocused, setIsFocused] = useState(false);
     return (
         <form
             className="flex-1 md:flex-auto"
@@ -85,25 +86,15 @@ function SearchBar() {
                 console.log(value);
             }}
         >
-            <div
-                className={`flex w-full md:w-auto gap-x-2 items-center py-2 md:py-2.5 px-3 rounded-full ${
-                    isFocused
-                        ? "outline outline-[3px] outline-colored"
-                        : "border border-content"
-                } bg-input`}
+            <InputText
+                value={value}
+                setValue={setValue}
+                type={"text"}
+                label={"Search..."}
+                width={"w-full md:w-72 lg:w-80 xl:w-96"}
             >
                 <IoIosSearch className="text-lg" />
-                <input
-                    value={value}
-                    type="text"
-                    placeholder="Search..."
-                    id="search"
-                    className="w-full md:w-72 lg:w-80 xl:w-96 bg-input outline-none text-sm xs:text-base"
-                    onChange={(e) => setValue(e.target.value)}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
-                />
-            </div>
+            </InputText>
         </form>
     );
 }

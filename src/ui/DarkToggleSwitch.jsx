@@ -1,9 +1,14 @@
+import { useEffect } from "react";
 import { useLocalStorageState } from "../hook/useLocalStorageState";
 
 import styles from "./darkToggleSwitch.module.css";
 
 function DarkToggleSwitch() {
     const [value, setValue] = useLocalStorageState("", "appTheme");
+    useEffect(() => {
+        if (value === "dark")
+            document.documentElement.setAttribute("data-theme", "dark");
+    }, []);
     return (
         <div>
             <label
@@ -16,8 +21,17 @@ function DarkToggleSwitch() {
                     id={styles.switch}
                     checked={value === "dark"}
                     onChange={() => {
+                        if (value === "dark") {
+                            document.documentElement.removeAttribute(
+                                "data-theme"
+                            );
+                        } else {
+                            document.documentElement.setAttribute(
+                                "data-theme",
+                                "dark"
+                            );
+                        }
                         setValue(value === "dark" ? "" : "dark");
-                        document.documentElement.classList.toggle("dark");
                     }}
                 />
                 <div className={`${styles.icon} ${styles.moonIcon}`}>
