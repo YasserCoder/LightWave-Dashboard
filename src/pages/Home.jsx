@@ -1,3 +1,18 @@
+import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
+import {
+    Area,
+    AreaChart,
+    CartesianGrid,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from "recharts";
+
+import { useRecentOrders } from "../hook/order/useRecentOrders";
+
+import Loader from "../ui/Loader";
+
 import {
     FaArrowTrendDown,
     FaArrowTrendUp,
@@ -6,16 +21,6 @@ import {
 } from "react-icons/fa6";
 import { IoCubeSharp } from "react-icons/io5";
 import { RxCounterClockwiseClock } from "react-icons/rx";
-import {
-    CartesianGrid,
-    Legend,
-    Line,
-    LineChart,
-    ResponsiveContainer,
-    Tooltip,
-    XAxis,
-    YAxis,
-} from "recharts";
 
 function Home() {
     return (
@@ -24,80 +29,43 @@ function Home() {
                 dashbord
             </h1>
             <StatCards />
-
             <Charts />
         </div>
     );
 }
 
-const data = [
-    {
-        name: "Page A",
-        uv: 4000,
-        pv: 2400,
-        amt: 2400,
-    },
-    {
-        name: "Page B",
-        uv: 3000,
-        pv: 1398,
-        amt: 2210,
-    },
-    {
-        name: "Page C",
-        uv: 2000,
-        pv: 9800,
-        amt: 2290,
-    },
-    {
-        name: "Page D",
-        uv: 2780,
-        pv: 3908,
-        amt: 2000,
-    },
-    {
-        name: "Page E",
-        uv: 1890,
-        pv: 4800,
-        amt: 2181,
-    },
-    {
-        name: "Page F",
-        uv: 2390,
-        pv: 3800,
-        amt: 2500,
-    },
-    {
-        name: "Page G",
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
-    },
-];
 function Charts() {
+    const { isLoading, orders, numDays } = useRecentOrders();
+    if (isLoading) return <Loader />;
+    const allDates = eachDayOfInterval({
+        start: subDays(new Date(), numDays - 1),
+        end: new Date(),
+    });
+    const data = allDates.map((date) => {
+        return {
+            label: format(date, "MMM dd"),
+            totalOrders: orders
+                .filter((order) => isSameDay(date, new Date(order.created_at)))
+                .reduce((acc, cur) => acc + cur.totalAmount, 0),
+        };
+    });
     return (
         <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={data}>
-                <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+            <AreaChart data={data}>
                 <CartesianGrid stroke="#ccc" />
                 <Tooltip />
-                <Legend />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Line
+                <XAxis dataKey="label" />
+                <YAxis unit="$" />
+                <Area
                     type="monotone"
-                    dataKey="pv"
+                    dataKey="totalOrders"
                     stroke="#8884d8"
                     activeDot={{ r: 8 }}
                     strokeWidth={2}
+                    name="Total Orders"
+                    unit="$"
                 />
-                <Line
-                    type="monotone"
-                    dataKey="uv"
-                    stroke="#82ca9d"
-                    strokeWidth={2}
-                />
-            </LineChart>
+            </AreaChart>
         </ResponsiveContainer>
     );
 }
