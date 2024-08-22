@@ -1,8 +1,15 @@
-import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
+import {
+    addDays,
+    eachDayOfInterval,
+    format,
+    isSameDay,
+    subDays,
+} from "date-fns";
 import {
     Area,
     AreaChart,
     CartesianGrid,
+    Legend,
     ResponsiveContainer,
     Tooltip,
     XAxis,
@@ -21,13 +28,36 @@ import {
 } from "react-icons/fa6";
 import { IoCubeSharp } from "react-icons/io5";
 import { RxCounterClockwiseClock } from "react-icons/rx";
+import { useSearchParams } from "react-router-dom";
 
 function Home() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const last = searchParams.get("last") || "7";
     return (
         <div className="container py-7 flex flex-col gap-y-[30px]">
-            <h1 className="text-2xl xs:text-5xl font-extrabold capitalize">
-                dashbord
-            </h1>
+            <div className="flex justify-between items-center">
+                <h1 className="text-2xl xs:text-4xl md:text-5xl font-extrabold capitalize">
+                    dashbord
+                </h1>
+                <select
+                    value={last}
+                    className="p-1 cursor-pointer capitalize xs:text-lg bg-transparent outline-none"
+                    onChange={(e) => {
+                        searchParams.set("last", e.target.value);
+                        setSearchParams(searchParams);
+                    }}
+                >
+                    <option value="7" className="bg-input">
+                        this week
+                    </option>
+                    <option value="30" className="bg-input">
+                        this month
+                    </option>
+                    <option value="90" className="bg-input">
+                        this trim
+                    </option>
+                </select>
+            </div>
             <StatCards />
             <Charts />
         </div>
@@ -35,8 +65,9 @@ function Home() {
 }
 
 function Charts() {
-    const { isLoading, orders, numDays } = useRecentOrders();
-    if (isLoading) return <Loader />;
+    const { isLoading, orders, isLoadingOne, ordersOne, numDays } =
+        useRecentOrders();
+    if (isLoading || isLoadingOne) return <Loader />;
     const allDates = eachDayOfInterval({
         start: subDays(new Date(), numDays - 1),
         end: new Date(),
@@ -44,25 +75,56 @@ function Charts() {
     const data = allDates.map((date) => {
         return {
             label: format(date, "MMM dd"),
-            totalOrders: orders
+            totalSales: orders
                 .filter((order) => isSameDay(date, new Date(order.created_at)))
                 .reduce((acc, cur) => acc + cur.totalAmount, 0),
+            previousSales: ordersOne
+                ?.filter((order) =>
+                    isSameDay(
+                        date,
+                        addDays(new Date(order.created_at), numDays)
+                    )
+                )
+                ?.reduce((acc, cur) => acc + cur.totalAmount, 0),
         };
     });
     return (
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={350}>
             <AreaChart data={data}>
                 <CartesianGrid stroke="#ccc" />
                 <Tooltip />
+                <Legend />
                 <XAxis dataKey="label" />
                 <YAxis unit="$" />
                 <Area
                     type="monotone"
-                    dataKey="totalOrders"
+                    dataKey="previousSales"
+                    stroke="#22c55e"
+                    fill="#22c55e"
+                    activeDot={{ r: 8 }}
+                    strokeWidth={2}
+                    name={`Last ${
+                        numDays === 7
+                            ? "Week"
+                            : numDays === 30
+                            ? "Month"
+                            : "Trim"
+                    }`}
+                    unit="$"
+                />
+                <Area
+                    type="monotone"
+                    dataKey="totalSales"
                     stroke="#8884d8"
                     activeDot={{ r: 8 }}
                     strokeWidth={2}
-                    name="Total Orders"
+                    name={`This ${
+                        numDays === 7
+                            ? "Week"
+                            : numDays === 30
+                            ? "Month"
+                            : "Trim"
+                    }`}
                     unit="$"
                 />
             </AreaChart>

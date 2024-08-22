@@ -7,14 +7,22 @@ export function useRecentOrders() {
     const [searchParams] = useSearchParams();
 
     const numDays = !searchParams.get("last")
-        ? 30
+        ? 7
         : Number(searchParams.get("last"));
     const queryDate = subDays(new Date(), numDays).toISOString();
+    const queryLastDate = subDays(
+        subDays(new Date(), numDays),
+        numDays * 2
+    ).toISOString();
 
     const { isLoading, data: orders } = useQuery({
         queryFn: () => getOrdersAfterDate(queryDate),
         queryKey: ["orders", `last-${numDays}`],
     });
+    const { isLoadingOne, data: ordersOne } = useQuery({
+        queryFn: () => getOrdersAfterDate(queryLastDate, queryDate),
+        queryKey: ["orders", `last-${numDays * 2}`],
+    });
 
-    return { isLoading, orders, numDays };
+    return { isLoading, orders, isLoadingOne, ordersOne, numDays };
 }
