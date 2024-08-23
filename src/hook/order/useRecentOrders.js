@@ -19,10 +19,10 @@ export function useRecentOrders() {
         queryFn: () => getOrdersAfterDate(queryDate),
         queryKey: ["orders", `last-${numDays}`],
     });
-    const { isLoadingOne, data: ordersOne } = useQuery({
+    const { isLoading: isLoading2, data: lastOrders } = useQuery({
         queryFn: () => getOrdersAfterDate(queryLastDate, queryDate),
         queryKey: ["orders", `last-${numDays * 2}`],
     });
 
-    return { isLoading, orders, isLoadingOne, ordersOne, numDays };
+    return { isLoading, orders, isLoading2, lastOrders, numDays };
 }
