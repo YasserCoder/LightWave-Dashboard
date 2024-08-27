@@ -4,7 +4,9 @@ import supabase from "./supabase";
 export async function getMostSoldProduct(date) {
     const { data, error } = await supabase
         .from("orderItems")
-        .select("created_at, productId,quantity")
+        .select(
+            "created_at, productId,quantity,product(name,imgs:prodImage(imgUrl,imgAlt))"
+        )
         .gte("created_at", date)
         .lte("created_at", getToday({ end: true }));
 
@@ -13,26 +15,33 @@ export async function getMostSoldProduct(date) {
         throw new Error("Orders could not get loaded");
     }
 
-    // Aggregate quantities by productId
     const aggregatedData = data.reduce((acc, item) => {
         if (acc[item.productId]) {
-            acc[item.productId] += item.quantity;
+            acc[item.productId].quantity += item.quantity;
         } else {
-            acc[item.productId] = item.quantity;
+            acc[item.productId] = {
+                name: item.product.name,
+                quantity: item.quantity,
+                imgUrl: item.product.imgs.at(0).imgUrl,
+                imgAlt: item.product.imgs.at(0).imgAlt,
+            };
         }
         return acc;
     }, {});
 
     // Convert aggregated data to an array of objects
     const result = Object.entries(aggregatedData).map(
-        ([productId, quantity]) => ({
+        ([productId, { name, quantity, imgUrl, imgAlt }]) => ({
             productId,
+            name,
             quantity,
+            imgUrl,
+            imgAlt,
         })
     );
 
-    //Sort by quantity in descending order
+    // Sort by quantity in descending order
     result.sort((a, b) => b.quantity - a.quantity);
 
-    return result;
+    return result.slice(0, 6);
 }

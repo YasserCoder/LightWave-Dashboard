@@ -26,6 +26,8 @@ import Loader from "../ui/Loader";
 import SelectDuration from "../ui/SelectDuration";
 
 import {
+    FaAngleLeft,
+    FaAngleRight,
     FaArrowTrendDown,
     FaArrowTrendUp,
     FaChartLine,
@@ -33,6 +35,8 @@ import {
 } from "react-icons/fa6";
 import { IoCubeSharp } from "react-icons/io5";
 import { RxCounterClockwiseClock } from "react-icons/rx";
+import { useMostSoldeProduct } from "../hook/product/useMostSoldeProduct";
+import { useRef } from "react";
 
 function Home() {
     const { isLoading, orders, isLoading2, lastOrders, numDays } =
@@ -60,8 +64,9 @@ function Home() {
                         numDays={numDays}
                     />
                     <div className="flex flex-col gap-y-8 lg:flex-row justify-between">
-                        <MostSolde />
-                        <div className=""></div>
+                        <MostSoldeBarChart />
+
+                        <MostSoldeProducts />
                     </div>
                 </>
             )}
@@ -69,7 +74,34 @@ function Home() {
     );
 }
 
-function MostSolde() {
+function MostSoldeProducts() {
+    const prevRef = useRef(null);
+    const nextRef = useRef(null);
+    const { isLoading, products } = useMostSoldeProduct();
+    if (isLoading) return <Loader />;
+    return (
+        <div className="lg:basis-[38%] bg-bkg-main relative rounded-xl shadow-lg p-2 xs:p-4">
+            <button
+                ref={prevRef}
+                className={`absolute top-[50%] z-20 translate-y-[-50%] left-2 size-8 md:size-12 text-xl md:text-3xl lg:text-4xl items-center justify-center rounded-full hover:bg-colored hover:text-bkg-main hover:scale-110 cursor-pointer duration-300 ${
+                    products.length > 1 ? "flex" : "hidden"
+                }`}
+            >
+                <FaAngleLeft />
+            </button>
+            <button
+                ref={nextRef}
+                className={`absolute top-[50%] z-20 translate-y-[-50%] right-2 text-xl md:text-3xl lg:text-4xl size-8 md:size-12 items-center justify-center rounded-full hover:bg-colored hover:text-bkg-main hover:scale-110 cursor-pointer duration-300 ${
+                    products.length > 1 ? "flex" : "hidden"
+                }`}
+            >
+                <FaAngleRight />
+            </button>
+        </div>
+    );
+}
+
+function MostSoldeBarChart() {
     const { isLoading, categories } = useMostSoldeCat();
     const renderCustomAxisTick = ({ x, y, payload }) => {
         let path = "";
@@ -120,7 +152,7 @@ function MostSolde() {
                 height={40}
                 // className="size-11"
                 viewBox="0 0 1024 1024"
-                fill="#666"
+                fill="currentColor"
             >
                 <path d={path} />
             </svg>
@@ -128,23 +160,28 @@ function MostSolde() {
     };
     if (isLoading) return <Loader />;
     return (
-        <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={categories}>
-                <XAxis
-                    dataKey="category"
-                    tick={renderCustomAxisTick}
-                    tickSize={5}
-                    interval={0}
-                />
-                <YAxis />
-                <Tooltip
-                    contentStyle={{
-                        color: "#ff0000",
-                    }}
-                />
-                <Bar dataKey="quantity" barSize={30} fill="#4880ff" />
-            </BarChart>
-        </ResponsiveContainer>
+        <div className="lg:basis-[60%] space-y-8 bg-bkg-main rounded-xl shadow-lg py-4 pr-2 xs:pr-4">
+            <h1 className="text-2xl xs:text-2xl capitalize font-bold xs:ml-5">
+                Categories :
+            </h1>
+            <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={categories} width={"100%"}>
+                    <XAxis
+                        dataKey="category"
+                        tick={renderCustomAxisTick}
+                        tickSize={5}
+                        interval={0}
+                    />
+                    <YAxis />
+                    <Tooltip
+                        contentStyle={{
+                            color: "#ff0000",
+                        }}
+                    />
+                    <Bar dataKey="quantity" barSize={30} fill="#4880ff" />
+                </BarChart>
+            </ResponsiveContainer>
+        </div>
     );
 }
 
@@ -170,7 +207,7 @@ function TotalSales({ orders, lastOrders, numDays }) {
         };
     });
     return (
-        <div className="space-y-8 mt-5">
+        <div className="space-y-8 mt-5 bg-bkg-main py-4 pr-2 xs:pr-4 rounded-xl shadow-lg">
             <h1 className="text-2xl xs:text-3xl capitalize font-bold xs:ml-5">
                 total sales :
             </h1>
