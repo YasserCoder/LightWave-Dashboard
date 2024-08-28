@@ -51,3 +51,6 @@ aside a:hover:not(.active) {
     background: var(--color-secondary);
     color: white;
 }
+.swiper-wrapper {
+    width: fit-content;
+}

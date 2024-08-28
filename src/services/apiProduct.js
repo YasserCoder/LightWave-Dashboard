@@ -31,8 +31,8 @@ export async function getMostSoldProduct(date) {
 
     // Convert aggregated data to an array of objects
     const result = Object.entries(aggregatedData).map(
-        ([productId, { name, quantity, imgUrl, imgAlt }]) => ({
-            productId,
+        ([id, { name, quantity, imgUrl, imgAlt }]) => ({
+            id,
             name,
             quantity,
             imgUrl,

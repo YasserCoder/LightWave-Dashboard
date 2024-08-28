@@ -37,12 +37,15 @@ import { IoCubeSharp } from "react-icons/io5";
 import { RxCounterClockwiseClock } from "react-icons/rx";
 import { useMostSoldeProduct } from "../hook/product/useMostSoldeProduct";
 import { useRef } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
 
 function Home() {
     const { isLoading, orders, isLoading2, lastOrders, numDays } =
         useRecentOrders();
     return (
-        <div className="container py-7 flex flex-col gap-y-[30px]">
+        <div className="container py-7 flex flex-col gap-y-[30px] overflow-x-hidden">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl xs:text-4xl md:text-5xl font-extrabold capitalize">
                     dashbord
@@ -63,9 +66,8 @@ function Home() {
                         lastOrders={lastOrders}
                         numDays={numDays}
                     />
-                    <div className="flex flex-col gap-y-8 lg:flex-row justify-between">
+                    <div className="flex flex-col gap-8 lg:flex-row justify-between">
                         <MostSoldeBarChart />
-
                         <MostSoldeProducts />
                     </div>
                 </>
@@ -80,23 +82,77 @@ function MostSoldeProducts() {
     const { isLoading, products } = useMostSoldeProduct();
     if (isLoading) return <Loader />;
     return (
-        <div className="lg:basis-[38%] bg-bkg-main relative rounded-xl shadow-lg p-2 xs:p-4">
-            <button
-                ref={prevRef}
-                className={`absolute top-[50%] z-20 translate-y-[-50%] left-2 size-8 md:size-12 text-xl md:text-3xl lg:text-4xl items-center justify-center rounded-full hover:bg-colored hover:text-bkg-main hover:scale-110 cursor-pointer duration-300 ${
-                    products.length > 1 ? "flex" : "hidden"
-                }`}
-            >
-                <FaAngleLeft />
-            </button>
-            <button
-                ref={nextRef}
-                className={`absolute top-[50%] z-20 translate-y-[-50%] right-2 text-xl md:text-3xl lg:text-4xl size-8 md:size-12 items-center justify-center rounded-full hover:bg-colored hover:text-bkg-main hover:scale-110 cursor-pointer duration-300 ${
-                    products.length > 1 ? "flex" : "hidden"
-                }`}
-            >
-                <FaAngleRight />
-            </button>
+        <div className="lg:w-[310px] xl:w-[400px] 2xl:w-[450px]">
+            <div className="bg-bkg-main relative rounded-xl shadow-lg py-4 px-2 xs:p-4 flex flex-col gap-y-5">
+                <button
+                    ref={prevRef}
+                    className={`absolute top-[50%] z-20 translate-y-[-50%] left-2 size-8 text-xl md:text-2xl flex items-center justify-center rounded-full hover:bg-colored hover:text-white hover:scale-105 cursor-pointer duration-300 disabled:hidden`}
+                >
+                    <FaAngleLeft />
+                </button>
+                <button
+                    ref={nextRef}
+                    className={`absolute top-[50%] z-20 translate-y-[-50%] right-2 size-8 text-xl md:text-2xl flex items-center justify-center rounded-full hover:bg-colored hover:text-white hover:scale-105 cursor-pointer duration-300 disabled:hidden`}
+                >
+                    <FaAngleRight />
+                </button>
+                <h1 className="text-2xl capitalize font-bold">
+                    most sold products
+                </h1>
+                <div className="">
+                    <Swiper
+                        modules={[Navigation]}
+                        slidesPerView={1}
+                        spaceBetween={20}
+                        grabCursor={true}
+                        onInit={(swiper) => {
+                            swiper.params.navigation.prevEl = prevRef.current;
+                            swiper.params.navigation.nextEl = nextRef.current;
+                            swiper.navigation.init();
+                            swiper.navigation.update();
+                        }}
+                        breakpoints={{
+                            640: {
+                                slidesPerView: 2,
+                            },
+                            1024: {
+                                slidesPerView: 1,
+                            },
+                        }}
+                        className=""
+                    >
+                        {products.map((prod, i) => {
+                            return (
+                                <SwiperSlide key={prod.id} className="w-fit">
+                                    <div className="w-[80%] mx-auto h-[312px] bg-white flex flex-col rounded-xl border-2">
+                                        <div className="relative flex flex-col">
+                                            <img
+                                                src={prod.imgUrl}
+                                                alt={prod.imgAlt}
+                                                className="h-[200px] object-contain"
+                                            />
+                                            <span className="absolute -top-2 right-3 h-11 pt-3 bg-red-600 text-white text-lg font-bold z-20 px-2">
+                                                {i + 1}
+                                            </span>
+                                        </div>
+                                        <div className="border-t mt-1 py-2 px-4 flex flex-col items-center justify-between flex-1">
+                                            <h3 className="font-semibold text-black line-clamp-2 text-center">
+                                                {prod.name}
+                                            </h3>
+                                            <p className="text-black text-lg font-semibold space-x-2 content-end mb-2 lg:mb-1">
+                                                <span className="text-red-600">
+                                                    {prod.quantity}
+                                                </span>
+                                                <span>Sales</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            );
+                        })}
+                    </Swiper>
+                </div>
+            </div>
         </div>
     );
 }
@@ -150,7 +206,6 @@ function MostSoldeBarChart() {
                 y={y + 4}
                 width={40}
                 height={40}
-                // className="size-11"
                 viewBox="0 0 1024 1024"
                 fill="currentColor"
             >
@@ -160,9 +215,9 @@ function MostSoldeBarChart() {
     };
     if (isLoading) return <Loader />;
     return (
-        <div className="lg:basis-[60%] space-y-8 bg-bkg-main rounded-xl shadow-lg py-4 pr-2 xs:pr-4">
-            <h1 className="text-2xl xs:text-2xl capitalize font-bold xs:ml-5">
-                Categories :
+        <div className="w-full space-y-8 bg-bkg-main rounded-xl shadow-lg py-4 pr-2 xs:pr-4">
+            <h1 className="text-2xl capitalize font-bold ml-3 xs:ml-5">
+                sales by Category :
             </h1>
             <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={categories} width={"100%"}>
@@ -208,7 +263,7 @@ function TotalSales({ orders, lastOrders, numDays }) {
     });
     return (
         <div className="space-y-8 mt-5 bg-bkg-main py-4 pr-2 xs:pr-4 rounded-xl shadow-lg">
-            <h1 className="text-2xl xs:text-3xl capitalize font-bold xs:ml-5">
+            <h1 className="text-2xl xs:text-3xl capitalize font-bold ml-3 xs:ml-5">
                 total sales :
             </h1>
             <ResponsiveContainer width="100%" height={350}>
