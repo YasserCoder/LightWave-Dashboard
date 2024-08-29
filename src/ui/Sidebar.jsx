@@ -1,3 +1,8 @@
+import { NavLink } from "react-router-dom";
+import Swal from "sweetalert2";
+
+import { useLogout } from "../hook/auth/useLogout";
+
 import { IoSettingsOutline, IoStatsChart } from "react-icons/io5";
 import { LiaPowerOffSolid } from "react-icons/lia";
 import {
@@ -6,20 +11,18 @@ import {
     PiSquaresFourLight,
     PiUserListLight,
 } from "react-icons/pi";
-import { NavLink } from "react-router-dom";
-import { useLogout } from "../hook/auth/useLogout";
-import Swal from "sweetalert2";
 
 function Sidebar({ open }) {
     const { logout, isLoading } = useLogout();
     return (
         <aside
-            className={`bg-bkg-main pt-4 h-[calc(100vh-117px)] xs:h-[calc(100vh-132px)] md:h-[calc(100vh-70px)] absolute left-0 top-0 ${
+            className={`bg-bkg-main pt-4 h-[calc(100vh-117px)] xs:h-[calc(100vh-132px)] md:h-[calc(100vh-70px)] xl:h-[calc(100vh-72px)] absolute left-0 top-0 ${
                 open ? "translate-x-0" : "-translate-x-full"
-            } duration-300 md:translate-x-0  z-30 md:static`}
+            } duration-300 md:translate-x-0 w-[200px] z-30 md:static overflow-y-auto overflow-x-clip`}
+            id="sidebar"
         >
             <ul className="flex flex-col gap-y-4 items-start">
-                <li className="flex flex-row-reverse gap-x-3 mr-5">
+                <li className="flex flex-row-reverse gap-x-3">
                     <NavLink
                         to={"/home"}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center`}
@@ -31,7 +34,7 @@ function Sidebar({ open }) {
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>
-                <li className="flex flex-row-reverse gap-x-3 mr-7">
+                <li className="flex flex-row-reverse gap-x-3 ">
                     <NavLink
                         to={"/products"}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center`}
@@ -43,7 +46,7 @@ function Sidebar({ open }) {
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>
-                <li className="flex flex-row-reverse gap-x-3 mr-7">
+                <li className="flex flex-row-reverse gap-x-3 ">
                     <NavLink
                         to={"/orders"}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center`}
@@ -55,7 +58,7 @@ function Sidebar({ open }) {
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>
-                <li className="flex flex-row-reverse gap-x-3 mr-7">
+                <li className="flex flex-row-reverse gap-x-3 ">
                     <NavLink
                         to={"/inbox"}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center `}
@@ -67,7 +70,7 @@ function Sidebar({ open }) {
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md "></span>
                 </li>
-                <li className="flex flex-row-reverse gap-x-3 mr-7">
+                <li className="flex flex-row-reverse gap-x-3 ">
                     <NavLink
                         to={"/users"}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center`}
@@ -80,7 +83,7 @@ function Sidebar({ open }) {
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>
                 <span className="w-full h-[1px] bg-content"></span>
-                <li className="flex flex-row-reverse gap-x-3 mr-7">
+                <li className="flex flex-row-reverse gap-x-3">
                     <NavLink
                         to={"/settings"}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center`}
@@ -92,7 +95,7 @@ function Sidebar({ open }) {
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>
-                <li className="flex flex-row-reverse gap-x-3 mr-7">
+                <li className="flex flex-row-reverse gap-x-3">
                     <button
                         disabled={isLoading}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center hover:bg-content hover:text-white`}

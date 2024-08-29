@@ -12,7 +12,7 @@ function AppLayout() {
     return (
         <>
             <Header open={open} setOpen={setOpen} />
-            <main className="flex h-[calc(100vh-117px)] xs:h-[calc(100vh-132px)] md:h-[calc(100vh-70px)] relative">
+            <main className="flex h-[calc(100vh-117px)] xs:h-[calc(100vh-132px)] md:h-[calc(100vh-70px)] xl:h-[calc(100vh-72px)] relative">
                 <Sidebar open={isSmallScreen ? open : false} />
                 {open && isSmallScreen && (
                     <div
@@ -23,7 +23,7 @@ function AppLayout() {
                     ></div>
                 )}
                 <div
-                    className={`w-full ${
+                    className={`flex-1 ${
                         open && isSmallScreen
                             ? "overflow-hidden"
                             : "overflow-auto"
