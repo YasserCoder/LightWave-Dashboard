@@ -8,8 +8,11 @@ import {
 } from "react-icons/fa6";
 import { IoCubeSharp } from "react-icons/io5";
 import { RxCounterClockwiseClock } from "react-icons/rx";
+import { useUsers } from "../../hook/auth/useUsers";
 
 function StatCards({ orders, lastOrders, numDays }) {
+    const { users } = useUsers();
+    console.log(users);
     const duration =
         numDays === 7 ? "Week" : numDays === 30 ? "Month" : "Quarter";
     const ordersSales = orders.reduce((acc, cur) => acc + cur.totalAmount, 0);

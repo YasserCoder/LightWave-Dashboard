@@ -27,7 +27,14 @@ export async function login({ email, password }) {
 
     if (error) throw new Error(error.message);
 
-    if (data?.user?.user_metadata?.authority === "admin") return data;
+    const { data: profile, error: profileError } = await supabase
+        .from("profile")
+        .select("authority")
+        .eq("id", data?.user?.id)
+        .single();
+    if (profileError) throw new Error(profileError.message);
+
+    if (profile?.authority === "admin") return data;
     return null;
 }
 
@@ -47,10 +54,9 @@ export async function logout() {
 }
 
 export async function getUsers() {
-    const { data, error } = await supabase.auth.admin.listUsers();
+    const { data, error } = await supabase.from("profile").select("*");
     if (error) {
-        console.error("Error fetching users:", error);
-        return [];
+        console.error("Error fetching users:", error.message);
     }
 
     return data;
