@@ -52,12 +52,3 @@ export async function logout() {
     const { error } = await supabase.auth.signOut();
     if (error) throw new Error(error.message);
 }
-
-export async function getUsers() {
-    const { data, error } = await supabase.from("profile").select("*");
-    if (error) {
-        console.error("Error fetching users:", error.message);
-    }
-
-    return data;
-}

@@ -1,4 +1,6 @@
 import { useRecentOrders } from "../hook/order/useRecentOrders";
+import { useRecentUsers } from "../hook/auth/useRecentUsers";
+import { useUsers } from "../hook/auth/useUsers";
 
 import Loader from "../ui/Loader";
 import StatCards from "../features/dashbord/StatCards";
@@ -10,6 +12,8 @@ import SelectDuration from "../features/dashbord/SelectDuration";
 function Home() {
     const { isLoading, orders, isLoading2, lastOrders, numDays } =
         useRecentOrders();
+    const { isLoading3, isLoading4, users, lastUsers } = useRecentUsers();
+    const { isLoading: isCounting, count } = useUsers();
     return (
         <div className="container py-7 flex flex-col gap-y-[30px] overflow-x-hidden">
             <div className="flex justify-between items-center">
@@ -18,11 +22,18 @@ function Home() {
                 </h1>
                 <SelectDuration />
             </div>
-            {isLoading || isLoading2 ? (
+            {isLoading ||
+            isLoading2 ||
+            isLoading3 ||
+            isLoading4 ||
+            isCounting ? (
                 <Loader />
             ) : (
                 <>
                     <StatCards
+                        count={count}
+                        users={users}
+                        lastUsers={lastUsers}
                         orders={orders}
                         lastOrders={lastOrders}
                         numDays={numDays}
