@@ -13,7 +13,7 @@ export function useMostSoldeProduct() {
 
     const { isLoading, data: products } = useQuery({
         queryFn: () => getMostSoldProduct(queryDate),
-        queryKey: ["Most-Solde-Prod", `last-${numDays}`],
+        queryKey: ["most-solde-prod", `last-${numDays}`],
     });
 
     return { isLoading, products };

@@ -13,7 +13,7 @@ export function useMostSoldeCat() {
 
     const { isLoading, data: categories } = useQuery({
         queryFn: () => getMostSoldCategory(queryDate),
-        queryKey: ["Most-Solde-Cat", `last-${numDays}`],
+        queryKey: ["most-solde-cat", `last-${numDays}`],
     });
 
     return { isLoading, categories };

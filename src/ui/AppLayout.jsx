@@ -5,10 +5,12 @@ import { useScreenSize } from "../hook/useScreenSize";
 
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import useOrderSubscription from "../hook/order/useOrderSubscription";
 
 function AppLayout() {
     const [open, setOpen] = useState(false);
     const { screenSize: isSmallScreen } = useScreenSize(768);
+    useOrderSubscription();
     return (
         <>
             <Header open={open} setOpen={setOpen} />
