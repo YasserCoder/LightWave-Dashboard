@@ -2,10 +2,12 @@ import { useSearchParams } from "react-router-dom";
 
 import { useCategories } from "../hook/category/useCategories";
 import { useGetProducts } from "../hook/product/useGetProducts";
+import { PAGE_SIZE } from "../utils/constants";
 
 import Categories from "../features/products/Categories";
 import DisplayProducts from "../features/products/DisplayProducts";
 import Loader from "../ui/Loader";
+import Pagination from "../features/products/Pagination";
 
 import { FaBoxOpen } from "react-icons/fa6";
 import { MdSearchOff } from "react-icons/md";
@@ -15,7 +17,11 @@ function Products() {
     const query = searchParams.get("q");
 
     const { isLoading, cats } = useCategories();
-    const { isLoading: isLoading2, products, count } = useGetProducts(10);
+    const {
+        isLoading: isLoading2,
+        products,
+        count,
+    } = useGetProducts(PAGE_SIZE);
 
     return (
         <div className="container py-7 flex flex-col gap-y-[30px] overflow-x-hidden">
@@ -36,7 +42,10 @@ function Products() {
                             <EmptyCategory />
                         )
                     ) : (
-                        <DisplayProducts products={products} />
+                        <>
+                            <DisplayProducts products={products} />
+                            <Pagination count={count} />
+                        </>
                     )}
                 </>
             )}

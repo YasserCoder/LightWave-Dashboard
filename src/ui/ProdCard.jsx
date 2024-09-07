@@ -49,7 +49,7 @@ function ProdCard({ latest = false, id }) {
                     </span>
                 )}
             </div>
-            <div className="flex flex-col gap-1 px-4 py-2 border-y flex-grow ">
+            <div className="flex flex-col gap-1 px-4 py-2 border-y border-content flex-grow ">
                 <div className="flex gap-[2px] text-content items-center text-xs capitalize whitespace-nowrap overflow-hidden text-ellipsis">
                     <p className="flex gap-1 items-center">
                         <span>
@@ -82,7 +82,7 @@ function ProdCard({ latest = false, id }) {
                     )}
                 </div>
             </div>
-            <div className="px-9 sm:px-6 py-2 flex justify-center items-center text-colored hover:scale-105 duration-300">
+            <div className="px-9 sm:px-6 py-2 flex justify-center items-center font-semibold text-colored hover:scale-105 duration-300">
                 <button className="flex items-center gap-x-2">
                     <FaRegEdit />
                     <span className="capitalize">edit product</span>

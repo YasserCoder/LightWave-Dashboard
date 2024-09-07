@@ -15,6 +15,7 @@ export const formatCurrency = (value) =>
     );
 
 export function calculatePercentageChange(oldValue, newValue) {
+    if (oldValue === 0 && newValue === 0) return 0;
     if (oldValue === 0) return 100;
     const difference = newValue - oldValue;
     const percentageChange = (difference / oldValue) * 100;
