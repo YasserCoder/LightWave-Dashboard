@@ -1,5 +1,5 @@
-import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
+import { getToday } from "../utils/helpers";
 
 export async function getMostSoldCategory(date) {
     let { data: categoryData, error: categoryError } = await supabase
@@ -60,4 +60,40 @@ function findParent(data, idParent) {
     }
     let parentName = data.find((item) => item.id === childId)?.name;
     return parentName;
+}
+
+export async function getCategories() {
+    let { data, error } = await supabase
+        .from("category")
+        .select("*")
+        .order("id");
+
+    if (error) {
+        console.error(error);
+        throw new Error("Categories could not be loaded");
+    }
+
+    function findChildren(idParent) {
+        let isEmpty = true;
+        let result = {};
+
+        for (const category of data) {
+            if (category.parentId === idParent) {
+                isEmpty = false;
+                result[category.name] = findChildren(category.id);
+            }
+        }
+
+        return isEmpty ? "" : result;
+    }
+
+    let result = {};
+
+    for (const category of data) {
+        if (category.parentId === null) {
+            result[category.name] = findChildren(category.id);
+        }
+    }
+
+    return result;
 }

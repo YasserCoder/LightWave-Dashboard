@@ -24,6 +24,10 @@ export default {
             screens: {
                 xs: "400px",
             },
+            gridTemplateColumns: {
+                220: "repeat(auto-fill, minmax(220px, 1fr));",
+                200: "repeat(auto-fill, minmax(200px, 1fr));",
+            },
         },
     },
     darkMode: ["class", '[data-theme="dark"]'],

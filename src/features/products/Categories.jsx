@@ -61,7 +61,7 @@ function Categories({ cats }) {
             </button>
             <div className=" mx-10">
                 <ul
-                    className={` text-content overflow-x-clip w-full pb-5 text-[17px] whitespace-nowrap`}
+                    className={`overflow-x-clip w-full pb-5 text-[17px] whitespace-nowrap`}
                     ref={listRef}
                 >
                     <Swiper
