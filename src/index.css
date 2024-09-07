@@ -52,6 +52,10 @@
 .active + span {
     background-color: #4880ff;
 }
+button.activebtn {
+    color: #4880ff;
+    font-weight: 800;
+}
 aside a:hover:not(.active) {
     background: var(--color-secondary);
     color: white;
