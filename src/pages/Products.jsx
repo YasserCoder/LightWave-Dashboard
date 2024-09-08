@@ -9,8 +9,9 @@ import DisplayProducts from "../features/products/DisplayProducts";
 import Loader from "../ui/Loader";
 import Pagination from "../features/products/Pagination";
 
-import { FaBoxOpen } from "react-icons/fa6";
+import { FaBoxOpen, FaPlus } from "react-icons/fa6";
 import { MdSearchOff } from "react-icons/md";
+import Modal from "../ui/Modal";
 
 function Products() {
     const [searchParams] = useSearchParams();
@@ -25,9 +26,35 @@ function Products() {
 
     return (
         <div className="container py-7 flex flex-col gap-y-[30px] overflow-x-hidden">
-            <h1 className="text-2xl xs:text-4xl md:text-5xl font-extrabold capitalize">
-                Products
-            </h1>
+            <div className="flex justify-between items-center">
+                <h1 className="text-2xl xs:text-4xl md:text-5xl font-extrabold capitalize">
+                    Products
+                </h1>
+                {/* <Link
+                    to={"/products/create"}
+                    className="py-1.5 xs:py-2 px-2.5 xs:px-4 flex items-center gap-x-1 xs:gap-x-2 rounded-full text-gray-950 bg-yellow-200 shadow-lg"
+                >
+                    <FaPlus className="text-sm xs:text-base" />
+                    <span className="capitalize text-sm xs:text-base font-semibold">
+                        add new product
+                    </span>
+                </Link> */}
+                <div>
+                    <Modal>
+                        <Modal.Open opens="product-form">
+                            <button className="py-1.5 xs:py-2 px-2.5 xs:px-4 flex items-center gap-x-1 xs:gap-x-2 rounded-full text-gray-950 bg-yellow-200 shadow-lg">
+                                <FaPlus className="text-sm xs:text-base" />
+                                <span className="capitalize text-sm xs:text-base font-semibold">
+                                    add new product
+                                </span>
+                            </button>
+                        </Modal.Open>
+                        <Modal.Window name="product-form">
+                            <form className="w-[80%] h-[400px]"></form>
+                        </Modal.Window>
+                    </Modal>
+                </div>
+            </div>
             {isLoading ? (
                 <Loader />
             ) : (
