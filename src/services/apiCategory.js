@@ -63,16 +63,7 @@ function findParent(data, idParent) {
 }
 
 export async function getCategories() {
-    let { data, error } = await supabase
-        .from("category")
-        .select("*")
-        .order("id");
-
-    if (error) {
-        console.error(error);
-        throw new Error("Categories could not be loaded");
-    }
-
+    const data = await selectCategories();
     function findChildren(idParent) {
         let isEmpty = true;
         let result = {};
@@ -96,4 +87,17 @@ export async function getCategories() {
     }
 
     return result;
+}
+
+export async function selectCategories() {
+    let { data, error } = await supabase
+        .from("category")
+        .select("*")
+        .order("id");
+
+    if (error) {
+        console.error(error);
+        throw new Error("Categories could not be loaded");
+    }
+    return data;
 }

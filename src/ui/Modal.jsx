@@ -33,14 +33,16 @@ function Window({ children, name }) {
     return createPortal(
         <div className="fixed left-0 top-0 w-full h-screen bg-slate-300 bg-opacity-15 backdrop-blur-sm duration-500 z-50">
             <div
-                className="fixed left-1/2 top-1/2 w-[80%] -translate-x-1/2 -translate-y-1/2 py-3 px-4 bg-bkg-main shadow-lg rounded-lg duration-500"
+                className="fixed left-1/2 top-1/2 w-[85%] h-[90%] xl:max-w-[1200px] xl:max-h-[750px] -translate-x-1/2 -translate-y-1/2 py-3 px-5 bg-bkg-main shadow-lg rounded-lg duration-500 overflow-y-auto overflow-x-clip"
                 ref={ref}
             >
-                <button onClick={close}>
-                    <HiXMark />
-                </button>
+                <div className="w-full flex justify-end">
+                    <button className="text-3xl text-end " onClick={close}>
+                        <HiXMark />
+                    </button>
+                </div>
 
-                <div>{cloneElement(children, { onClose: close })}</div>
+                {cloneElement(children, { onClose: close })}
             </div>
         </div>,
         document.body

@@ -8,10 +8,11 @@ import Categories from "../features/products/Categories";
 import DisplayProducts from "../features/products/DisplayProducts";
 import Loader from "../ui/Loader";
 import Pagination from "../features/products/Pagination";
+import ProductForm from "../features/products/ProductForm";
+import Modal from "../ui/Modal";
 
 import { FaBoxOpen, FaPlus } from "react-icons/fa6";
 import { MdSearchOff } from "react-icons/md";
-import Modal from "../ui/Modal";
 
 function Products() {
     const [searchParams] = useSearchParams();
@@ -50,7 +51,7 @@ function Products() {
                             </button>
                         </Modal.Open>
                         <Modal.Window name="product-form">
-                            <form className="w-[80%] h-[400px]"></form>
+                            <ProductForm />
                         </Modal.Window>
                     </Modal>
                 </div>
