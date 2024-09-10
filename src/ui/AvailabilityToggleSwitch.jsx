@@ -3,7 +3,7 @@ function AvailabilityToggleSwitch({ value, setValue, theKey }) {
         <label className="relative inline-flex items-center cursor-pointer">
             <input
                 type="checkbox"
-                value={value}
+                value={!value}
                 className="sr-only peer"
                 onChange={(e) =>
                     setValue((prevValue) => ({
