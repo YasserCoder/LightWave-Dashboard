@@ -12,7 +12,7 @@ export function useGetProducts(pageSize) {
             return e.includes("%20") ? e.replaceAll("%20", " ") : e;
         });
 
-    const category = pathParts.at(-1);
+    const category = pathParts.at(-1) === "products" ? "all" : pathParts.at(-1);
     const page = !searchParams.get("page")
         ? 1
         : Number(searchParams.get("page"));

@@ -21,7 +21,7 @@ const initialForm = {
     imgs: [],
 };
 
-function ProductForm() {
+function ProductForm({ onClose }) {
     const [form, setForm] = useState(initialForm);
     const { isLoading, cats } = useSelectCategories();
     if (isLoading) return <Loader />;
@@ -31,65 +31,99 @@ function ProductForm() {
             onSubmit={() => console.log("Submit")}
         >
             <h1 className="text-3xl capitalize font-bold">add new product</h1>
-            <div className="flex gap-y-8 flex-wrap gap-x-5 justify-between ">
-                <Images imgs={form.imgs} setImgs={setForm} />
-                <InputCase
-                    label={"Name"}
-                    value={form.name}
-                    setValue={setForm}
-                    theKey={"name"}
-                    width={"w-full xs:w-64"}
-                />
-                <InputCase
-                    label={"Brand"}
-                    value={form.brand}
-                    setValue={setForm}
-                    theKey={"brand"}
-                    width={"w-full xs:w-56"}
-                />
-                <InputCase
-                    label={"Garantee"}
-                    value={form.garantee}
-                    setValue={setForm}
-                    theKey={"garantee"}
-                    width={"w-full xs:w-56"}
-                />
-                <InputCase
-                    label={"Price ($)"}
-                    value={form.price}
-                    setValue={setForm}
-                    theKey={"price"}
-                    width={"w-full xs:w-48"}
-                />
-                <InputCase
-                    label={"Sale % (< 100)"}
-                    value={form.sale}
-                    setValue={setForm}
-                    theKey={"sale"}
-                    width={"w-full xs:w-44"}
-                />
-                <Categories
-                    value={form.category}
-                    cats={cats}
-                    setValue={setForm}
-                />
-                <Description value={form.description} setForm={setForm} />
-                <Specifications
-                    specs={form.specifications}
-                    setSpecs={setForm}
-                />
-                <div className="flex gap-3 items-center self-end">
-                    <span className="font-semibold xs:font-extrabold capitalize">
-                        on stock :
-                    </span>
-                    <AvailabilityToggleSwitch
-                        value={form.soldOut}
+            <div className="flex gap-y-10 flex-col">
+                <div className="flex gap-x-5 gap-y-7 justify-between flex-wrap">
+                    <InputCase
+                        label={"Name"}
+                        value={form.name}
                         setValue={setForm}
-                        theKey={"soldOut"}
+                        theKey={"name"}
+                        width={"w-full"}
+                    />
+                    <Categories
+                        value={form.category}
+                        cats={cats}
+                        setValue={setForm}
+                    />
+                    <InputCase
+                        label={"Brand"}
+                        value={form.brand}
+                        setValue={setForm}
+                        theKey={"brand"}
+                        width={"w-full xs:w-44"}
+                    />
+                    <InputCase
+                        label={"Garantee"}
+                        value={form.garantee}
+                        setValue={setForm}
+                        theKey={"garantee"}
+                        width={"w-full xs:w-44"}
+                    />
+                    <InputCase
+                        label={"Price ($)"}
+                        value={form.price}
+                        setValue={setForm}
+                        theKey={"price"}
+                        width={"w-full xs:w-48"}
+                    />
+                    <InputCase
+                        label={"Sale % (< 100)"}
+                        value={form.sale}
+                        setValue={setForm}
+                        theKey={"sale"}
+                        width={"w-full xs:w-40"}
+                    />
+                    <div className="flex gap-3 items-center self-end">
+                        <span className="font-semibold xs:font-extrabold capitalize">
+                            on stock :
+                        </span>
+                        <AvailabilityToggleSwitch
+                            value={form.soldOut}
+                            setValue={setForm}
+                            theKey={"soldOut"}
+                        />
+                    </div>
+                </div>
+                <div className="flex gap-x-5 gap-y-7 flex-wrap justify-between">
+                    <Images imgs={form.imgs} setImgs={setForm} />
+                    <Description value={form.description} setForm={setForm} />
+                    <Specifications
+                        specs={form.specifications}
+                        setSpecs={setForm}
                     />
                 </div>
             </div>
+            <div className="flex gap-3 justify-end w-full border-t border-content mt-2 pt-4 pb-2">
+                <Btn
+                    type={"reset"}
+                    label={"cancel"}
+                    onClick={() => onClose?.()}
+                />
+                <Btn
+                    type={"submit"}
+                    label={"add product"}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        console.log("submit");
+                    }}
+                />
+            </div>
         </form>
+    );
+}
+function Btn({ onClick, type, label }) {
+    return (
+        <button
+            type={type}
+            className={`capitalize font-semibold py-1 px-2 xs:text-lg xs:py-1.5 xs:px-5  rounded-lg ${
+                type === "submit"
+                    ? "bg-colored text-white hover:bg-sky-600"
+                    : "bg-transparent border border-content hover:bg-main hover:text-bkg-main"
+            }`}
+            onClick={onClick}
+        >
+            {label}
+        </button>
     );
 }
 function Images({ imgs, setImgs }) {
@@ -104,13 +138,14 @@ function Images({ imgs, setImgs }) {
     };
 
     return (
-        <div className="flex flex-col gap-y-2 sm:w-64">
+        <div className="flex flex-col gap-y-2 lg:max-w-64">
             <label className="font-semibold xs:font-extrabold capitalize mb-0.5">
                 Images
             </label>
             <input
-                id="file-upload"
+                id="img-upload"
                 type="file"
+                accept="image/*"
                 multiple
                 onChange={handleImageChange}
                 className="hidden"
@@ -133,8 +168,8 @@ function Images({ imgs, setImgs }) {
                     </div>
                 ))}
                 <label
-                    htmlFor="file-upload"
-                    className="cursor-pointer bg-bkg-secondary text-5xl flex justify-center items-center text-content h-20 w-20 rounded-lg bg-opacity-45 duration-300 hover:text-white hover:bg-opacity-100"
+                    htmlFor="img-upload"
+                    className="cursor-pointer bg-bkg-secondary text-5xl flex justify-center items-center text-content h-20 w-20 rounded-lg bg-opacity-45 duration-300 hover:text-gray-300 hover:bg-opacity-100"
                 >
                     <BsPlusCircle />
                 </label>
@@ -246,7 +281,11 @@ function Specifications({ specs, setSpecs }) {
 
 function InputCase({ label, value, setValue, width, theKey }) {
     return (
-        <div className="flex flex-col gap-y-2.5 ">
+        <div
+            className={`flex flex-col gap-y-2.5 ${
+                label === "Name" && "w-full xs:w-64"
+            }`}
+        >
             <label className="font-semibold xs:font-extrabold capitalize">
                 {label}
             </label>
@@ -266,7 +305,7 @@ function InputCase({ label, value, setValue, width, theKey }) {
 }
 function Description({ value, setForm }) {
     return (
-        <div className="flex flex-col gap-y-2.5 ">
+        <div className="flex flex-col gap-y-2.5 w-full xs:w-[250px] sm:w-72">
             <label className="font-semibold xs:font-extrabold capitalize">
                 Description
             </label>
@@ -279,8 +318,8 @@ function Description({ value, setForm }) {
                     }))
                 }
                 placeholder="Description"
-                className="w-full xs:w-[250px] sm:w-72 px-4 py-1.5 bg-input border border-content text-sm xs:text-base outline-colored"
-                rows={5}
+                className="w-full h-full  px-4 py-1.5 bg-input border border-content text-sm xs:text-base outline-colored"
+                // rows={3}
             />
         </div>
     );
