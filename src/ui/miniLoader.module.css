@@ -6,7 +6,7 @@
     height: 1em;
 }
 
-.spinner.center {
+.spinner .center {
     position: absolute;
     left: 0;
     right: 0;

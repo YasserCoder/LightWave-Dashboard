@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { useSelectCategories } from "../../hook/category/useSelectCategories";
 import { useAddProduct } from "../../hook/product/useAddProduct";
@@ -27,12 +27,14 @@ const initialForm = {
 function ProductForm({ onClose }) {
     const [form, setForm] = useState(initialForm);
     const [error, setError] = useState("");
+    const [isCreating, setIsCreating] = useState(false);
 
     const { isLoading, cats } = useSelectCategories();
-    const { isCreating, createProduct } = useAddProduct();
+    const { createProduct } = useAddProduct();
 
     function handleSubmit(e) {
         e.preventDefault();
+        setIsCreating(true);
         if (!form.name || !form.price) {
             setError("fill all the necessary cases");
             return;
@@ -80,6 +82,7 @@ function ProductForm({ onClose }) {
             {
                 onSettled: () => {
                     setForm(initialForm);
+                    setIsCreating(false);
                     onClose?.();
                 },
             }
@@ -157,7 +160,8 @@ function ProductForm({ onClose }) {
                 } sm:items-center w-full border-t border-content mt-2 pt-4 pb-2`}
             >
                 {error && <p className="text-red-500 ">{`** ${error}`}</p>}
-                <div className="flex gap-3 self-end">
+                <div className="flex gap-3 items-center self-end flex-wrap">
+                    {isCreating && <MiniLoader />}
                     <Btn
                         type={"reset"}
                         label={"cancel"}
@@ -187,7 +191,7 @@ function Btn({ onClick, type, label, disabled }) {
             onClick={onClick}
             disabled={disabled}
         >
-            {disabled ? <MiniLoader /> : label}
+            {label}
         </button>
     );
 }
@@ -244,6 +248,7 @@ function Images({ imgs, setImgs }) {
 }
 function Specifications({ specs, setSpecs }) {
     const [content, setContent] = useState({ key: "", value: "" });
+    const inputKey = useRef(null);
 
     const addSpecification = () => {
         if (content.value !== "") {
@@ -252,6 +257,9 @@ function Specifications({ specs, setSpecs }) {
                 specifications: [...specs, content],
             }));
             setContent({ key: "", value: "" });
+            if (inputKey.current) {
+                inputKey.current.focus();
+            }
         }
     };
 
@@ -318,6 +326,7 @@ function Specifications({ specs, setSpecs }) {
                     }}
                     onKeyDown={(e) => handleEnterPress(e)}
                     className="w-16 xs:w-24 py-0.5 px-1.5 bg-input border border-content text-sm outline-colored"
+                    ref={inputKey}
                 />
                 <input
                     type="text"

@@ -27,19 +27,20 @@ export async function getMostSoldCategory(date) {
     const aggregatedData = {};
 
     for (const item of orderItems) {
-        const parentCategory =
-            item.product.category.parentId === null
-                ? item.product.category.name
-                : findParent(categoryData, item.product.category.parentId);
+        if (item.product.category !== null) {
+            const parentCategory =
+                item.product.category.parentId === null
+                    ? item.product.category.name
+                    : findParent(categoryData, item.product.category.parentId);
 
-        if (aggregatedData[parentCategory]) {
-            aggregatedData[parentCategory] += item.quantity;
-        } else {
-            aggregatedData[parentCategory] = item.quantity;
+            if (aggregatedData[parentCategory]) {
+                aggregatedData[parentCategory] += item.quantity;
+            } else {
+                aggregatedData[parentCategory] = item.quantity;
+            }
         }
     }
 
-    // Convert aggregated data to an array of objects
     const result = Object.entries(aggregatedData).map(
         ([category, quantity]) => ({
             category,

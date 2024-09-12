@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import { useProductDetails } from "../hook/product/useProductDetails";
 import { calculateNewPrice, formatCurrency } from "../utils/helpers";
 
+import Modal from "./Modal";
+import ProductForm from "../features/products/ProductForm";
 import CardLoader from "./CardLoader";
 
-import { FaRegEdit } from "react-icons/fa";
 import { IoIosPricetag } from "react-icons/io";
+import { FaRegEye } from "react-icons/fa6";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
 import newicon from "../assets/new.png";
 function ProdCard({ latest = false, id }) {
@@ -82,10 +85,37 @@ function ProdCard({ latest = false, id }) {
                     )}
                 </div>
             </div>
-            <div className="px-9 sm:px-6 py-2 flex justify-center items-center font-semibold text-colored hover:scale-105 duration-300">
-                <button className="flex items-center gap-x-2">
-                    <FaRegEdit />
-                    <span className="capitalize">edit product</span>
+            <div className="px-9 sm:px-6 py-2 flex justify-between items-center">
+                <Link
+                    to={`/product/${id}`}
+                    className=" text-colored hover:scale-105 duration-300"
+                >
+                    <span>
+                        <FaRegEye className="size-[25px]" />
+                    </span>
+                </Link>
+                <span className="w-[2px] h-6 bg-content"></span>
+
+                <Modal>
+                    <Modal.Open opens="product-form">
+                        <button
+                            className=" text-colored hover:scale-105 duration-300"
+                            title="Edit Product"
+                        >
+                            <FaRegEdit className="size-[25px]" />
+                        </button>
+                    </Modal.Open>
+                    <Modal.Window name="product-form">
+                        <ProductForm />
+                    </Modal.Window>
+                </Modal>
+
+                <span className="w-[2px] h-6 bg-content"></span>
+                <button
+                    className=" text-red-500 hover:scale-105 duration-300"
+                    title="Delete"
+                >
+                    <FaRegTrashAlt className="size-[25px]" />
                 </button>
             </div>
         </div>
