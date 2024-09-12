@@ -39,7 +39,7 @@ function StatCards({ orders, lastOrders, numDays, count, users, lastUsers }) {
         <div className="flex items-center justify-between flex-wrap gap-y-4 sm:gap-y-6 lg:gap-y-8">
             <div className="bg-bkg-main rounded-xl p-4 space-y-[30px] basis-[100%] sm:basis-[48%] md:basis-[47%] xl:basis-[24%]">
                 <div className="flex justify-between">
-                    <div className="space-y-4">
+                    <div className="w-[100px] space-y-4">
                         <p className="font-light capitalize">total user</p>
                         <h2 className="text-2xl font-extrabold">{count}</h2>
                     </div>
@@ -95,6 +95,7 @@ function StatCards({ orders, lastOrders, numDays, count, users, lastUsers }) {
     );
 }
 function PercentageDiff({ percentage, duration }) {
+    const per = Math.abs(percentage);
     return (
         <p className="flex gap-1 items-center">
             {percentage !== 0 && (
@@ -110,7 +111,7 @@ function PercentageDiff({ percentage, duration }) {
                             <FaArrowTrendDown />
                         )}
                     </span>
-                    <span>{`${Math.abs(percentage).toFixed(1)}%`}</span>
+                    <span>{`${per.toFixed(per >= 100 ? 0 : 1)}%`}</span>
                 </span>
             )}
             <span>{`${

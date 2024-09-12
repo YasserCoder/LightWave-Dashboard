@@ -1,9 +1,12 @@
 import { useState } from "react";
 
 import { useSelectCategories } from "../../hook/category/useSelectCategories";
+import { useAddProduct } from "../../hook/product/useAddProduct";
+import { isWhitespace } from "../../utils/helpers";
 
 import AvailabilityToggleSwitch from "../../ui/AvailabilityToggleSwitch";
 import Loader from "../../ui/Loader";
+import MiniLoader from "../../ui/MiniLoader";
 
 import { FaPlus, FaX } from "react-icons/fa6";
 import { BsPlusCircle } from "react-icons/bs";
@@ -23,13 +26,68 @@ const initialForm = {
 
 function ProductForm({ onClose }) {
     const [form, setForm] = useState(initialForm);
+    const [error, setError] = useState("");
+
     const { isLoading, cats } = useSelectCategories();
+    const { isCreating, createProduct } = useAddProduct();
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        if (!form.name || !form.price) {
+            setError("fill all the necessary cases");
+            return;
+        }
+        if (
+            isWhitespace(form.name) ||
+            !isNaN(form.name) ||
+            form.name.length < 6
+        ) {
+            setError("Invalide name");
+            return;
+        }
+        if (isNaN(Number(form.price))) {
+            setError("Invalide price");
+            return;
+        }
+        if (form.sale !== "") {
+            if (isNaN(Number(form.sale)) || Number(form.sale) >= 100) {
+                setError("Invalide sale");
+                return;
+            }
+        }
+        let updateObj = {
+            name: form.name,
+            price: Number(form.price),
+            sale: Number(form.sale),
+            description: form.description,
+            categoryId:
+                Number(form.category) === 0 ? "" : Number(form.category),
+            garantee: form.garantee,
+            soldOut: form.soldOut,
+            brand: form.brand,
+        };
+        Object.keys(updateObj).forEach((item) => {
+            if (updateObj[item].length === 0) {
+                delete updateObj[item];
+            }
+        });
+        createProduct(
+            {
+                prodData: updateObj,
+                imgs: form.imgs,
+                specs: form.specifications,
+            },
+            {
+                onSettled: () => {
+                    setForm(initialForm);
+                    onClose?.();
+                },
+            }
+        );
+    }
     if (isLoading) return <Loader />;
     return (
-        <form
-            className="flex flex-col gap-y-5 w-full"
-            onSubmit={() => console.log("Submit")}
-        >
+        <form className="flex flex-col gap-y-5 w-full" onSubmit={handleSubmit}>
             <h1 className="text-3xl capitalize font-bold">add new product</h1>
             <div className="flex gap-y-10 flex-col">
                 <div className="flex gap-x-5 gap-y-7 justify-between flex-wrap">
@@ -93,36 +151,43 @@ function ProductForm({ onClose }) {
                     />
                 </div>
             </div>
-            <div className="flex gap-3 justify-end w-full border-t border-content mt-2 pt-4 pb-2">
-                <Btn
-                    type={"reset"}
-                    label={"cancel"}
-                    onClick={() => onClose?.()}
-                />
-                <Btn
-                    type={"submit"}
-                    label={"add product"}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        console.log("submit");
-                    }}
-                />
+            <div
+                className={`flex flex-col gap-y-4 sm:flex-row ${
+                    error ? "sm:justify-between" : "justify-end"
+                } sm:items-center w-full border-t border-content mt-2 pt-4 pb-2`}
+            >
+                {error && <p className="text-red-500 ">{`** ${error}`}</p>}
+                <div className="flex gap-3 self-end">
+                    <Btn
+                        type={"reset"}
+                        label={"cancel"}
+                        onClick={() => onClose?.()}
+                        disabled={isCreating}
+                    />
+                    <Btn
+                        type={"submit"}
+                        label={"add product"}
+                        onClick={handleSubmit}
+                        disabled={isCreating}
+                    />
+                </div>
             </div>
         </form>
     );
 }
-function Btn({ onClick, type, label }) {
+function Btn({ onClick, type, label, disabled }) {
     return (
         <button
             type={type}
-            className={`capitalize font-semibold py-1 px-2 xs:text-lg xs:py-1.5 xs:px-5  rounded-lg ${
+            className={`capitalize font-semibold py-1 px-2 xs:text-lg xs:py-1.5 xs:px-5 rounded-lg disabled:bg-opacity-30 disabled:cursor-not-allowed ${
                 type === "submit"
                     ? "bg-colored text-white hover:bg-sky-600"
                     : "bg-transparent border border-content hover:bg-main hover:text-bkg-main"
             }`}
             onClick={onClick}
+            disabled={disabled}
         >
-            {label}
+            {disabled ? <MiniLoader /> : label}
         </button>
     );
 }
@@ -169,7 +234,7 @@ function Images({ imgs, setImgs }) {
                 ))}
                 <label
                     htmlFor="img-upload"
-                    className="cursor-pointer bg-bkg-secondary text-5xl flex justify-center items-center text-content h-20 w-20 rounded-lg bg-opacity-45 duration-300 hover:text-gray-300 hover:bg-opacity-100"
+                    className="cursor-pointer bg-bkg-secondary text-5xl flex justify-center items-center text-content h-20 w-20 rounded-lg duration-300 hover:text-gray-300 hover:bg-input"
                 >
                     <BsPlusCircle />
                 </label>

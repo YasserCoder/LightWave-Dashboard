@@ -1,5 +1,6 @@
+import supabase, { supabaseUrl } from "./supabase";
+import { ANON_PROD_URL } from "../utils/constants";
 import { getToday } from "../utils/helpers";
-import supabase from "./supabase";
 
 export async function getMostSoldProduct(date) {
     const { data, error } = await supabase
@@ -149,6 +150,64 @@ function findChildren(data, idParent, categoryArr) {
         if (category.parentId === idParent) {
             categoryArr.push(category.id);
             findChildren(data, category.id, categoryArr);
+        }
+    }
+}
+export async function addNewProduct({ imgs, specs, prodData }) {
+    const { data, error } = await supabase
+        .from("product")
+        .insert([prodData])
+        .select()
+        .single();
+    if (error) {
+        console.log(error.message);
+        throw new Error(error.message);
+    }
+    let imgsUrl = [];
+    for (const img of imgs) {
+        const imgName = `${Math.random()}-${img.name}`.replaceAll("/", "");
+        const imgUrl = `${supabaseUrl}/storage/v1/object/public/productImgs/${imgName}`;
+
+        const { error: storageError } = await supabase.storage
+            .from("productImgs")
+            .upload(imgName, img);
+
+        if (storageError) {
+            await supabase.from("product").delete().eq("id", data.id);
+            console.error(storageError);
+            throw new Error(
+                "Product image could not be uploaded and the product was not created"
+            );
+        }
+
+        imgsUrl.push({ imgUrl, imgAlt: imgName, productId: data.id });
+    }
+    if (imgsUrl.length === 0) {
+        imgsUrl.push({
+            imgUrl: ANON_PROD_URL,
+            imgAlt: "prodct_image",
+            productId: data.id,
+        });
+    }
+    const { error: imgError } = await supabase
+        .from("prodImage")
+        .insert(imgsUrl);
+    if (imgError) {
+        console.log(imgError.message);
+        throw new Error(imgError.message);
+    }
+
+    if (specs.length > 0) {
+        const updatedSpecs = specs.map((obj) => ({
+            ...obj,
+            productId: data.id,
+        }));
+        const { error: specError } = await supabase
+            .from("prodSpecifications")
+            .insert(updatedSpecs);
+        if (specError) {
+            console.log(specError.message);
+            throw new Error(specError.message);
         }
     }
 }
