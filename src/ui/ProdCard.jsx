@@ -1,7 +1,9 @@
+import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 
 import { useProductDetails } from "../hook/product/useProductDetails";
 import { calculateNewPrice, formatCurrency } from "../utils/helpers";
+import { useDeleteProduct } from "../hook/product/useDeleteProduct";
 
 import Modal from "./Modal";
 import ProductForm from "../features/products/ProductForm";
@@ -27,7 +29,7 @@ function ProdCard({ latest = false, id }) {
             )}
             <div className={`relative h-56 overflow-hidden bg-white`}>
                 <Link
-                    to={`/product/${id}`}
+                    to={`product/${id}`}
                     className="h-full flex justify-center"
                 >
                     <img
@@ -70,7 +72,7 @@ function ProdCard({ latest = false, id }) {
                 <Link
                     className=" font-semibold uppercase flex-grow line-clamp-2 hover:text-colored duration-300"
                     title={name}
-                    to={`/product/${id}`}
+                    to={`product/${id}`}
                 >
                     {name}
                 </Link>
@@ -85,41 +87,65 @@ function ProdCard({ latest = false, id }) {
                     )}
                 </div>
             </div>
-            <div className="px-9 sm:px-6 py-2 flex justify-between items-center">
-                <Link
-                    to={`/product/${id}`}
-                    className=" text-colored hover:scale-105 duration-300"
-                >
-                    <span>
-                        <FaRegEye className="size-[25px]" />
-                    </span>
-                </Link>
-                <span className="w-[2px] h-6 bg-content"></span>
-
-                <Modal>
-                    <Modal.Open opens="product-form">
-                        <button
-                            className=" text-colored hover:scale-105 duration-300"
-                            title="Edit Product"
-                        >
-                            <FaRegEdit className="size-[25px]" />
-                        </button>
-                    </Modal.Open>
-                    <Modal.Window name="product-form">
-                        <ProductForm />
-                    </Modal.Window>
-                </Modal>
-
-                <span className="w-[2px] h-6 bg-content"></span>
-                <button
-                    className=" text-red-500 hover:scale-105 duration-300"
-                    title="Delete"
-                >
-                    <FaRegTrashAlt className="size-[25px]" />
-                </button>
-            </div>
+            <Features id={id} />
         </div>
     );
 }
+function Features({ id }) {
+    const { isDeleting, deleteProduct } = useDeleteProduct();
+    return (
+        <div className="px-9 sm:px-6 py-2 flex justify-between items-center">
+            <Link
+                to={`product/${id}`}
+                className=" text-colored hover:scale-105 duration-300"
+            >
+                <span>
+                    <FaRegEye className="size-[25px]" />
+                </span>
+            </Link>
+            <span className="w-[2px] h-6 bg-content"></span>
 
+            <Modal>
+                <Modal.Open opens="product-form">
+                    <button
+                        className=" text-colored hover:scale-105 duration-300"
+                        title="Edit Product"
+                    >
+                        <FaRegEdit className="size-[25px]" />
+                    </button>
+                </Modal.Open>
+                <Modal.Window name="product-form">
+                    <ProductForm />
+                </Modal.Window>
+            </Modal>
+
+            <span className="w-[2px] h-6 bg-content"></span>
+            <button
+                className=" text-red-500 hover:scale-105 duration-300"
+                title="Delete"
+                disabled={isDeleting}
+                onClick={() => {
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Delete Product Definitively!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Yes, delete it!",
+                        customClass: {
+                            popup: "dark:bg-gray-800 dark:text-white",
+                        },
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            deleteProduct(id);
+                        }
+                    });
+                }}
+            >
+                <FaRegTrashAlt className="size-[25px]" />
+            </button>
+        </div>
+    );
+}
 export default ProdCard;

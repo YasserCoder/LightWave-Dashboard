@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import Products from "./pages/Products";
+import ProductDetails from "./pages/ProductDetails";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -36,6 +37,10 @@ function App() {
                         <Route index element={<Navigate replace to="home" />} />
                         <Route path="home" element={<Home />} />
                         <Route path="products/*" element={<Products />} />
+                        <Route
+                            path="products/product/:productId"
+                            element={<ProductDetails />}
+                        />
                     </Route>
                     <Route path="login" element={<Login />} />
                 </Routes>

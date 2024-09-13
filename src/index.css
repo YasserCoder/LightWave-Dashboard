@@ -131,3 +131,6 @@ aside a:hover:not(.active) {
     background-color: #6c757d;
     cursor: default;
 }
+.swiper-slide-thumb-active {
+    opacity: 1;
+}

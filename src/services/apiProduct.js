@@ -214,3 +214,10 @@ export async function addNewProduct({ imgs, specs, prodData }) {
         }
     }
 }
+export async function deleteProduct(id) {
+    const { error } = await supabase.from("product").delete().eq("id", id);
+    if (error) {
+        console.error(error.message);
+        throw new Error(error.message);
+    }
+}
