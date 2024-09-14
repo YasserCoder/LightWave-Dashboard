@@ -9,7 +9,7 @@ import MiniLoader from "../../ui/MiniLoader";
 import { FaPlus, FaX } from "react-icons/fa6";
 import { BsPlusCircle } from "react-icons/bs";
 
-function ProductForm({
+function ProductFormV2({
     onClose,
     handleSubmit,
     form,
@@ -359,4 +359,4 @@ function Categories({ value, setValue, cats }) {
         </div>
     );
 }
-export default ProductForm;
+export default ProductFormV2;

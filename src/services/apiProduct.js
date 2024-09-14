@@ -51,7 +51,7 @@ export async function getProductInfo(prodId) {
     let { data, error } = await supabase
         .from("product")
         .select(
-            "*,imgs:prodImage(imgUrl,imgAlt),specifications:prodSpecifications(key,value)"
+            "*,imgs:prodImage(id,imgUrl,imgAlt),specifications:prodSpecifications(id,key,value)"
         )
         .eq("id", prodId)
         .single();
@@ -220,4 +220,81 @@ export async function deleteProduct(id) {
         console.error(error.message);
         throw new Error(error.message);
     }
+}
+
+export async function editProduct({ imgs, specs, prodData, id }) {
+    if (Object.keys(prodData).length !== 0) {
+        const { error } = await supabase
+            .from("product")
+            .update(prodData)
+            .eq("id", id);
+        if (error) {
+            console.log(error.message);
+            throw new Error(error.message);
+        }
+    }
+    let imgsUrl = [];
+    for (const img of imgs.added) {
+        const imgName = `${Math.random()}-${img.name}`.replaceAll("/", "");
+        const imgUrl = `${supabaseUrl}/storage/v1/object/public/productImgs/${imgName}`;
+
+        const { error: storageError } = await supabase.storage
+            .from("productImgs")
+            .upload(imgName, img);
+
+        if (storageError) {
+            throw new Error("Product image could not be uploaded");
+        }
+
+        imgsUrl.push({ imgUrl, imgAlt: imgName, productId: id });
+    }
+    if (imgsUrl.length > 0) {
+        // imgsUrl.push({
+        //     imgUrl: ANON_PROD_URL,
+        //     imgAlt: "prodct_image",
+        //     productId: data.id,
+        // });
+        const { error: imgError } = await supabase
+            .from("prodImage")
+            .insert(imgsUrl);
+        if (imgError) {
+            console.log(imgError.message);
+            throw new Error(imgError.message);
+        }
+    }
+    if (imgs.deleted.length > 0) {
+        const { error: imgError } = await supabase
+            .from("prodImage")
+            .delete()
+            .in("id", imgs.deleted);
+        if (imgError) {
+            console.log(imgError.message);
+            throw new Error(imgError.message);
+        }
+    }
+
+    if (specs.added.length > 0) {
+        const updatedSpecs = specs.added.map((obj) => ({
+            ...obj,
+            productId: id,
+        }));
+        const { error: specError } = await supabase
+            .from("prodSpecifications")
+            .insert(updatedSpecs);
+        if (specError) {
+            console.log(specError.message);
+            throw new Error(specError.message);
+        }
+    }
+    if (specs.deleted.length > 0) {
+        const { error: specError } = await supabase
+            .from("prodSpecifications")
+            .delete()
+            .in("id", specs.deleted);
+        if (specError) {
+            console.log(specError.message);
+            throw new Error(specError.message);
+        }
+    }
+    return id;
 }

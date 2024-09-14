@@ -8,8 +8,8 @@ import Categories from "../features/products/Categories";
 import DisplayProducts from "../features/products/DisplayProducts";
 import Loader from "../ui/Loader";
 import Pagination from "../features/products/Pagination";
-import ProductForm from "../features/products/ProductForm";
 import Modal from "../ui/Modal";
+import AddNewProduct from "../features/products/AddNewProduct";
 
 import { FaBoxOpen, FaPlus } from "react-icons/fa6";
 import { MdSearchOff } from "react-icons/md";
@@ -31,15 +31,6 @@ function Products() {
                 <h1 className="text-2xl xs:text-4xl md:text-5xl font-extrabold capitalize">
                     Products
                 </h1>
-                {/* <Link
-                    to={"/products/create"}
-                    className="py-1.5 xs:py-2 px-2.5 xs:px-4 flex items-center gap-x-1 xs:gap-x-2 rounded-full text-gray-950 bg-yellow-200 shadow-lg"
-                >
-                    <FaPlus className="text-sm xs:text-base" />
-                    <span className="capitalize text-sm xs:text-base font-semibold">
-                        add new product
-                    </span>
-                </Link> */}
                 <div>
                     <Modal>
                         <Modal.Open opens="product-form">
@@ -51,7 +42,7 @@ function Products() {
                             </button>
                         </Modal.Open>
                         <Modal.Window name="product-form">
-                            <ProductForm />
+                            <AddNewProduct />
                         </Modal.Window>
                     </Modal>
                 </div>

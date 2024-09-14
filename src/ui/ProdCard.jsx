@@ -5,8 +5,8 @@ import { useProductDetails } from "../hook/product/useProductDetails";
 import { calculateNewPrice, formatCurrency } from "../utils/helpers";
 import { useDeleteProduct } from "../hook/product/useDeleteProduct";
 
+import EditProduct from "../features/products/EditProduct";
 import Modal from "./Modal";
-import ProductForm from "../features/products/ProductForm";
 import CardLoader from "./CardLoader";
 
 import { IoIosPricetag } from "react-icons/io";
@@ -24,20 +24,19 @@ function ProdCard({ latest = false, id }) {
 
     return (
         <div className={`shadow-xl flex flex-col relative z-0 bg-bkg-main`}>
-            {soldOut && (
-                <span className="absolute h-full w-full bg-content z-10 opacity-65"></span>
-            )}
             <div className={`relative h-56 overflow-hidden bg-white`}>
-                <Link
-                    to={`product/${id}`}
-                    className="h-full flex justify-center"
-                >
-                    <img
-                        src={imgs.at(0).imgUrl}
-                        alt={imgs.at(0).imgAlt}
-                        className="object-contain"
-                    />
-                </Link>
+                {imgs.length > 0 && (
+                    <Link
+                        to={`product/${id}`}
+                        className="h-full flex justify-center"
+                    >
+                        <img
+                            src={imgs.at(0).imgUrl}
+                            alt={imgs.at(0).imgAlt}
+                            className="object-contain"
+                        />
+                    </Link>
+                )}
                 {latest && (
                     <span className="absolute size-[40px] left-2 top-2">
                         <img src={newicon} alt="new" />
@@ -87,6 +86,7 @@ function ProdCard({ latest = false, id }) {
                     )}
                 </div>
             </div>
+
             <Features id={id} />
         </div>
     );
@@ -94,7 +94,7 @@ function ProdCard({ latest = false, id }) {
 function Features({ id }) {
     const { isDeleting, deleteProduct } = useDeleteProduct();
     return (
-        <div className="px-9 sm:px-6 py-2 flex justify-between items-center">
+        <div className="px-9 sm:px-6 py-2 flex justify-between items-center ">
             <Link
                 to={`product/${id}`}
                 className=" text-colored hover:scale-105 duration-300"
@@ -115,7 +115,7 @@ function Features({ id }) {
                     </button>
                 </Modal.Open>
                 <Modal.Window name="product-form">
-                    <ProductForm />
+                    <EditProduct id={id} />
                 </Modal.Window>
             </Modal>
 

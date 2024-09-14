@@ -8,8 +8,8 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
+import EditProduct from "../features/products/EditProduct";
 import Modal from "../ui/Modal";
-import ProductForm from "../features/products/ProductForm";
 import Loader from "../ui/Loader";
 
 import { useProductDetails } from "../hook/product/useProductDetails";
@@ -17,6 +17,7 @@ import { useDeleteProduct } from "../hook/product/useDeleteProduct";
 import { calculateNewPrice, formatCurrency } from "../utils/helpers";
 import { useMoveBack } from "../hook/useMoveBack";
 import { FREE_DELIVERY } from "../utils/constants";
+
 import {
     FaAngleRight,
     FaArrowLeft,
@@ -97,7 +98,7 @@ function ProductDetails() {
                                         </button>
                                     </Modal.Open>
                                     <Modal.Window name="product-form">
-                                        <ProductForm />
+                                        <EditProduct id={productId} />
                                     </Modal.Window>
                                 </Modal>
 
