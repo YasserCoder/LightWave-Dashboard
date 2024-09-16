@@ -15,3 +15,30 @@ export async function getOrdersAfterDate(date, lessDate) {
 
     return data;
 }
+
+export async function getOrders({ status, sortBy, page, pageSize }) {
+    let query = supabase.from("order").select("*", {
+        count: "exact",
+    });
+
+    if (status !== "") {
+        query = query.eq("status", status);
+    }
+    if (sortBy !== "") {
+        const [column, order] = sortBy.split("-");
+        query = query.order(column, { ascending: order === "asc" });
+    }
+    if (page) {
+        const from = (page - 1) * pageSize;
+        const to = from + pageSize - 1;
+        query = query.range(from, to);
+    }
+
+    let { data, error, count } = await query;
+    if (error) {
+        console.error(error);
+        throw new Error("Orders could not be loaded");
+    }
+
+    return { data, count };
+}
