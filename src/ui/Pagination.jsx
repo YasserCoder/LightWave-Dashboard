@@ -1,8 +1,8 @@
 import ReactPaginate from "react-paginate";
-import { useSearchParams } from "react-router-dom";
 
-import { useScreenSize } from "../../hook/useScreenSize";
-import { PAGE_SIZE } from "../../utils/constants";
+import { useSearchParams } from "react-router-dom";
+import { useScreenSize } from "../hook/useScreenSize";
+import { PAGE_SIZE } from "../utils/constants";
 
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 

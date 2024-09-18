@@ -7,9 +7,9 @@ import { PAGE_SIZE } from "../utils/constants";
 import Categories from "../features/products/Categories";
 import DisplayProducts from "../features/products/DisplayProducts";
 import Loader from "../ui/Loader";
-import Pagination from "../features/products/Pagination";
 import Modal from "../ui/Modal";
 import AddNewProduct from "../features/products/AddNewProduct";
+import Pagination from "../ui/Pagination";
 
 import { FaBoxOpen, FaPlus } from "react-icons/fa6";
 import { MdSearchOff } from "react-icons/md";

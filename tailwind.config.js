@@ -23,6 +23,7 @@ export default {
             },
             screens: {
                 xs: "400px",
+                xxs: "300px",
             },
             gridTemplateColumns: {
                 220: "repeat(auto-fill, minmax(220px, 1fr));",
