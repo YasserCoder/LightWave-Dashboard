@@ -19,7 +19,7 @@ function SortBy({ options, name }) {
                 <option
                     value={option.value}
                     key={option.value}
-                    className="capitalize"
+                    className="capitalize bg-input"
                 >
                     {option.label}
                 </option>

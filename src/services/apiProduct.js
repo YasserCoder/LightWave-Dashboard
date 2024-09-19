@@ -249,11 +249,6 @@ export async function editProduct({ imgs, specs, prodData, id }) {
         imgsUrl.push({ imgUrl, imgAlt: imgName, productId: id });
     }
     if (imgsUrl.length > 0) {
-        // imgsUrl.push({
-        //     imgUrl: ANON_PROD_URL,
-        //     imgAlt: "prodct_image",
-        //     productId: data.id,
-        // });
         const { error: imgError } = await supabase
             .from("prodImage")
             .insert(imgsUrl);

@@ -1,6 +1,10 @@
+import { useState } from "react";
+import Swal from "sweetalert2";
 import { format } from "date-fns";
 
 import { useGetOrders } from "../hook/order/useGetOrders";
+import { useDeleteOrder } from "../hook/order/useDeleteOrder";
+import { useUpdateOrder } from "../hook/order/useUpdateOrder";
 import { useScreenSize } from "../hook/useScreenSize";
 import { PAGE_SIZE } from "../utils/constants";
 import { formatCurrency } from "../utils/helpers";
@@ -8,6 +12,9 @@ import { formatCurrency } from "../utils/helpers";
 import SortBy from "../ui/SortBy";
 import Pagination from "../ui/Pagination";
 import Loader from "../ui/Loader";
+import RadioBtns from "../ui/RadioBtns";
+import Modal from "../ui/Modal";
+import MiniLoader from "../ui/MiniLoader";
 
 import { FaFilter, FaRegEye, FaTrash } from "react-icons/fa6";
 import { MdOutlineEdit } from "react-icons/md";
@@ -170,22 +177,130 @@ function OrderTable({ orders }) {
                             </p>
                         </td>
                         <td className="px-2 lg:px-4 py-4  border-b border-content">
-                            <div className="flex items-center gap-1 xl:gap-2">
-                                <button className="p-1 hover:bg-bkg-secondary hover:text-main text-content rounded-md">
-                                    <FaRegEye />
-                                </button>
-                                <button className="p-1 hover:bg-bkg-secondary hover:text-main text-content  rounded-md">
-                                    <MdOutlineEdit />
-                                </button>
-                                <button className="p-1 hover:bg-bkg-secondary hover:text-main text-content rounded-md">
-                                    <FaTrash />
-                                </button>
-                            </div>
+                            <Features id={order.id} status={order.status} />
                         </td>
                     </tr>
                 ))}
             </tbody>
         </table>
+    );
+}
+function Features({ id, status }) {
+    const { isDeleting, deleteOrder } = useDeleteOrder();
+
+    function handleDelete() {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Delete Order Definitively!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
+            customClass: {
+                popup: "dark:bg-gray-800 dark:text-white",
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteOrder(id);
+            }
+        });
+    }
+    return (
+        <div className="flex items-center gap-1 xl:gap-2">
+            <Icon disabled={isDeleting}>
+                <FaRegEye />
+            </Icon>
+            <Modal>
+                <Modal.Open opens="order-form">
+                    <button className="p-1 hover:bg-bkg-secondary hover:text-main text-content rounded-md disabled:cursor-not-allowed">
+                        <MdOutlineEdit />
+                    </button>
+                </Modal.Open>
+                <Modal.Window name="order-form">
+                    <OrderForm status={status} id={id} />
+                </Modal.Window>
+            </Modal>
+
+            <Icon disabled={isDeleting} handleClick={handleDelete}>
+                <FaTrash />
+            </Icon>
+        </div>
+    );
+}
+function Icon({ handleClick, disabled, children }) {
+    return (
+        <button
+            className="p-1 hover:bg-bkg-secondary hover:text-main text-content rounded-md disabled:cursor-not-allowed"
+            onClick={handleClick}
+            disabled={disabled}
+        >
+            {children}
+        </button>
+    );
+}
+
+function OrderForm({ onClose, id, status }) {
+    const [value, setValue] = useState(status);
+    const [isEditing, setIsEditing] = useState(false);
+    const { updateOrder } = useUpdateOrder();
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        setIsEditing(true);
+        updateOrder(
+            {
+                status: value,
+                id: id,
+            },
+            {
+                onSettled: () => {
+                    setIsEditing(false);
+                    onClose?.();
+                },
+            }
+        );
+    }
+    return (
+        <form className="flex flex-col gap-y-5 w-full" onSubmit={handleSubmit}>
+            <h1 className="text-3xl capitalize font-bold">
+                update order status
+            </h1>
+            <RadioBtns value={value} setValue={setValue} />
+            <div className="w-full border-t border-content mt-2 pt-3 pb-1 flex justify-end">
+                <div className="flex gap-3 items-center flex-wrap">
+                    {isEditing && <MiniLoader />}
+                    <Btn
+                        type={"reset"}
+                        label={"cancel"}
+                        onClick={() => onClose?.()}
+                        disabled={isEditing}
+                    />
+                    <Btn
+                        type={"submit"}
+                        label={"update order"}
+                        onClick={handleSubmit}
+                        disabled={isEditing || value === status}
+                    />
+                </div>
+            </div>
+        </form>
+    );
+}
+function Btn({ onClick, type, label, disabled }) {
+    return (
+        <button
+            type={type}
+            className={`capitalize font-semibold py-1 px-2 xs:text-lg xs:py-1.5 xs:px-5 rounded-lg disabled:bg-opacity-30 disabled:cursor-not-allowed ${
+                type === "submit"
+                    ? "bg-colored text-white hover:bg-sky-600"
+                    : "bg-transparent border border-content hover:bg-main hover:text-bkg-main"
+            }`}
+            onClick={onClick}
+            disabled={disabled}
+        >
+            {label}
+        </button>
     );
 }
 

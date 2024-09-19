@@ -42,3 +42,20 @@ export async function getOrders({ status, sortBy, page, pageSize }) {
 
     return { data, count };
 }
+export async function deleteOrder(id) {
+    const { error } = await supabase.from("order").delete().eq("id", id);
+    if (error) {
+        console.error(error.message);
+        throw new Error(error.message);
+    }
+}
+export async function editOrder({ id, status }) {
+    const { error } = await supabase
+        .from("order")
+        .update({ status: status })
+        .eq("id", id);
+    if (error) {
+        console.log(error.message);
+        throw new Error(error.message);
+    }
+}
