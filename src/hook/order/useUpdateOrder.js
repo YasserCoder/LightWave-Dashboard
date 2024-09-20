@@ -7,10 +7,13 @@ export function useUpdateOrder() {
 
     const { mutate: updateOrder, isLoading: isEditing } = useMutation({
         mutationFn: editOrder,
-        onSuccess: () => {
+        onSuccess: (id) => {
             toast.success("Order successfully updated");
             queryClient.invalidateQueries({
                 queryKey: ["orders"],
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["order", id],
             });
         },
         onError: (err) => toast.error(err.message),

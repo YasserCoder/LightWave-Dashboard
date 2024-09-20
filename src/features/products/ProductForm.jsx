@@ -5,6 +5,7 @@ import { useSelectCategories } from "../../hook/category/useSelectCategories";
 import AvailabilityToggleSwitch from "../../ui/AvailabilityToggleSwitch";
 import Loader from "../../ui/Loader";
 import MiniLoader from "../../ui/MiniLoader";
+import FormBtn from "../../ui/FormBtn";
 
 import { FaPlus, FaX } from "react-icons/fa6";
 import { BsPlusCircle } from "react-icons/bs";
@@ -93,13 +94,13 @@ function ProductForm({
                 {error && <p className="text-red-500 ">{`** ${error}`}</p>}
                 <div className="flex gap-3 items-center self-end flex-wrap">
                     {isWorking && <MiniLoader />}
-                    <Btn
+                    <FormBtn
                         type={"reset"}
                         label={"cancel"}
                         onClick={() => onClose?.()}
                         disabled={isWorking}
                     />
-                    <Btn
+                    <FormBtn
                         type={"submit"}
                         label={edit ? "edit product" : "add product"}
                         onClick={handleSubmit}
@@ -108,22 +109,6 @@ function ProductForm({
                 </div>
             </div>
         </form>
-    );
-}
-function Btn({ onClick, type, label, disabled }) {
-    return (
-        <button
-            type={type}
-            className={`capitalize font-semibold py-1 px-2 xs:text-lg xs:py-1.5 xs:px-5 rounded-lg disabled:bg-opacity-30 disabled:cursor-not-allowed ${
-                type === "submit"
-                    ? "bg-colored text-white hover:bg-sky-600"
-                    : "bg-transparent border border-content hover:bg-main hover:text-bkg-main"
-            }`}
-            onClick={onClick}
-            disabled={disabled}
-        >
-            {label}
-        </button>
     );
 }
 function Images({ imgs, setImgs }) {

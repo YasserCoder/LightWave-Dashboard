@@ -58,4 +58,20 @@ export async function editOrder({ id, status }) {
         console.log(error.message);
         throw new Error(error.message);
     }
+    return id;
+}
+export async function getOrderInfo(orderId) {
+    let { data, error } = await supabase
+        .from("order")
+        .select(
+            "*,items:orderItems(*,product(name,imgs:prodImage(imgUrl,imgAlt)))"
+        )
+        .eq("id", orderId)
+        .single();
+    if (error) {
+        console.error(error.message);
+        throw new Error("Order could not be loaded");
+    }
+
+    return data;
 }

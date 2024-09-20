@@ -2,18 +2,17 @@ import ReactPaginate from "react-paginate";
 
 import { useSearchParams } from "react-router-dom";
 import { useScreenSize } from "../hook/useScreenSize";
-import { PAGE_SIZE } from "../utils/constants";
 
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-function Pagination({ count }) {
+function Pagination({ count, pageSize }) {
     const [searchParams, setSearchParams] = useSearchParams();
     const { screenSize: isSmallScreen } = useScreenSize(768);
     const currentPage = !searchParams.get("page")
         ? 1
         : Number(searchParams.get("page"));
 
-    const pageCount = Math.ceil(count / PAGE_SIZE);
+    const pageCount = Math.ceil(count / pageSize);
 
     const handlePageClick = (data) => {
         searchParams.set("page", data.selected + 1);

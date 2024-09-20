@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { useCategories } from "../hook/category/useCategories";
 import { useGetProducts } from "../hook/product/useGetProducts";
-import { PAGE_SIZE } from "../utils/constants";
+import { PRODUCT_PAGE_SIZE } from "../utils/constants";
 
 import Categories from "../features/products/Categories";
 import DisplayProducts from "../features/products/DisplayProducts";
@@ -23,7 +23,7 @@ function Products() {
         isLoading: isLoading2,
         products,
         count,
-    } = useGetProducts(PAGE_SIZE);
+    } = useGetProducts(PRODUCT_PAGE_SIZE);
 
     return (
         <div className="container py-7 flex flex-col gap-y-[30px] overflow-x-hidden">
@@ -63,7 +63,10 @@ function Products() {
                     ) : (
                         <>
                             <DisplayProducts products={products} />
-                            <Pagination count={count} />
+                            <Pagination
+                                count={count}
+                                pageSize={PRODUCT_PAGE_SIZE}
+                            />
                         </>
                     )}
                 </>
