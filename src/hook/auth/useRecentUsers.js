@@ -10,10 +10,7 @@ export function useRecentUsers() {
         ? 7
         : Number(searchParams.get("last"));
     const queryDate = subDays(new Date(), numDays).toISOString();
-    const queryLastDate = subDays(
-        subDays(new Date(), numDays),
-        numDays * 2
-    ).toISOString();
+    const queryLastDate = subDays(new Date(), numDays * 2).toISOString();
 
     const { isLoading: isLoading3, data: users } = useQuery({
         queryFn: () => getUsersAfterDate(queryDate),

@@ -12,11 +12,12 @@ import { RxCounterClockwiseClock } from "react-icons/rx";
 function StatCards({ orders, lastOrders, numDays, count, users, lastUsers }) {
     const duration =
         numDays === 7 ? "Week" : numDays === 30 ? "Month" : "Quarter";
-    const ordersSales = orders.reduce((acc, cur) => acc + cur.totalAmount, 0);
-    const lastOrdersSales = lastOrders.reduce(
-        (acc, cur) => acc + cur.totalAmount,
-        0
-    );
+    const ordersSales = orders
+        .filter((order) => order.status === "delivred")
+        .reduce((acc, cur) => acc + cur.totalAmount, 0);
+    const lastOrdersSales = lastOrders
+        .filter((order) => order.status === "delivred")
+        .reduce((acc, cur) => acc + cur.totalAmount, 0);
 
     const pendingOrders = orders.filter(
         (order) => order.status === "pending"
@@ -36,7 +37,7 @@ function StatCards({ orders, lastOrders, numDays, count, users, lastUsers }) {
     );
     const usersPer = calculatePercentageChange(lastUsers, users);
     return (
-        <div className="flex items-center justify-between flex-wrap gap-y-4 sm:gap-y-6 lg:gap-y-8">
+        <div className="flex justify-between flex-wrap gap-y-4 sm:gap-y-6 lg:gap-y-8">
             <div className="bg-bkg-main rounded-xl p-4 space-y-[30px] basis-[100%] sm:basis-[48%] md:basis-[47%] xl:basis-[24%]">
                 <div className="flex justify-between">
                     <div className="w-[100px] space-y-4">

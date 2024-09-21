@@ -201,6 +201,7 @@ function Product({ item }) {
                     <Link
                         to={`/products/product/${item.productId}`}
                         className="hover:text-colored line-clamp-3"
+                        title={item.quantity}
                     >
                         {item.product.name}
                         <span className="text-colored">{` (X${item.quantity})`}</span>

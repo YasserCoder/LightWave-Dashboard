@@ -75,3 +75,17 @@ export async function getOrderInfo(orderId) {
 
     return data;
 }
+export async function getPendingOrders() {
+    let { error, count } = await supabase
+        .from("order")
+        .select("id", {
+            count: "exact",
+        })
+        .eq("status", "pending");
+    if (error) {
+        console.error(error);
+        throw new Error("Orders could not be loaded");
+    }
+
+    return count;
+}

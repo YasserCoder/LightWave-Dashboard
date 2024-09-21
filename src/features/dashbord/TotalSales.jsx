@@ -26,6 +26,7 @@ function TotalSales({ orders, lastOrders, numDays }) {
             label: format(date, "MMM dd"),
             totalSales: orders
                 .filter((order) => isSameDay(date, new Date(order.created_at)))
+                .filter((order) => order.status === "delivred")
                 .reduce((acc, cur) => acc + cur.totalAmount, 0),
             previousSales: lastOrders
                 ?.filter((order) =>
@@ -34,6 +35,7 @@ function TotalSales({ orders, lastOrders, numDays }) {
                         addDays(new Date(order.created_at), numDays)
                     )
                 )
+                ?.filter((order) => order.status === "delivred")
                 ?.reduce((acc, cur) => acc + cur.totalAmount, 0),
         };
     });

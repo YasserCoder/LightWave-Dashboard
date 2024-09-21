@@ -14,8 +14,9 @@ export async function getMostSoldCategory(date) {
     const { data: orderItems, error } = await supabase
         .from("orderItems")
         .select(
-            "created_at,quantity,product:productId (category:categoryId (id,parentId))"
+            "created_at,quantity,order:orderId!inner(status),product:productId (category:categoryId (id,parentId))"
         )
+        .eq("order.status", "delivred")
         .gte("created_at", date)
         .lte("created_at", getToday({ end: true }));
 
@@ -23,7 +24,6 @@ export async function getMostSoldCategory(date) {
         console.error(error);
         throw new Error("Orders could not get loaded");
     }
-
     const aggregatedData = {};
 
     for (const item of orderItems) {

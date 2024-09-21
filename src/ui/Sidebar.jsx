@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import { useLogout } from "../hook/auth/useLogout";
+import { usePendingOrders } from "../hook/order/usePendingOrders";
 
 import { IoSettingsOutline, IoStatsChart } from "react-icons/io5";
 import { LiaPowerOffSolid } from "react-icons/lia";
@@ -14,11 +15,12 @@ import {
 
 function Sidebar({ open }) {
     const { logout, isLoading } = useLogout();
+    const { isLoading: isGetting, pendingCount } = usePendingOrders();
     return (
         <aside
             className={`bg-bkg-main pt-4 h-[calc(100vh-117px)] xs:h-[calc(100vh-132px)] md:h-[calc(100vh-70px)] xl:h-[calc(100vh-72px)] absolute left-0 top-0 ${
                 open ? "translate-x-0" : "-translate-x-full"
-            } duration-300 md:translate-x-0 w-[200px] z-30 md:static overflow-y-auto overflow-x-clip`}
+            } duration-300 md:translate-x-0 w-[195px] z-30 md:static overflow-y-auto overflow-x-clip`}
             id="sidebar"
         >
             <ul className="flex flex-col gap-y-4 items-start">
@@ -54,7 +56,12 @@ function Sidebar({ open }) {
                         <span>
                             <PiListChecksLight />
                         </span>
-                        <span>Orders List</span>
+                        <span className="flex gap-1 items-center">
+                            <span>Orders</span>
+                            {!isGetting && pendingCount !== 0 && (
+                                <span>{`(${pendingCount})`}</span>
+                            )}
+                        </span>
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>

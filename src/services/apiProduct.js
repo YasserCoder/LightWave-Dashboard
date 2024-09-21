@@ -6,8 +6,9 @@ export async function getMostSoldProduct(date) {
     const { data, error } = await supabase
         .from("orderItems")
         .select(
-            "created_at, productId,quantity,product(name,imgs:prodImage(imgUrl,imgAlt))"
+            "created_at, productId,order:orderId!inner(status),quantity,product(name,imgs:prodImage(imgUrl,imgAlt))"
         )
+        .eq("order.status", "delivred")
         .gte("created_at", date)
         .lte("created_at", getToday({ end: true }));
 

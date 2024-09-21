@@ -216,7 +216,7 @@ function Specifications({ specs, setSpecs }) {
                         title={spec.key}
                         className="w-16 xs:w-24 text-sm line-clamp-1 overflow-hidden font-semibold"
                     >
-                        {`${spec.key}`}
+                        {`${spec.key === null ? "" : spec.key}`}
                     </p>
                     <p
                         title={spec.value}

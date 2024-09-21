@@ -10,10 +10,7 @@ export function useRecentOrders() {
         ? 7
         : Number(searchParams.get("last"));
     const queryDate = subDays(new Date(), numDays).toISOString();
-    const queryLastDate = subDays(
-        subDays(new Date(), numDays),
-        numDays * 2
-    ).toISOString();
+    const queryLastDate = subDays(new Date(), numDays * 2).toISOString();
 
     const { isLoading, data: orders } = useQuery({
         queryFn: () => getOrdersAfterDate(queryDate),
