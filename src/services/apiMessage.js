@@ -6,12 +6,14 @@ export async function getMessages({ source, read, page, pageSize, email }) {
         .select("*", {
             count: "exact",
         })
-        .or(`destination.eq.ALL,destination.eq.${email}`);
+        .neq("email", email)
+        .or(`destination.eq.ALL,destination.eq.${email}`)
+        .order("created_at", { ascending: false });
     if (source !== "") {
         query = query.eq("source", source);
     }
     if (read !== "") {
-        query = query.eq("read", Boolean(read));
+        query = query.eq("read", read === "true");
     }
     if (page) {
         const from = (page - 1) * pageSize;

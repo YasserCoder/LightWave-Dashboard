@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 
 import { formatCurrency } from "../../utils/helpers";
@@ -8,12 +8,13 @@ import { useDeleteOrder } from "../../hook/order/useDeleteOrder";
 import Modal from "../../ui/Modal";
 import OrderForm from "./OrderForm";
 
-import { FaRegEye, FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
 
 const tHead = ["Name", "Place", "Date", "Status", "Amount", ""];
 
 function OrderTable({ orders }) {
+    const navigate = useNavigate();
     return (
         <table className="w-full min-w-max table-auto text-left bg-bkg-main rounded-tl-lg rounded-tr-lg">
             <thead>
@@ -42,7 +43,19 @@ function OrderTable({ orders }) {
             </thead>
             <tbody>
                 {orders.map((order, index) => (
-                    <tr key={index}>
+                    <tr
+                        key={index}
+                        className="hover:bg-content cursor-pointer"
+                        onClick={(e) => {
+                            if (
+                                e.target.tagName === "BUTTON" ||
+                                e.target.closest("#modal")
+                            ) {
+                                return;
+                            }
+                            navigate(`order/${order.id}`);
+                        }}
+                    >
                         <td className="px-2 sm:px-4 py-4 border-b border-content hidden xs:table-cell max-w-[80px] sm:max-w-[110px] lg:max-w-[160px] xl:max-w-none">
                             <p className="block text-sm text-nowrap line-clamp-1 font-medium">
                                 {order.customerName}
@@ -72,7 +85,7 @@ function OrderTable({ orders }) {
                         <td className="px-2 sm:px-4 py-4 border-b border-content">
                             <div className="w-max">
                                 <div
-                                    className={`grid items-center font-sans font-bold uppercase whitespace-nowrap py-1 px-2 text-xs rounded-md ${
+                                    className={`grid items-center font-sans font-extrabold uppercase whitespace-nowrap py-1 px-2 text-xs rounded-md ${
                                         order.status === "pending"
                                             ? "bg-orange-300 text-orange-700"
                                             : order.status === "delivred"
@@ -106,7 +119,8 @@ function OrderTable({ orders }) {
 function Features({ id, status }) {
     const { isDeleting, deleteOrder } = useDeleteOrder();
 
-    function handleDelete() {
+    function handleDelete(e) {
+        e.stopPropagation();
         Swal.fire({
             title: "Are you sure?",
             text: "Delete Order Definitively!",
@@ -126,15 +140,9 @@ function Features({ id, status }) {
     }
     return (
         <div className="flex items-center gap-1 xl:gap-2">
-            <Link
-                to={`order/${id}`}
-                className="p-1 hover:bg-bkg-secondary hover:text-main text-content rounded-md disabled:cursor-not-allowed"
-            >
-                <FaRegEye />
-            </Link>
             <Modal>
                 <Modal.Open opens="order-form">
-                    <button className="p-1 hover:bg-bkg-secondary hover:text-main text-content rounded-md disabled:cursor-not-allowed">
+                    <button className="p-1 hover:bg-bkg-secondary hover:text-main text-slate-500 dark:text-content rounded-md disabled:cursor-not-allowed">
                         <MdOutlineEdit />
                     </button>
                 </Modal.Open>
@@ -152,7 +160,7 @@ function Features({ id, status }) {
 function Icon({ handleClick, disabled, children }) {
     return (
         <button
-            className="p-1 hover:bg-bkg-secondary hover:text-main text-content rounded-md disabled:cursor-not-allowed"
+            className="p-1 hover:bg-bkg-secondary hover:text-main text-slate-500 dark:text-content rounded-md disabled:cursor-not-allowed"
             onClick={handleClick}
             disabled={disabled}
         >

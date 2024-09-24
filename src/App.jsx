@@ -12,6 +12,7 @@ import ProductDetails from "./features/products/ProductDetails";
 import Orders from "./pages/Orders";
 import OrderDetails from "./features/order/OrderDetails";
 import Inbox from "./pages/Inbox";
+import DisplayMessage from "./features/inbox/DisplayMessage";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -39,7 +40,6 @@ function App() {
                     >
                         <Route index element={<Navigate replace to="home" />} />
                         <Route path="home" element={<Home />} />
-                        <Route path="inbox" element={<Inbox />} />
                         <Route path="products/*" element={<Products />} />
                         <Route
                             path="products/product/:productId"
@@ -49,6 +49,11 @@ function App() {
                         <Route
                             path="orders/order/:orderId"
                             element={<OrderDetails />}
+                        />
+                        <Route path="inbox" element={<Inbox />} />
+                        <Route
+                            path="inbox/message/:messageId"
+                            element={<DisplayMessage />}
                         />
                     </Route>
                     <Route path="login" element={<Login />} />
