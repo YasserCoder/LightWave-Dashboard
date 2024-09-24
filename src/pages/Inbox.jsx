@@ -2,12 +2,17 @@ import { useGetMessages } from "../hook/message/useGetMessages";
 
 import SelectMessage from "../features/inbox/SelectMessage";
 import Modal from "../ui/Modal";
+import Loader from "../ui/Loader";
 import InboxForm from "../features/inbox/InboxForm";
 
 import { FaPlus } from "react-icons/fa6";
+import { useUser } from "../hook/auth/useUser";
 
 function Inbox() {
-    const { messages } = useGetMessages(15);
+    const { isLoading: isGetting, messages } = useGetMessages(15);
+    const { isLoading, user } = useUser();
+
+    if (isLoading) return <Loader />;
     return (
         <div className="container py-7 flex flex-col gap-y-[30px] overflow-x-hidden">
             <div className="flex justify-between items-center">
@@ -25,7 +30,7 @@ function Inbox() {
                             </button>
                         </Modal.Open>
                         <Modal.Window name="message-form">
-                            <InboxForm />
+                            <InboxForm user={user} />
                         </Modal.Window>
                     </Modal>
                 </div>

@@ -24,6 +24,18 @@ export async function getMessages({ source, read, page, pageSize, email }) {
         console.error(error);
         throw new Error("Messages could not be loaded");
     }
-    // console.log(email);
     return { data, count };
+}
+
+export async function addMessage(msgData) {
+    const { data, error } = await supabase
+        .from("message")
+        .insert([msgData])
+        .select()
+        .single();
+    if (error) {
+        console.log(error.message);
+        throw new Error(error.message);
+    }
+    return data;
 }

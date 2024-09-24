@@ -1,4 +1,9 @@
 import { useState } from "react";
+
+import { useSendMessage } from "../../hook/message/useSendMessage";
+import { isWhitespace } from "../../utils/helpers";
+import { emailRegex, phoneRegex } from "../../utils/constants";
+
 import FormBtn from "../../ui/FormBtn";
 import MiniLoader from "../../ui/MiniLoader";
 
@@ -6,16 +11,72 @@ const initialForm = {
     name: "",
     phone: "",
     email: "",
-    message: "",
+    destination: "ALL",
+    content: "",
 };
 
-function InboxForm({ onClose }) {
-    const [form, setForm] = useState(initialForm);
+function InboxForm({ user, onClose }) {
+    const [form, setForm] = useState({
+        name: user?.user_metadata?.name,
+        phone: user?.user_metadata?.phone,
+        email: user?.email,
+        destination: "ALL",
+        content: "",
+    });
     const [error, setError] = useState("");
     const [isSending, setIsSending] = useState(false);
 
+    const { sendMessage } = useSendMessage();
+
     function handleSubmit(e) {
         e.preventDefault();
+        setIsSending(true);
+        if (
+            !form.name ||
+            !form.content ||
+            !form.phone ||
+            !form.email ||
+            !form.destination
+        ) {
+            setError("fill all the nessecary cases");
+            setIsSending(false);
+            return;
+        }
+        if (
+            isWhitespace(form.name) ||
+            !isNaN(form.name) ||
+            form.name.length < 6
+        ) {
+            setError("Invalide name");
+            setIsSending(false);
+            return;
+        }
+        if (!emailRegex.test(form.email)) {
+            setError("Invalid email");
+            setIsSending(false);
+            return;
+        }
+        if (!phoneRegex.test(form.phone)) {
+            setError("Invalid phone number");
+            setIsSending(false);
+            return;
+        }
+        let msgData = {
+            email: form.email,
+            name: form.name,
+            phone: form.phone,
+            content: form.content,
+            destination: form.destination,
+            source: "admin",
+        };
+        sendMessage(msgData, {
+            onSettled: () => {
+                setIsSending(false);
+                setForm(initialForm);
+                setError("");
+                onClose?.();
+            },
+        });
     }
     return (
         <form
@@ -25,39 +86,50 @@ function InboxForm({ onClose }) {
             <h1 className="text-3xl capitalize font-bold self-start">
                 Send Message
             </h1>
-            <div className="flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap gap-5 w-fit">
-                <InputCase
-                    label={"Name"}
-                    value={form.name}
-                    setValue={setForm}
-                    theKey={"name"}
-                    width={"w-full"}
-                />
-                <InputCase
-                    label={"Email"}
-                    value={form.email}
-                    setValue={setForm}
-                    theKey={"email"}
-                    width={"w-full"}
-                />
-                <InputCase
-                    label={"Phone"}
-                    value={form.phone}
-                    setValue={setForm}
-                    theKey={"phone"}
-                    width={"w-full"}
-                />
+            <div className="flex flex-col xl:flex-row gap-5 w-fit">
+                <div className="flex flex-col md:flex-row items-center gap-5">
+                    <InputCase
+                        label={"Name"}
+                        value={form.name}
+                        setValue={setForm}
+                        theKey={"name"}
+                        width={"w-full"}
+                    />
+                    <InputCase
+                        label={"Email"}
+                        value={form.email}
+                        setValue={setForm}
+                        theKey={"email"}
+                        width={"w-full"}
+                    />
+                </div>
+                <div className="flex flex-col md:flex-row items-center gap-5">
+                    <InputCase
+                        label={"Phone"}
+                        value={form.phone}
+                        setValue={setForm}
+                        theKey={"phone"}
+                        width={"w-full"}
+                    />
+                    <InputCase
+                        label={"Destination"}
+                        value={form.destination}
+                        setValue={setForm}
+                        theKey={"destination"}
+                        width={"w-full"}
+                    />
+                </div>
             </div>
             <div className="flex flex-col gap-y-2.5 w-full xs:w-64 md:w-full lg:w-[650px]">
                 <label className="font-semibold xs:font-extrabold capitalize">
                     Message
                 </label>
                 <textarea
-                    value={form.message}
+                    value={form.content}
                     onChange={(e) =>
                         setForm((prevValue) => ({
                             ...prevValue,
-                            description: e.target.value,
+                            content: e.target.value,
                         }))
                     }
                     placeholder="Message"
