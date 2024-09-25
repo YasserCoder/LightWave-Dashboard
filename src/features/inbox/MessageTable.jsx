@@ -1,12 +1,15 @@
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
+import { useRead } from "../../hook/message/useRead";
+
 import { FaTrash } from "react-icons/fa6";
 
 const tHead = ["Name", "Source", "Content", "Date", ""];
 
 function MessageTable({ messages }) {
     const navigate = useNavigate();
+    const { makeSeen } = useRead();
     return (
         <table className="w-full min-w-max table-auto text-left bg-bkg-main rounded-tl-lg rounded-tr-lg">
             <thead>
@@ -42,6 +45,9 @@ function MessageTable({ messages }) {
                                 e.target.closest("#modal")
                             ) {
                                 return;
+                            }
+                            if (!message.read) {
+                                makeSeen(message.id);
                             }
                             navigate(`message/${message.id}`);
                         }}

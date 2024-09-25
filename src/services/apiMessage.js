@@ -41,3 +41,27 @@ export async function addMessage(msgData) {
     }
     return data;
 }
+export async function getMessageInfo(msgId) {
+    let { data, error } = await supabase
+        .from("message")
+        .select("*")
+        .eq("id", msgId)
+        .single();
+    if (error) {
+        console.error(error.message);
+        throw new Error("Message could not be loaded");
+    }
+
+    return data;
+}
+export async function editMessage(id) {
+    const { error } = await supabase
+        .from("message")
+        .update({ read: true })
+        .eq("id", id);
+    if (error) {
+        console.log(error.message);
+        throw new Error(error.message);
+    }
+    return id;
+}
