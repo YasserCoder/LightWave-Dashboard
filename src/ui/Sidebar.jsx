@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
 import Swal from "sweetalert2";
 
+import { useUser } from "../hook/auth/useUser";
 import { useLogout } from "../hook/auth/useLogout";
 import { usePendingOrders } from "../hook/order/usePendingOrders";
+import { useUnreadMessages } from "../hook/message/useUnreadMessages";
 
 import { IoSettingsOutline, IoStatsChart } from "react-icons/io5";
 import { LiaPowerOffSolid } from "react-icons/lia";
@@ -14,8 +16,12 @@ import {
 } from "react-icons/pi";
 
 function Sidebar({ open }) {
+    const { user } = useUser();
     const { logout, isLoading } = useLogout();
     const { isLoading: isGetting, pendingCount } = usePendingOrders();
+    const { isLoading: isGetting2, unreadCount } = useUnreadMessages(
+        user.email
+    );
     return (
         <aside
             className={`bg-bkg-main pt-4 h-[calc(100vh-117px)] xs:h-[calc(100vh-132px)] md:h-[calc(100vh-70px)] xl:h-[calc(100vh-72px)] absolute left-0 top-0 ${
@@ -73,7 +79,12 @@ function Sidebar({ open }) {
                         <span>
                             <PiChats />
                         </span>
-                        <span>Inbox</span>
+                        <span className="flex gap-1 items-center">
+                            <span>Inbox</span>
+                            {!isGetting2 && unreadCount !== 0 && (
+                                <span>{`(${unreadCount})`}</span>
+                            )}
+                        </span>
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md "></span>
                 </li>

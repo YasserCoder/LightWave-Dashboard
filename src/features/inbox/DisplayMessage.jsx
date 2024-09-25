@@ -1,8 +1,10 @@
+import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
 import { format } from "date-fns";
 
 import { useMoveBack } from "../../hook/useMoveBack";
 import { useMessageDetails } from "../../hook/message/useMessageDetails";
+import { useDeleteMessage } from "../../hook/message/useDeleteMessage";
 
 import Loader from "../../ui/Loader";
 
@@ -13,6 +15,27 @@ function DisplayMessage() {
     const location = useLocation();
     const pathSegments = location.pathname.split("/").filter(Boolean);
     const messageId = Number(pathSegments[pathSegments.length - 1]);
+    const { isDeleting, deleteMessage } = useDeleteMessage();
+
+    function handleDelete(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Delete Message Definitively!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
+            customClass: {
+                popup: "dark:bg-gray-800 dark:text-white",
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteMessage(id);
+                moveBack();
+            }
+        });
+    }
 
     const { isLoading, messageInfo } = useMessageDetails(messageId);
     return (
@@ -46,8 +69,8 @@ function DisplayMessage() {
                             <button
                                 className=" text-red-500 hover:scale-105 duration-300"
                                 title="Delete"
-                                // disabled={isDeleting}
-                                // onClick={handleDelete}
+                                disabled={isDeleting}
+                                onClick={() => handleDelete(messageId)}
                             >
                                 <FaTrash className="size-5 xs:size-6 lg:size-9" />
                             </button>

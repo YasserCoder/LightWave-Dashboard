@@ -12,12 +12,12 @@ import Pagination from "../ui/Pagination";
 import { FaPlus } from "react-icons/fa6";
 
 function Inbox() {
+    const { isLoading, user } = useUser();
     const {
         isLoading: isGetting,
         messages,
         count,
-    } = useGetMessages(TABLE_PAGE_SIZE);
-    const { isLoading, user } = useUser();
+    } = useGetMessages(TABLE_PAGE_SIZE, user.email);
 
     if (isLoading) return <Loader />;
     return (

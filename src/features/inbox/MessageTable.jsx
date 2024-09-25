@@ -1,7 +1,9 @@
+import Swal from "sweetalert2";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
 import { useRead } from "../../hook/message/useRead";
+import { useDeleteMessage } from "../../hook/message/useDeleteMessage";
 
 import { FaTrash } from "react-icons/fa6";
 
@@ -10,6 +12,26 @@ const tHead = ["Name", "Source", "Content", "Date", ""];
 function MessageTable({ messages }) {
     const navigate = useNavigate();
     const { makeSeen } = useRead();
+    const { isDeleting, deleteMessage } = useDeleteMessage();
+
+    function handleDelete(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Delete Message Definitively!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
+            customClass: {
+                popup: "dark:bg-gray-800 dark:text-white",
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteMessage(id);
+            }
+        });
+    }
     return (
         <table className="w-full min-w-max table-auto text-left bg-bkg-main rounded-tl-lg rounded-tr-lg">
             <thead>
@@ -111,9 +133,9 @@ function MessageTable({ messages }) {
                                 className="p-1 hover:bg-bkg-secondary hover:text-main text-slate-500 dark:text-content rounded-md disabled:cursor-not-allowed"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    console.log("delete");
+                                    handleDelete(message.id);
                                 }}
-                                // disabled={disabled}
+                                disabled={isDeleting}
                             >
                                 <FaTrash />
                             </button>

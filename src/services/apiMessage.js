@@ -65,3 +65,26 @@ export async function editMessage(id) {
     }
     return id;
 }
+export async function deleteMessage(id) {
+    const { error } = await supabase.from("message").delete().eq("id", id);
+    if (error) {
+        console.error(error.message);
+        throw new Error(error.message);
+    }
+}
+export async function getUnreadMessages(email) {
+    let { error, count } = await supabase
+        .from("message")
+        .select("id", {
+            count: "exact",
+        })
+        .eq("read", false)
+        .neq("email", email)
+        .or(`destination.eq.ALL,destination.eq.${email}`);
+    if (error) {
+        console.error(error);
+        throw new Error("Messages could not be loaded");
+    }
+
+    return count;
+}
