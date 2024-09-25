@@ -8,6 +8,8 @@ import TotalSales from "../features/dashbord/TotalSales";
 import MostSoldBarChart from "../features/dashbord/MostSoldBarChart";
 import MostSoldProducts from "../features/dashbord/MostSoldProducts";
 import SelectDuration from "../features/dashbord/SelectDuration";
+import Main from "../ui/Main";
+import MainHeader from "../ui/MainHeader";
 
 function Home() {
     const { isLoading, orders, isLoading2, lastOrders, numDays } =
@@ -15,13 +17,10 @@ function Home() {
     const { isLoading3, isLoading4, users, lastUsers } = useRecentUsers();
     const { isLoading: isCounting, count } = useUsers();
     return (
-        <div className="container py-7 flex flex-col gap-y-[30px] overflow-x-hidden">
-            <div className="flex justify-between items-center">
-                <h1 className="text-2xl xs:text-4xl md:text-5xl font-extrabold capitalize">
-                    dashbord
-                </h1>
+        <Main>
+            <MainHeader title={"dashbord"}>
                 <SelectDuration />
-            </div>
+            </MainHeader>
             {isLoading ||
             isLoading2 ||
             isLoading3 ||
@@ -49,7 +48,7 @@ function Home() {
                     </div>
                 </>
             )}
-        </div>
+        </Main>
     );
 }
 

@@ -15,6 +15,8 @@ export function useUpdateOrder() {
             queryClient.invalidateQueries({
                 queryKey: ["order", id],
             });
+            queryClient.invalidateQueries("most-solde-cat");
+            queryClient.invalidateQueries("most-solde-prod");
         },
         onError: (err) => toast.error(err.message),
     });

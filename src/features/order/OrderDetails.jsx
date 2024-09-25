@@ -7,14 +7,15 @@ import { useOrderDetails } from "../../hook/order/useOrderDetails";
 import { formatCurrency } from "../../utils/helpers";
 
 import Loader from "../../ui/Loader";
+import Main from "../../ui/Main";
+import BackButton from "../../ui/BackButton";
 import OrderForm from "./OrderForm";
 import Modal from "../../ui/Modal";
 
-import { FaArrowLeft, FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
 
 function OrderDetails() {
-    const moveBack = useMoveBack();
     const location = useLocation();
     const pathSegments = location.pathname.split("/").filter(Boolean);
     const orderId = Number(pathSegments[pathSegments.length - 1]);
@@ -22,18 +23,13 @@ function OrderDetails() {
     const { isLoading, orderInfo } = useOrderDetails(orderId);
 
     return (
-        <div className="container py-7 flex flex-col gap-y-5 overflow-x-clip">
-            <button
-                onClick={moveBack}
-                className="text-2xl flex items-center gap-2 hover:text-content font-semibold capitalize self-start"
-            >
-                <FaArrowLeft /> <span>Back</span>
-            </button>
+        <Main>
+            <BackButton />
             {isLoading ? (
                 <Loader />
             ) : (
                 <>
-                    <div className="flex flex-col items-start xxs:flex-row  xxs:justify-between  xxs:items-center mt-5 gap-y-2">
+                    <div className="flex flex-col items-start xxs:flex-row  xxs:justify-between  xxs:items-center mt-3 gap-y-2">
                         <h1 className="text-2xl xs:text-4xl lg:text-6xl font-bold capitalize">
                             {`Order#${orderId}`}
                         </h1>
@@ -56,11 +52,10 @@ function OrderDetails() {
                             <Features
                                 id={orderInfo.id}
                                 status={orderInfo.status}
-                                moveBack={moveBack}
                             />
                         </div>
                     </div>
-                    <div className="flex flex-col gap-y-4 lg:flex-row justify-between gap-x-6 mt-5 lg:relative">
+                    <div className="flex flex-col gap-y-4 lg:flex-row justify-between gap-x-6 mt-3 lg:relative">
                         <CustomerInfo orderInfo={orderInfo} />
                         <div className="flex flex-col gap-y-2 flex-1">
                             <h6 className="capitalize font-bold text-xl sm:text-3xl">
@@ -73,7 +68,7 @@ function OrderDetails() {
                             </div>
                         </div>
                     </div>
-                    <div className="w-full mt-8 border-t border-content pt-8 ">
+                    <div className="w-full mt-6 border-t border-content pt-8 ">
                         <p className="flex flex-col xxs:flex-row items-center gap-2 font-bold xs:font-extrabold text-xl xs:text-2xl sm:text-3xl capitalize mx-auto w-fit">
                             <span>total amount :</span>
                             <span className="text-colored text-2xl sm:text-3xl">
@@ -83,7 +78,7 @@ function OrderDetails() {
                     </div>
                 </>
             )}
-        </div>
+        </Main>
     );
 }
 function CustomerInfo({ orderInfo }) {
@@ -135,7 +130,8 @@ function CustomerInfo({ orderInfo }) {
         </div>
     );
 }
-function Features({ id, status, moveBack }) {
+function Features({ id, status }) {
+    const moveBack = useMoveBack();
     const { isDeleting, deleteOrder } = useDeleteOrder();
 
     function handleDelete() {

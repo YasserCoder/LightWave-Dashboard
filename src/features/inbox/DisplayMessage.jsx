@@ -6,9 +6,11 @@ import { useMoveBack } from "../../hook/useMoveBack";
 import { useMessageDetails } from "../../hook/message/useMessageDetails";
 import { useDeleteMessage } from "../../hook/message/useDeleteMessage";
 
+import Main from "../../ui/Main";
+import BackButton from "../../ui/BackButton";
 import Loader from "../../ui/Loader";
 
-import { FaArrowLeft, FaTrash } from "react-icons/fa6";
+import { FaTrash } from "react-icons/fa6";
 
 function DisplayMessage() {
     const moveBack = useMoveBack();
@@ -39,18 +41,13 @@ function DisplayMessage() {
 
     const { isLoading, messageInfo } = useMessageDetails(messageId);
     return (
-        <div className="container py-7 flex flex-col gap-y-5 overflow-x-clip">
-            <button
-                onClick={moveBack}
-                className="text-2xl flex items-center gap-2 hover:text-content font-semibold capitalize self-start"
-            >
-                <FaArrowLeft /> <span>Back</span>
-            </button>
+        <Main>
+            <BackButton />
             {isLoading ? (
                 <Loader />
             ) : (
                 <>
-                    <div className="flex flex-col items-start xxs:flex-row  xxs:justify-between  xxs:items-center mt-5 gap-y-2">
+                    <div className="flex flex-col items-start xxs:flex-row  xxs:justify-between  xxs:items-center mt-3 gap-y-2">
                         <h1 className="text-2xl xs:text-4xl lg:text-6xl font-bold capitalize">
                             {`Message#${messageId}`}
                         </h1>
@@ -76,7 +73,7 @@ function DisplayMessage() {
                             </button>
                         </div>
                     </div>
-                    <div className="flex justify-between sm:items-center gap-2 flex-col sm:flex-row mt-6">
+                    <div className="flex justify-between sm:items-center gap-2 flex-col sm:flex-row mt-4">
                         <div className="flex gap-1.5 items-center">
                             <div
                                 className={`capitalize text-xl xs:text-3xl size-10 xs:size-12 flex justify-center items-center rounded-full text-white bg-orange-400`}
@@ -115,13 +112,13 @@ function DisplayMessage() {
                             </p>
                         </div>
                     </div>
-                    <span className="w-full h-px bg-content mt-5 mb-2"></span>
+                    <span className="w-full h-px bg-content mt-[6px]"></span>
                     <div className="border min-h-44 bg-bkg-main py-5 px-4 xs:px-6 lg:px-8 first-letter:uppercase sm:text-lg indent-1">
                         {`${messageInfo.content}.`}
                     </div>
                 </>
             )}
-        </div>
+        </Main>
     );
 }
 

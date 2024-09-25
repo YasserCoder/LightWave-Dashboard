@@ -1,24 +1,23 @@
-import { useEffect } from "react";
-import supabase from "../../services/supabase";
 import toast from "react-hot-toast";
+import supabase from "../../services/supabase";
+import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
-const useOrderSubscription = () => {
+const useMessageSubscription = () => {
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        // Subscribe to the 'orders' table
         const subscription = supabase
-            .channel("orders-channel")
+            .channel("messages-channel")
             .on(
                 "postgres_changes",
-                { event: "INSERT", schema: "public", table: "order" },
+                { event: "INSERT", schema: "public", table: "message" },
                 () => {
-                    toast("New order received", {
+                    toast("New Message received", {
                         icon: "🔔",
                     });
-                    // Update the orders query in React Query
-                    queryClient.invalidateQueries(`orders`);
+                    // Update the messages query in React Query
+                    queryClient.invalidateQueries(`messages`);
                 }
             )
             .subscribe();
@@ -30,4 +29,4 @@ const useOrderSubscription = () => {
     }, [queryClient]);
 };
 
-export default useOrderSubscription;
+export default useMessageSubscription;

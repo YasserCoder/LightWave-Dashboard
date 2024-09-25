@@ -10,8 +10,11 @@ import Loader from "../ui/Loader";
 import Modal from "../ui/Modal";
 import AddNewProduct from "../features/products/AddNewProduct";
 import Pagination from "../ui/Pagination";
+import Main from "../ui/Main";
+import MainHeader from "../ui/MainHeader";
+import AddButton from "../ui/AddButton";
 
-import { FaBoxOpen, FaPlus } from "react-icons/fa6";
+import { FaBoxOpen } from "react-icons/fa6";
 import { MdSearchOff } from "react-icons/md";
 
 function Products() {
@@ -26,27 +29,19 @@ function Products() {
     } = useGetProducts(PRODUCT_PAGE_SIZE);
 
     return (
-        <div className="container py-7 flex flex-col gap-y-[30px] overflow-x-hidden">
-            <div className="flex justify-between items-center">
-                <h1 className="text-2xl xs:text-4xl md:text-5xl font-extrabold capitalize">
-                    Products
-                </h1>
-                <div>
-                    <Modal>
-                        <Modal.Open opens="product-form">
-                            <button className="py-1.5 xs:py-2 px-2.5 xs:px-4 flex items-center gap-x-1 xs:gap-x-2 rounded-full text-gray-950 bg-yellow-200 shadow-lg">
-                                <FaPlus className="text-sm xs:text-base" />
-                                <span className="capitalize text-sm xs:text-base font-semibold">
-                                    add new product
-                                </span>
-                            </button>
-                        </Modal.Open>
-                        <Modal.Window name="product-form">
-                            <AddNewProduct />
-                        </Modal.Window>
-                    </Modal>
-                </div>
-            </div>
+        <Main>
+            <MainHeader title={"products"}>
+                <Modal>
+                    <Modal.Open opens="product-form">
+                        <div>
+                            <AddButton label={"add new product"} />
+                        </div>
+                    </Modal.Open>
+                    <Modal.Window name="product-form">
+                        <AddNewProduct />
+                    </Modal.Window>
+                </Modal>
+            </MainHeader>
             {isLoading ? (
                 <Loader />
             ) : (
@@ -71,7 +66,7 @@ function Products() {
                     )}
                 </>
             )}
-        </div>
+        </Main>
     );
 }
 
