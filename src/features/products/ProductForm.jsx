@@ -5,6 +5,7 @@ import { useSelectCategories } from "../../hook/category/useSelectCategories";
 import AvailabilityToggleSwitch from "../../ui/AvailabilityToggleSwitch";
 import Loader from "../../ui/Loader";
 import MiniLoader from "../../ui/MiniLoader";
+import Form from "../../ui/Form";
 import FormBtn from "../../ui/FormBtn";
 
 import { FaPlus, FaX } from "react-icons/fa6";
@@ -22,8 +23,7 @@ function ProductForm({
     const { isLoading, cats } = useSelectCategories();
     if (isLoading) return <Loader />;
     return (
-        <form className="flex flex-col gap-y-5 w-full" onSubmit={handleSubmit}>
-            <h1 className="text-3xl capitalize font-bold">add new product</h1>
+        <Form title={"add new product"} handleSubmit={handleSubmit}>
             <div className="flex gap-y-10 flex-col">
                 <div className="flex gap-x-5 gap-y-7 justify-between flex-wrap">
                     <InputCase
@@ -108,7 +108,7 @@ function ProductForm({
                     />
                 </div>
             </div>
-        </form>
+        </Form>
     );
 }
 function Images({ imgs, setImgs }) {

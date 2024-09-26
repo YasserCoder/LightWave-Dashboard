@@ -28,3 +28,30 @@ export async function getUsersAfterDate(date, lessDate) {
 
     return count;
 }
+
+export async function getUsers({ role, email, page, pageSize }) {
+    let query = supabase
+        .from("profile")
+        .select("*", {
+            count: "exact",
+        })
+        .neq("email", email)
+        .order("created_at", { ascending: false });
+
+    if (role !== "") {
+        query = query.eq("authority", role);
+    }
+    if (page) {
+        const from = (page - 1) * pageSize;
+        const to = from + pageSize - 1;
+        query = query.range(from, to);
+    }
+
+    let { data, error, count } = await query;
+    if (error) {
+        console.error(error);
+        throw new Error("Users could not be loaded");
+    }
+
+    return { data, count };
+}

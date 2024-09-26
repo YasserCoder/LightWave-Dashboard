@@ -1,6 +1,6 @@
 import { useRecentOrders } from "../hook/order/useRecentOrders";
-import { useRecentUsers } from "../hook/auth/useRecentUsers";
-import { useUsers } from "../hook/auth/useUsers";
+import { useRecentUsers } from "../hook/user/useRecentUsers";
+import { useUsers } from "../hook/user/useUsers";
 
 import Loader from "../ui/Loader";
 import StatCards from "../features/dashbord/StatCards";

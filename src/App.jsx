@@ -13,6 +13,7 @@ import Orders from "./pages/Orders";
 import OrderDetails from "./features/order/OrderDetails";
 import Inbox from "./pages/Inbox";
 import DisplayMessage from "./features/inbox/DisplayMessage";
+import Users from "./pages/Users";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -53,6 +54,11 @@ function App() {
                         <Route path="inbox" element={<Inbox />} />
                         <Route
                             path="inbox/message/:messageId"
+                            element={<DisplayMessage />}
+                        />
+                        <Route path="users" element={<Users />} />
+                        <Route
+                            path="uses/user/:userId"
                             element={<DisplayMessage />}
                         />
                     </Route>

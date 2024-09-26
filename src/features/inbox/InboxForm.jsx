@@ -6,6 +6,7 @@ import { emailRegex, phoneRegex } from "../../utils/constants";
 
 import FormBtn from "../../ui/FormBtn";
 import MiniLoader from "../../ui/MiniLoader";
+import Form from "../../ui/Form";
 
 const initialForm = {
     name: "",
@@ -79,13 +80,7 @@ function InboxForm({ user, onClose }) {
         });
     }
     return (
-        <form
-            className="flex flex-col gap-y-5 items-center w-full"
-            onSubmit={handleSubmit}
-        >
-            <h1 className="text-3xl capitalize font-bold self-start">
-                Send Message
-            </h1>
+        <Form handleSubmit={handleSubmit} title={"send message"}>
             <div className="flex flex-col xl:flex-row gap-5 w-fit">
                 <div className="flex flex-col md:flex-row items-center gap-5">
                     <InputCase
@@ -159,7 +154,7 @@ function InboxForm({ user, onClose }) {
                     />
                 </div>
             </div>
-        </form>
+        </Form>
     );
 }
 function InputCase({ label, value, setValue, width, theKey }) {
