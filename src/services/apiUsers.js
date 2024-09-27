@@ -55,3 +55,14 @@ export async function getUsers({ role, email, page, pageSize }) {
 
     return { data, count };
 }
+export async function editUserRole({ id, role }) {
+    const { error } = await supabase
+        .from("profile")
+        .update({ authority: role })
+        .eq("id", id);
+    if (error) {
+        console.log(error.message);
+        throw new Error(error.message);
+    }
+    return id;
+}
