@@ -1,18 +1,12 @@
 import styles from "./radios.module.css";
 
-const options = ["pending", "confirmed", "shipped", "delivred", "cancelled"];
-
-function RadioBtns({ value, setValue }) {
+function RadioBtns({ value, setValue, options, style }) {
     const handleOptionChange = (event) => {
         setValue(event.target.value);
     };
 
     return (
-        <div
-            className={
-                "flex flex-col xs:flex-row gap-x-2 xs:flex-wrap my-4 self-center"
-            }
-        >
+        <div className={style}>
             {options.map((option, index) => {
                 return (
                     <label className={styles.label} key={index}>

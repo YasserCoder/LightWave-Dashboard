@@ -1,20 +1,70 @@
-import supabase from "./supabase";
+import supabase, { supabaseUrl } from "./supabase";
 
-export async function signup({ email, password, name, phone, authority }) {
+export async function signup({
+    email,
+    password,
+    name,
+    phone,
+    authority,
+    avatar,
+    country,
+    city,
+    adress,
+    postCode,
+}) {
     const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
             data: {
                 name,
-                authority,
                 phone,
                 email,
+                pwd: password,
+                country,
+                city,
+                postCode,
+                adress,
             },
         },
     });
 
     if (error) throw new Error(error.message);
+
+    let imgUrl = "";
+    if (avatar) {
+        const imgName = `${Math.random()}-${avatar.name}`.replaceAll("/", "");
+        imgUrl = `${supabaseUrl}/storage/v1/object/public/userAvatars/${imgName}`;
+
+        const { error: storageError } = await supabase.storage
+            .from("userAvatars")
+            .upload(imgName, avatar);
+
+        if (storageError) {
+            console.error(storageError);
+            throw new Error("Avatar could not be uploaded");
+        }
+    }
+
+    const { error: registerError } = await supabase.from("profile").insert([
+        {
+            id: data.user.id,
+            email,
+            name,
+            phone,
+            authority,
+            country,
+            city,
+            postCode,
+            adress,
+            avatar: imgUrl === "" ? undefined : imgUrl,
+        },
+    ]);
+
+    if (registerError) {
+        console.log(registerError.message);
+        throw new Error(registerError.message);
+    }
 
     return data;
 }

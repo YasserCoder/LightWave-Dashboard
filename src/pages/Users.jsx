@@ -27,7 +27,7 @@ function Users() {
                 <Modal>
                     <Modal.Open opens="user-form">
                         <div>
-                            <AddButton label={"create new user"} />
+                            <AddButton label={"new sign up"} />
                         </div>
                     </Modal.Open>
                     <Modal.Window name="user-form">

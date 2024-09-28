@@ -7,6 +7,9 @@ import RadioBtns from "../../ui/RadioBtns";
 import FormBtn from "../../ui/FormBtn";
 import Form from "../../ui/Form";
 
+const options = ["pending", "confirmed", "shipped", "delivred", "cancelled"];
+const style = "flex flex-col xs:flex-row gap-x-2 xs:flex-wrap my-4 self-center";
+
 function OrderForm({ onClose, id, status }) {
     const [value, setValue] = useState(status);
     const [isEditing, setIsEditing] = useState(false);
@@ -30,7 +33,12 @@ function OrderForm({ onClose, id, status }) {
     }
     return (
         <Form title={"update order status"} handleSubmit={handleSubmit}>
-            <RadioBtns value={value} setValue={setValue} />
+            <RadioBtns
+                value={value}
+                setValue={setValue}
+                options={options}
+                style={style}
+            />
             <div className="w-full border-t border-content mt-2 pt-3 pb-1 flex justify-end">
                 <div className="flex gap-3 items-center flex-wrap">
                     {isEditing && <MiniLoader />}
