@@ -9,15 +9,17 @@ export function useGetUsers(pageSize, email) {
         ? 1
         : Number(searchParams.get("page"));
     const role = searchParams.get("role") || "";
+    const sortBy = searchParams.get("sortBy") || "created_at-desc";
 
     const { isLoading, data: { data: users, count } = {} } = useQuery({
-        queryKey: ["users", role, page],
+        queryKey: ["users", sortBy, role, page],
         queryFn: () =>
             getUsers({
                 page,
                 pageSize,
                 role,
                 email,
+                sortBy,
             }),
         enabled: !!email,
     });

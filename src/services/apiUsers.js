@@ -29,14 +29,18 @@ export async function getUsersAfterDate(date, lessDate) {
     return count;
 }
 
-export async function getUsers({ role, email, page, pageSize }) {
+export async function getUsers({ role, sortBy, email, page, pageSize }) {
     let query = supabase
         .from("profile")
         .select("*", {
             count: "exact",
         })
-        .neq("email", email)
-        .order("created_at", { ascending: false });
+        .neq("email", email);
+
+    if (sortBy !== "") {
+        const [column, order] = sortBy.split("-");
+        query = query.order(column, { ascending: order === "asc" });
+    }
 
     if (role !== "") {
         query = query.eq("authority", role);
@@ -65,4 +69,17 @@ export async function editUserRole({ id, role }) {
         throw new Error(error.message);
     }
     return id;
+}
+export async function getUserInfo(usrId) {
+    let { data, error } = await supabase
+        .from("profile")
+        .select("*")
+        .eq("id", usrId)
+        .single();
+    if (error) {
+        console.error(error.message);
+        throw new Error("User could not be loaded");
+    }
+
+    return data;
 }

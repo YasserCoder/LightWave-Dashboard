@@ -11,8 +11,6 @@ import styles from "./hamburger.module.css";
 
 import { IoIosSearch } from "react-icons/io";
 
-import avatar from "../assets/react.svg";
-
 function Header({ open, setOpen }) {
     const { screenSize: isSmallScreen } = useScreenSize(768);
     const { user } = useUser();
@@ -32,11 +30,22 @@ function Header({ open, setOpen }) {
                 )}
                 <div className="flex items-center gap-x-6">
                     <div className="flex items-center gap-x-2">
-                        <img
-                            src={avatar}
-                            alt=""
-                            className="rounded-full size-7 xs:size-10"
-                        />
+                        <div
+                            className={`capitalize text-lg xs:text-2xl size-7 xs:size-10 flex justify-center items-center rounded-full ${
+                                !user.user_metadata?.avatar &&
+                                "text-white bg-orange-400"
+                            }`}
+                        >
+                            {user.user_metadata?.avatar ? (
+                                <img
+                                    src={user.user_metadata?.avatar}
+                                    alt="avatar"
+                                    className="h-full w-full object-cover rounded-full"
+                                />
+                            ) : (
+                                <span>{user.user_metadata.name.charAt(0)}</span>
+                            )}
+                        </div>
                         <div className="sm:space-y-[2px]">
                             <h3 className="capitalize text-sm xs:text-base font-semibold">
                                 {user.user_metadata.name.split(" ")[0]}

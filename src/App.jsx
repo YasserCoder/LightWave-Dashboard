@@ -14,6 +14,7 @@ import OrderDetails from "./features/order/OrderDetails";
 import Inbox from "./pages/Inbox";
 import DisplayMessage from "./features/inbox/DisplayMessage";
 import Users from "./pages/Users";
+import UserDetails from "./features/users/UserDetails";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -58,8 +59,8 @@ function App() {
                         />
                         <Route path="users" element={<Users />} />
                         <Route
-                            path="uses/user/:userId"
-                            element={<DisplayMessage />}
+                            path="users/user/:userId"
+                            element={<UserDetails />}
                         />
                     </Route>
                     <Route path="login" element={<Login />} />

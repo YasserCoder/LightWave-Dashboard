@@ -12,25 +12,6 @@ export async function signup({
     adress,
     postCode,
 }) {
-    const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-            data: {
-                name,
-                phone,
-                email,
-                pwd: password,
-                country,
-                city,
-                postCode,
-                adress,
-            },
-        },
-    });
-
-    if (error) throw new Error(error.message);
-
     let imgUrl = "";
     if (avatar) {
         const imgName = `${Math.random()}-${avatar.name}`.replaceAll("/", "");
@@ -45,6 +26,25 @@ export async function signup({
             throw new Error("Avatar could not be uploaded");
         }
     }
+    const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+            data: {
+                name,
+                phone,
+                email,
+                pwd: password,
+                country,
+                city,
+                postCode,
+                adress,
+                avatar: imgUrl === "" ? undefined : imgUrl,
+            },
+        },
+    });
+
+    if (error) throw new Error(error.message);
 
     const { error: registerError } = await supabase.from("profile").insert([
         {
