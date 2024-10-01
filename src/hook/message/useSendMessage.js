@@ -8,7 +8,7 @@ export function useSendMessage() {
     const { mutate: sendMessage, isLoading: isSending } = useMutation({
         mutationFn: addMessage,
         onSuccess: () => {
-            toast.success("New Product successfully created");
+            toast.success("Message send successfully");
             queryClient.invalidateQueries({
                 queryKey: ["messages"],
             });
