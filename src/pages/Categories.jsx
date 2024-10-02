@@ -6,6 +6,7 @@ import Loader from "../ui/Loader";
 import Main from "../ui/Main";
 import MainHeader from "../ui/MainHeader";
 import Modal from "../ui/Modal";
+import DisplayCategories from "../features/categories/DisplayCategories";
 
 function Categories() {
     const { isLoading, cats } = useCategories();
@@ -23,7 +24,7 @@ function Categories() {
                     </Modal.Window>
                 </Modal>
             </MainHeader>
-            {isLoading ? <Loader /> : <div className=""></div>}
+            {isLoading ? <Loader /> : <DisplayCategories cats={cats} />}
         </Main>
     );
 }

@@ -115,3 +115,11 @@ export async function addCategory(catData) {
     }
     return data;
 }
+
+export async function deleteCategory(name) {
+    const { error } = await supabase.from("category").delete().eq("name", name);
+    if (error) {
+        console.error(error.message);
+        throw new Error(error.message);
+    }
+}
