@@ -102,3 +102,16 @@ export async function selectCategories() {
     }
     return data;
 }
+
+export async function addCategory(catData) {
+    const { data, error } = await supabase
+        .from("category")
+        .insert(catData)
+        .select()
+        .single();
+    if (error) {
+        console.log(error.message);
+        throw new Error(error.message);
+    }
+    return data;
+}

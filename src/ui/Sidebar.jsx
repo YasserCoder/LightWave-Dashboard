@@ -15,6 +15,7 @@ import {
     PiUserListLight,
 } from "react-icons/pi";
 import { FaRegHandshake } from "react-icons/fa";
+import { MdOutlineCategory } from "react-icons/md";
 
 function Sidebar({ open }) {
     const { user } = useUser();
@@ -52,6 +53,18 @@ function Sidebar({ open }) {
                             <PiSquaresFourLight />
                         </span>
                         <span>Products</span>
+                    </NavLink>
+                    <span className="w-1 bg-transparent rounded-md"></span>
+                </li>
+                <li className="flex flex-row-reverse gap-x-3 ">
+                    <NavLink
+                        to={"/categories"}
+                        className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center`}
+                    >
+                        <span>
+                            <MdOutlineCategory />
+                        </span>
+                        <span>Categories</span>
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>

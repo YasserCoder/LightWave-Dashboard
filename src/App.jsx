@@ -17,6 +17,7 @@ import Users from "./pages/Users";
 import UserDetails from "./features/users/UserDetails";
 import Settings from "./pages/Settings";
 import Deals from "./pages/Deals";
+import Categories from "./pages/Categories";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -66,6 +67,7 @@ function App() {
                         />
                         <Route path="settings" element={<Settings />} />
                         <Route path="deals" element={<Deals />} />
+                        <Route path="categories" element={<Categories />} />
                     </Route>
                     <Route path="login" element={<Login />} />
                 </Routes>
