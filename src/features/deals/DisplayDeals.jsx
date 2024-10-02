@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -5,9 +6,10 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 
 import { useGetDeal } from "../../hook/deal/useGetDeal";
+import { useDeleteDeal } from "../../hook/deal/useDeleteDeal";
 import Loader from "../../ui/Loader";
 
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import { FaAngleLeft, FaAngleRight, FaTrash } from "react-icons/fa6";
 
 function DisplayDeals({ deals }) {
     const prevRef = useRef(null);
@@ -74,11 +76,41 @@ function DisplayDeals({ deals }) {
 }
 function Deal({ id }) {
     const { isGetting, deal } = useGetDeal(id);
+    const { isDeleting, deleteDeal } = useDeleteDeal();
+    function handleDelete(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Delete Deal Definitively!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
+            customClass: {
+                popup: "dark:bg-gray-800 dark:text-white",
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteDeal(id);
+            }
+        });
+    }
 
     if (isGetting) return <Loader />;
     return (
-        <div className="border relative flex items-center justify-center">
-            <img src={deal.img} alt="announce" />
+        <div className="border relative shadow-lg">
+            <button
+                className="absolute top-1 right-1 text-red-500 hover:scale-105 text-lg duration-200"
+                disabled={isDeleting}
+                onClick={() => handleDelete(deal.id)}
+            >
+                <FaTrash />
+            </button>
+            <img
+                src={deal.img}
+                alt="announce"
+                className="h-full object-contain"
+            />
         </div>
     );
 }

@@ -67,3 +67,10 @@ export async function addDeal({ dealData, dealItems }) {
         throw new Error(dealItemsError.message);
     }
 }
+export async function deleteDeal(id) {
+    const { error } = await supabase.from("deal").delete().eq("id", id);
+    if (error) {
+        console.error(error.message);
+        throw new Error(error.message);
+    }
+}
