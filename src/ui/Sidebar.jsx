@@ -6,7 +6,7 @@ import { useLogout } from "../hook/auth/useLogout";
 import { usePendingOrders } from "../hook/order/usePendingOrders";
 import { useUnreadMessages } from "../hook/message/useUnreadMessages";
 
-import { IoSettingsOutline, IoStatsChart } from "react-icons/io5";
+import { IoStatsChart } from "react-icons/io5";
 import { LiaPowerOffSolid } from "react-icons/lia";
 import {
     PiChats,
@@ -16,6 +16,7 @@ import {
 } from "react-icons/pi";
 import { FaRegHandshake } from "react-icons/fa";
 import { MdOutlineCategory } from "react-icons/md";
+import { CgProfile } from "react-icons/cg";
 
 function Sidebar({ open }) {
     const { user } = useUser();
@@ -129,13 +130,13 @@ function Sidebar({ open }) {
                 <span className="w-full h-[1px] bg-content"></span>
                 <li className="flex flex-row-reverse gap-x-3">
                     <NavLink
-                        to={"/settings"}
+                        to={"/profile"}
                         className={`flex gap-2 py-2 w-[160px] pl-3 rounded-md items-center`}
                     >
                         <span>
-                            <IoSettingsOutline />
+                            <CgProfile />
                         </span>
-                        <span>Settings</span>
+                        <span>Profile</span>
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>

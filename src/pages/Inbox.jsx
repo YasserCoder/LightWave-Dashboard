@@ -18,7 +18,7 @@ function Inbox() {
         isLoading: isGetting,
         messages,
         count,
-    } = useGetMessages(TABLE_PAGE_SIZE, user.email);
+    } = useGetMessages(TABLE_PAGE_SIZE, user?.email);
 
     if (isLoading) return <Loader />;
     return (

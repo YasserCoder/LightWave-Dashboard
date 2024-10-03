@@ -3,7 +3,6 @@ import { useDeleteCategory } from "../../hook/category/useDeleteCategory";
 import { HiXMark } from "react-icons/hi2";
 
 function DisplayCategories({ cats }) {
-    console.log(cats);
     return (
         <div className="mt-8 flex justify-between gap-y-8 flex-wrap">
             {Object.keys(cats).map((parentCategory) => (

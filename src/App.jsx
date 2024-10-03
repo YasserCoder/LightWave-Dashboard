@@ -15,9 +15,9 @@ import Inbox from "./pages/Inbox";
 import DisplayMessage from "./features/inbox/DisplayMessage";
 import Users from "./pages/Users";
 import UserDetails from "./features/users/UserDetails";
-import Settings from "./pages/Settings";
 import Deals from "./pages/Deals";
 import Categories from "./pages/Categories";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -32,7 +32,7 @@ function App() {
         <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools
                 initialIsOpen={false}
-                buttonPosition="bottom-left"
+                buttonPosition="bottom-right"
             />
             <BrowserRouter>
                 <Routes>
@@ -65,7 +65,7 @@ function App() {
                             path="users/user/:userId"
                             element={<UserDetails />}
                         />
-                        <Route path="settings" element={<Settings />} />
+                        <Route path="profile" element={<Profile />} />
                         <Route path="deals" element={<Deals />} />
                         <Route path="categories" element={<Categories />} />
                     </Route>
