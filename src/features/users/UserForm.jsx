@@ -86,7 +86,7 @@ function UserForm({ onClose }) {
             postCode: form.postCode,
             adress: form.adress,
             country: form.country,
-            city: form.country,
+            city: form.city,
             authority: form.authority,
             avatar: form.avatar,
         };

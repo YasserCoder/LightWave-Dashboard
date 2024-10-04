@@ -102,3 +102,68 @@ export async function logout() {
     const { error } = await supabase.auth.signOut();
     if (error) throw new Error(error.message);
 }
+
+export async function updateUser({
+    email,
+    newPassword,
+    name,
+    phone,
+    country,
+    city,
+    postCode,
+    adress,
+    avatar,
+}) {
+    let imgUrl = "";
+    if (avatar && typeof avatar === "object") {
+        const imgName = `${Math.random()}-${avatar.name}`.replaceAll("/", "");
+        imgUrl = `${supabaseUrl}/storage/v1/object/public/userAvatars/${imgName}`;
+
+        const { error: storageError } = await supabase.storage
+            .from("userAvatars")
+            .upload(imgName, avatar);
+
+        if (storageError) {
+            console.error(storageError);
+            throw new Error("Avatar could not be uploaded");
+        }
+    }
+    const { data, error } = await supabase.auth.updateUser({
+        email,
+        password: newPassword,
+        data: {
+            name,
+            phone,
+            country,
+            city,
+            postCode,
+            adress,
+            email,
+            pwd: newPassword,
+            avatar: imgUrl === "" ? avatar : imgUrl,
+        },
+    });
+    if (error) {
+        console.log(error.message);
+        throw new Error(error.message);
+    }
+    const { error: profileError } = await supabase
+        .from("profile")
+        .update({
+            name,
+            phone,
+            country,
+            city,
+            postCode,
+            adress,
+            email,
+            avatar: imgUrl === "" ? avatar : imgUrl,
+        })
+        .eq("id", data.user.id);
+
+    if (profileError) {
+        console.log(profileError.message);
+        throw new Error(profileError.message);
+    }
+    return data;
+}
