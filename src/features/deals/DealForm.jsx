@@ -3,8 +3,9 @@ import { useRef, useState } from "react";
 import { useAddDeal } from "../../hook/deal/useAddDeal";
 
 import Form from "../../ui/Form";
-import FormBtn from "../../ui/FormBtn";
-import MiniLoader from "../../ui/MiniLoader";
+import InputBox from "../../ui/InputBox";
+import SelectBox from "../../ui/SelectBox";
+import BottomForm from "../../ui/BottomForm";
 
 import { BsPlusCircle } from "react-icons/bs";
 import { FaPlus, FaX } from "react-icons/fa6";
@@ -67,67 +68,35 @@ function DealForm({ onClose }) {
                         setDealItems={setDealItems}
                     />
                     <div className="flex gap-5 flex-wrap">
-                        <div
-                            className={`flex flex-col gap-y-2.5 w-full xs:w-40`}
+                        <InputBox
+                            label={"Total Amount"}
+                            value={deal.amount}
+                            setValue={setDeal}
+                            theKey={"amount"}
+                            width={"w-full !py-1"}
+                            style="w-full xs:w-40"
+                        />
+                        <SelectBox
+                            value={deal.deliveryCost}
+                            setValue={setDeal}
+                            theKey="deliveryCost"
+                            label="Delivery Cost"
+                            width="w-full xs:w-40"
+                            style="!py-1"
                         >
-                            <label className="font-semibold xs:font-extrabold capitalize">
-                                {"total Amount"}
-                            </label>
-                            <input
-                                value={deal.amount}
-                                placeholder={"Amount"}
-                                className={`w-full px-4 py-1 bg-input border border-content text-sm xs:text-base outline-colored`}
-                                onChange={(e) => {
-                                    setDeal((prevValue) => ({
-                                        ...prevValue,
-                                        amount: e.target.value,
-                                    }));
-                                }}
-                            />
-                        </div>
-                        <div className="flex flex-col gap-y-2.5 w-full xs:w-40">
-                            <label className="font-semibold xs:font-extrabold capitalize">
-                                Delivery Cost
-                            </label>
-                            <select
-                                value={deal.deliveryCost}
-                                onChange={(e) => {
-                                    setDeal((prevValue) => ({
-                                        ...prevValue,
-                                        deliveryCost: e.target.value,
-                                    }));
-                                }}
-                                className="w-full px-4 py-1 bg-input border border-content text-sm xs:text-base outline-colored"
-                            >
-                                <option value={"normal"}>Normal</option>
-                                <option value={"free"}>Free</option>
-                            </select>
-                        </div>
+                            <option value={"normal"}>Normal</option>
+                            <option value={"free"}>Free</option>
+                        </SelectBox>
                     </div>
                 </div>
             </div>
-            <div
-                className={`flex flex-col gap-y-4 sm:flex-row ${
-                    error ? "sm:justify-between" : "justify-end"
-                } sm:items-center w-full border-t border-content mt-2 pt-4 pb-2`}
-            >
-                {error && <p className="text-red-500 ">{`** ${error}`}</p>}
-                <div className="flex gap-3 items-center self-end flex-wrap">
-                    {isCreating && <MiniLoader />}
-                    <FormBtn
-                        type={"reset"}
-                        label={"cancel"}
-                        onClick={() => onClose?.()}
-                        disabled={isCreating}
-                    />
-                    <FormBtn
-                        type={"submit"}
-                        label={"add new deal"}
-                        onClick={handleSubmit}
-                        disabled={isCreating}
-                    />
-                </div>
-            </div>
+            <BottomForm
+                isLoading={isCreating}
+                error={error}
+                handleSubmit={handleSubmit}
+                onReset={() => onClose?.()}
+                label={"add new deal"}
+            />
         </Form>
     );
 }

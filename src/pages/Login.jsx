@@ -103,7 +103,7 @@ function Login() {
                                 </h1>
                                 <h1 className="font-extrabold text-4xl self-center">
                                     <span className="capitalize">dash</span>
-                                    <span className=" text-colored">bord</span>
+                                    <span className=" text-colored">board</span>
                                 </h1>
                             </div>
                             <img

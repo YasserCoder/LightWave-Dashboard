@@ -13,8 +13,7 @@ import { IoIosPricetag } from "react-icons/io";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
-import newicon from "../assets/new.png";
-function ProdCard({ latest = false, id }) {
+function ProdCard({ id }) {
     const { isLoading, productInfo } = useProductDetails(id);
     const { name, price, sale, soldOut, category, imgs } = {
         ...productInfo,
@@ -36,11 +35,6 @@ function ProdCard({ latest = false, id }) {
                             className="object-contain"
                         />
                     </Link>
-                )}
-                {latest && (
-                    <span className="absolute size-[40px] left-2 top-2">
-                        <img src={newicon} alt="new" />
-                    </span>
                 )}
                 {sale !== 0 && (
                     <span className="absolute w-[44px] h-6 text-sm flex justify-center items-center right-2 top-3 bg-red-600 text-white">

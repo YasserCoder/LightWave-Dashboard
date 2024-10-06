@@ -10,7 +10,7 @@ import ProtectedRoute from "./ui/ProtectedRoute";
 import Products from "./pages/Products";
 import ProductDetails from "./features/products/ProductDetails";
 import Orders from "./pages/Orders";
-import OrderDetails from "./features/order/OrderDetails";
+import OrderDetails from "./features/orders/OrderDetails";
 import Inbox from "./pages/Inbox";
 import DisplayMessage from "./features/inbox/DisplayMessage";
 import Users from "./pages/Users";

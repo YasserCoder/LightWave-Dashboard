@@ -4,8 +4,8 @@ import { TABLE_PAGE_SIZE } from "../utils/constants";
 
 import Pagination from "../ui/Pagination";
 import Loader from "../ui/Loader";
-import OrderTable from "../features/order/OrderTable";
-import SelectOrder from "../features/order/SelectOrder";
+import OrderTable from "../features/orders/OrderTable";
+import SelectOrder from "../features/orders/SelectOrder";
 import Main from "../ui/Main";
 import MainHeader from "../ui/MainHeader";
 

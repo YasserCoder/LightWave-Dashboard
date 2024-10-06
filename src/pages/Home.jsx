@@ -3,11 +3,11 @@ import { useRecentUsers } from "../hook/user/useRecentUsers";
 import { useUsers } from "../hook/user/useUsers";
 
 import Loader from "../ui/Loader";
-import StatCards from "../features/dashbord/StatCards";
-import TotalSales from "../features/dashbord/TotalSales";
-import MostSoldBarChart from "../features/dashbord/MostSoldBarChart";
-import MostSoldProducts from "../features/dashbord/MostSoldProducts";
-import SelectDuration from "../features/dashbord/SelectDuration";
+import StatCards from "../features/dashboard/StatCards";
+import TotalSales from "../features/dashboard/TotalSales";
+import MostSoldBarChart from "../features/dashboard/MostSoldBarChart";
+import MostSoldProducts from "../features/dashboard/MostSoldProducts";
+import SelectDuration from "../features/dashboard/SelectDuration";
 import Main from "../ui/Main";
 import MainHeader from "../ui/MainHeader";
 
@@ -18,7 +18,7 @@ function Home() {
     const { isLoading: isCounting, count } = useUsers();
     return (
         <Main>
-            <MainHeader title={"dashbord"}>
+            <MainHeader title={"dashboard"}>
                 <SelectDuration />
             </MainHeader>
             {isLoading ||

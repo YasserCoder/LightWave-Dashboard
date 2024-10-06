@@ -27,7 +27,7 @@ function Sidebar({ open }) {
     );
     return (
         <aside
-            className={`bg-bkg-main pt-4 h-[calc(100vh-117px)] xs:h-[calc(100vh-132px)] md:h-[calc(100vh-70px)] xl:h-[calc(100vh-72px)] absolute left-0 top-0 ${
+            className={`bg-bkg-main pt-4 h-[calc(100vh-161px)] xxs:h-[calc(100vh-117px)] xs:h-[calc(100vh-132px)] md:h-[calc(100vh-70px)] xl:h-[calc(100vh-72px)] absolute left-0 top-0 ${
                 open ? "translate-x-0" : "-translate-x-full"
             } duration-300 md:translate-x-0 w-[195px] z-30 md:static overflow-y-auto overflow-x-clip`}
             id="sidebar"
@@ -41,7 +41,7 @@ function Sidebar({ open }) {
                         <span>
                             <IoStatsChart />
                         </span>
-                        <span>Dashbord</span>
+                        <span>Dashboard</span>
                     </NavLink>
                     <span className="w-1 bg-transparent rounded-md"></span>
                 </li>
@@ -147,7 +147,7 @@ function Sidebar({ open }) {
                         onClick={() => {
                             Swal.fire({
                                 title: "Are you sure?",
-                                text: "logout from the dashbord",
+                                text: "logout from the dashboard",
                                 icon: "warning",
                                 showCancelButton: true,
                                 confirmButtonColor: "#d33",

@@ -4,9 +4,10 @@ import { useSelectCategories } from "../../hook/category/useSelectCategories";
 
 import AvailabilityToggleSwitch from "../../ui/AvailabilityToggleSwitch";
 import Loader from "../../ui/Loader";
-import MiniLoader from "../../ui/MiniLoader";
 import Form from "../../ui/Form";
-import FormBtn from "../../ui/FormBtn";
+import InputBox from "../../ui/InputBox";
+import BottomForm from "../../ui/BottomForm";
+import SelectBox from "../../ui/SelectBox";
 
 import { FaPlus, FaX } from "react-icons/fa6";
 import { BsPlusCircle } from "react-icons/bs";
@@ -26,40 +27,51 @@ function ProductForm({
         <Form title={"add new product"} handleSubmit={handleSubmit}>
             <div className="flex gap-y-10 flex-col">
                 <div className="flex gap-x-5 gap-y-7 justify-between flex-wrap">
-                    <InputCase
+                    <InputBox
                         label={"Name"}
                         value={form.name}
                         setValue={setForm}
                         theKey={"name"}
                         width={"w-full"}
+                        style="w-full xs:w-64"
                     />
-                    <Categories
+                    <SelectBox
                         value={form.categoryId}
-                        cats={cats}
                         setValue={setForm}
-                    />
-                    <InputCase
+                        theKey={"categoryId"}
+                        label="categories"
+                        width="w-full xs:w-64"
+                    >
+                        <option value={""}></option>
+                        {cats.map((option) => (
+                            <option value={option.id} key={option.id}>
+                                {option.name}
+                            </option>
+                        ))}
+                    </SelectBox>
+
+                    <InputBox
                         label={"Brand"}
                         value={form.brand}
                         setValue={setForm}
                         theKey={"brand"}
                         width={"w-full xs:w-44"}
                     />
-                    <InputCase
+                    <InputBox
                         label={"Garantee"}
                         value={form.garantee}
                         setValue={setForm}
                         theKey={"garantee"}
                         width={"w-full xs:w-44"}
                     />
-                    <InputCase
+                    <InputBox
                         label={"Price ($)"}
                         value={form.price}
                         setValue={setForm}
                         theKey={"price"}
                         width={"w-full xs:w-48"}
                     />
-                    <InputCase
+                    <InputBox
                         label={"Sale % (< 100)"}
                         value={form.sale}
                         setValue={setForm}
@@ -86,28 +98,13 @@ function ProductForm({
                     />
                 </div>
             </div>
-            <div
-                className={`flex flex-col gap-y-4 sm:flex-row ${
-                    error ? "sm:justify-between" : "justify-end"
-                } sm:items-center w-full border-t border-content mt-2 pt-4 pb-2`}
-            >
-                {error && <p className="text-red-500 ">{`** ${error}`}</p>}
-                <div className="flex gap-3 items-center self-end flex-wrap">
-                    {isWorking && <MiniLoader />}
-                    <FormBtn
-                        type={"reset"}
-                        label={"cancel"}
-                        onClick={() => onClose?.()}
-                        disabled={isWorking}
-                    />
-                    <FormBtn
-                        type={"submit"}
-                        label={edit ? "edit product" : "add product"}
-                        onClick={handleSubmit}
-                        disabled={isWorking}
-                    />
-                </div>
-            </div>
+            <BottomForm
+                isLoading={isWorking}
+                error={error}
+                handleSubmit={handleSubmit}
+                onReset={() => onClose?.()}
+                label={edit ? "edit product" : "add product"}
+            />
         </Form>
     );
 }
@@ -272,31 +269,6 @@ function Specifications({ specs, setSpecs }) {
         </div>
     );
 }
-
-function InputCase({ label, value, setValue, width, theKey }) {
-    return (
-        <div
-            className={`flex flex-col gap-y-2.5 ${
-                label === "Name" && "w-full xs:w-64"
-            }`}
-        >
-            <label className="font-semibold xs:font-extrabold capitalize">
-                {label}
-            </label>
-            <input
-                value={value === null ? "" : value}
-                placeholder={label}
-                className={`${width} px-4 py-1.5 bg-input border border-content text-sm xs:text-base outline-colored`}
-                onChange={(e) => {
-                    setValue((prevValue) => ({
-                        ...prevValue,
-                        [theKey]: e.target.value,
-                    }));
-                }}
-            />
-        </div>
-    );
-}
 function Description({ value, setForm }) {
     return (
         <div className="flex flex-col gap-y-2.5 w-full xs:w-[250px] sm:w-72">
@@ -314,33 +286,6 @@ function Description({ value, setForm }) {
                 placeholder="Description"
                 className="w-full h-full  px-4 py-1.5 bg-input border border-content text-sm xs:text-base outline-colored"
             />
-        </div>
-    );
-}
-
-function Categories({ value, setValue, cats }) {
-    return (
-        <div className="flex flex-col gap-y-2.5 ">
-            <label className="font-semibold xs:font-extrabold capitalize">
-                Categories
-            </label>
-            <select
-                value={value === null ? "" : value}
-                onChange={(e) => {
-                    setValue((prevValue) => ({
-                        ...prevValue,
-                        categoryId: e.target.value,
-                    }));
-                }}
-                className="w-full xs:w-64 px-4 py-1.5 bg-input border border-content text-sm xs:text-base outline-colored"
-            >
-                <option value={null}></option>
-                {cats.map((option) => (
-                    <option value={option.id} key={option.id}>
-                        {option.name}
-                    </option>
-                ))}
-            </select>
         </div>
     );
 }

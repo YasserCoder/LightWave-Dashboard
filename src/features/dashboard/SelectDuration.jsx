@@ -6,7 +6,7 @@ function SelectDuration() {
     return (
         <select
             value={last}
-            className="p-1 cursor-pointer capitalize xs:text-lg bg-transparent outline-none"
+            className="xxs:p-1 max-w-[70px] xxs:max-w-none cursor-pointer capitalize text-xs xxs:text-base xs:text-lg bg-transparent outline-none"
             onChange={(e) => {
                 searchParams.set("last", e.target.value);
                 setSearchParams(searchParams);

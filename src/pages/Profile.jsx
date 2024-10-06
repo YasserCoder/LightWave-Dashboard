@@ -10,8 +10,8 @@ import MainHeader from "../ui/MainHeader";
 import Loader from "../ui/Loader";
 import MiniLoader from "../ui/MiniLoader";
 import FormBtn from "../ui/FormBtn";
-
-import { BsPlusCircle } from "react-icons/bs";
+import InputBox from "../ui/InputBox";
+import Avatar from "../ui/Avatar";
 
 function Profile() {
     const { isLoading, user } = useUser();
@@ -137,16 +137,20 @@ function Profile() {
                 >
                     <div className="flex gap-y-7 flex-wrap gap-x-5 xl:gap-x-12 justify-center items-end">
                         <div className="flex flex-col gap-7">
-                            <Avatar avatar={form.avatar} setAvatar={setForm} />
+                            <Avatar
+                                avatar={form.avatar}
+                                setAvatar={setForm}
+                                style={"sm:self-center"}
+                            />
                             <div className="flex gap-y-7 gap-x-8 flex-wrap">
-                                <InputCase
+                                <InputBox
                                     label="name"
                                     value={form.name}
                                     setValue={setForm}
                                     width={"w-full xs:w-56"}
                                     theKey={"name"}
                                 />
-                                <InputCase
+                                <InputBox
                                     label="old password"
                                     type="password"
                                     value={form.password}
@@ -156,7 +160,7 @@ function Profile() {
                                 />
                             </div>
                             <div className="flex gap-y-7 gap-x-8 flex-wrap">
-                                <InputCase
+                                <InputBox
                                     label="new password"
                                     type="password"
                                     value={form.npassword}
@@ -164,7 +168,7 @@ function Profile() {
                                     width={"w-full xs:w-56"}
                                     theKey={"npassword"}
                                 />
-                                <InputCase
+                                <InputBox
                                     label="repeat password"
                                     type="password"
                                     value={form.cpassword}
@@ -177,7 +181,7 @@ function Profile() {
 
                         <div className="flex flex-col gap-8 ">
                             <div className="flex gap-y-7 gap-x-8 flex-wrap">
-                                <InputCase
+                                <InputBox
                                     label="email"
                                     type="email"
                                     value={form.email}
@@ -185,7 +189,7 @@ function Profile() {
                                     width={"w-full xs:w-56"}
                                     theKey={"email"}
                                 />
-                                <InputCase
+                                <InputBox
                                     label="Phone Number"
                                     value={form.phone}
                                     setValue={setForm}
@@ -194,14 +198,14 @@ function Profile() {
                                 />
                             </div>
                             <div className="flex gap-y-7 gap-x-8 flex-wrap">
-                                <InputCase
+                                <InputBox
                                     label="Country"
                                     value={form.country}
                                     setValue={setForm}
                                     width={"w-full xs:w-56"}
                                     theKey={"country"}
                                 />
-                                <InputCase
+                                <InputBox
                                     label="City / State"
                                     value={form.city}
                                     setValue={setForm}
@@ -210,14 +214,14 @@ function Profile() {
                                 />
                             </div>
                             <div className="flex gap-x-8 gap-y-7 flex-wrap">
-                                <InputCase
+                                <InputBox
                                     label="Post Code"
                                     value={form.postCode}
                                     setValue={setForm}
                                     width={"w-full xs:w-56"}
                                     theKey={"postCode"}
                                 />
-                                <InputCase
+                                <InputBox
                                     label="Adress"
                                     value={form.adress}
                                     setValue={setForm}
@@ -254,82 +258,6 @@ function Profile() {
                 </form>
             )}
         </Main>
-    );
-}
-
-function InputCase({ label, value, setValue, width, theKey, type = "text" }) {
-    return (
-        <div className={`flex flex-col gap-y-2.5 `}>
-            <label className="font-semibold xs:font-extrabold capitalize">
-                {label}
-            </label>
-            <input
-                value={value === null ? "" : value}
-                type={type}
-                placeholder={label}
-                className={`${width} px-4 py-1.5 bg-input border border-content text-sm xs:text-base outline-colored`}
-                onChange={(e) => {
-                    setValue((prevValue) => ({
-                        ...prevValue,
-                        [theKey]: e.target.value,
-                    }));
-                }}
-            />
-        </div>
-    );
-}
-function Avatar({ avatar, setAvatar }) {
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        setAvatar((prevItems) => ({ ...prevItems, avatar: file }));
-    };
-    const removeImage = () => {
-        setAvatar((prevItems) => ({ ...prevItems, avatar: "" }));
-    };
-    return (
-        <div className="flex flex-col gap-y-2 sm:self-center">
-            <label className="font-semibold xs:font-extrabold capitalize mb-0.5">
-                Avatar
-            </label>
-            <input
-                id="avtr-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
-            />
-            <div className="flex flex-wrap gap-2">
-                {avatar && (
-                    <div className="relative">
-                        <img
-                            src={
-                                avatar?.name
-                                    ? URL.createObjectURL(avatar)
-                                    : avatar
-                            }
-                            alt="Avatar Preview"
-                            className="h-16 w-16 object-cover rounded-full"
-                        />
-                        <button
-                            type="button"
-                            onClick={removeImage}
-                            className="absolute top-0 right-0 bg-red-500 text-white rounded-full size-4 text-xs hover:bg-red-700"
-                        >
-                            &times;
-                        </button>
-                    </div>
-                )}
-
-                {!avatar && (
-                    <label
-                        htmlFor="avtr-upload"
-                        className="cursor-pointer bg-bkg-secondary text-3xl flex justify-center items-center text-content h-16 w-16 rounded-full duration-300 hover:text-gray-300 hover:bg-input"
-                    >
-                        <BsPlusCircle />
-                    </label>
-                )}
-            </div>
-        </div>
     );
 }
 

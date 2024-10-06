@@ -16,11 +16,11 @@ function Header({ open, setOpen }) {
     const { user } = useUser();
     return (
         <header className="flex flex-col gap-y-5 items-center bg-bkg-main py-3">
-            <div className="container flex justify-between items-center w-full">
+            <div className="container flex flex-col gap-y-4 xxs:flex-row xxs:justify-between items-center w-full">
                 <h1 className="font-extrabold text-xl xs:text-3xl">
                     <Link to={"/home"}>
                         <span className="capitalize text-colored">dash</span>
-                        <span>bord</span>
+                        <span>board</span>
                     </Link>
                 </h1>
                 {!isSmallScreen && (
@@ -28,7 +28,7 @@ function Header({ open, setOpen }) {
                         <SearchBar />
                     </div>
                 )}
-                <div className="flex items-center gap-x-6">
+                <div className="flex items-center w-full justify-between xxs:w-auto xxs:gap-x-6">
                     <div className="flex items-center gap-x-2">
                         <div
                             className={`capitalize text-lg xs:text-2xl size-7 xs:size-10 flex justify-center items-center rounded-full ${
