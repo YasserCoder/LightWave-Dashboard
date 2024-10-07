@@ -34,6 +34,7 @@ function Login() {
                 src={bg}
                 alt="bg"
                 className="absolute w-full h-full object-cover top-0 right-0 blur-md z-0"
+                loading="lazy"
             />
             <span className="absolute w-full h-full bg-colored dark:bg-black top-0 right-0 opacity-30 z-10"></span>
             <div className="container z-20 flex justify-center">
@@ -110,6 +111,7 @@ function Login() {
                                 src={vector}
                                 alt="vector"
                                 className="size-72"
+                                loading="lazy"
                             />
                         </div>
                     )}

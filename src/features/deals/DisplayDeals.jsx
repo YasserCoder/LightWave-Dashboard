@@ -110,6 +110,7 @@ function Deal({ id }) {
                 src={deal.img}
                 alt="announce"
                 className="h-full object-contain"
+                loading="lazy"
             />
         </div>
     );

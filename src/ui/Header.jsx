@@ -1,15 +1,12 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useScreenSize } from "../hook/useScreenSize";
 import { useUser } from "../hook/auth/useUser";
 
 import DarkToggleSwitch from "./DarkToggleSwitch";
-import InputText from "./InputText";
+import SearchBar from "./SearchBar";
 
 import styles from "./hamburger.module.css";
-
-import { IoIosSearch } from "react-icons/io";
 
 function Header({ open, setOpen }) {
     const { screenSize: isSmallScreen } = useScreenSize(768);
@@ -41,6 +38,7 @@ function Header({ open, setOpen }) {
                                     src={user.user_metadata?.avatar}
                                     alt="avatar"
                                     className="h-full w-full object-cover rounded-full"
+                                    loading="lazy"
                                 />
                             ) : (
                                 <span>{user.user_metadata.name.charAt(0)}</span>
@@ -84,28 +82,4 @@ function HamburgerIcon({ open, setOpen }) {
         </label>
     );
 }
-function SearchBar() {
-    const [value, setValue] = useState("");
-    // const [isFocused, setIsFocused] = useState(false);
-    return (
-        <form
-            className="flex-1 md:flex-auto"
-            onSubmit={(e) => {
-                e.preventDefault();
-                console.log(value);
-            }}
-        >
-            <InputText
-                value={value}
-                setValue={setValue}
-                type={"text"}
-                label={"Search..."}
-                width={"w-full md:w-72 lg:w-80 xl:w-96"}
-            >
-                <IoIosSearch className="text-lg" />
-            </InputText>
-        </form>
-    );
-}
-
 export default Header;
