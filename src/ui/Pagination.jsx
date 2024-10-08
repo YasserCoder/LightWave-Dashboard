@@ -8,11 +8,15 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 function Pagination({ count, pageSize }) {
     const [searchParams, setSearchParams] = useSearchParams();
     const { screenSize: isSmallScreen } = useScreenSize(768);
-    const currentPage = !searchParams.get("page")
+    let currentPage = !searchParams.get("page")
         ? 1
         : Number(searchParams.get("page"));
 
     const pageCount = Math.ceil(count / pageSize);
+
+    if (currentPage > pageCount) {
+        currentPage = pageCount;
+    }
 
     const handlePageClick = (data) => {
         searchParams.set("page", data.selected + 1);

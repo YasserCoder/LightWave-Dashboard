@@ -129,6 +129,12 @@ export async function getProducts({ category, page, pageSize, searchQuery }) {
                 categoryArr.map((catId) => catId)
             );
     }
+    let { count } = await query;
+    const totalPages = Math.ceil(count / pageSize);
+
+    if (page > totalPages) {
+        page = totalPages;
+    }
     if (page) {
         const from = (page - 1) * pageSize;
         const to = from + pageSize - 1;
@@ -140,7 +146,7 @@ export async function getProducts({ category, page, pageSize, searchQuery }) {
         );
     }
 
-    let { data, error, count } = await query;
+    let { data, error } = await query;
     if (error) {
         console.error(error);
         throw new Error("Products could not be loaded");

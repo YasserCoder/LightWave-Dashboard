@@ -18,6 +18,7 @@ import UserDetails from "./features/users/UserDetails";
 import Deals from "./pages/Deals";
 import Categories from "./pages/Categories";
 import Profile from "./pages/Profile";
+import PageNotFound from "./pages/PageNotFound";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -70,6 +71,7 @@ function App() {
                         <Route path="categories" element={<Categories />} />
                     </Route>
                     <Route path="login" element={<Login />} />
+                    <Route path="*" element={<PageNotFound />} />
                 </Routes>
             </BrowserRouter>
             <Toaster

@@ -45,13 +45,19 @@ export async function getUsers({ role, sortBy, email, page, pageSize }) {
     if (role !== "") {
         query = query.eq("authority", role);
     }
+    let { count } = await query;
+    const totalPages = Math.ceil(count / pageSize);
+
+    if (page > totalPages) {
+        page = totalPages;
+    }
     if (page) {
         const from = (page - 1) * pageSize;
         const to = from + pageSize - 1;
         query = query.range(from, to);
     }
 
-    let { data, error, count } = await query;
+    let { data, error } = await query;
     if (error) {
         console.error(error);
         throw new Error("Users could not be loaded");

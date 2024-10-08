@@ -28,13 +28,19 @@ export async function getOrders({ status, sortBy, page, pageSize }) {
         const [column, order] = sortBy.split("-");
         query = query.order(column, { ascending: order === "asc" });
     }
+    let { count } = await query;
+    const totalPages = Math.ceil(count / pageSize);
+
+    if (page > totalPages) {
+        page = totalPages;
+    }
     if (page) {
         const from = (page - 1) * pageSize;
         const to = from + pageSize - 1;
         query = query.range(from, to);
     }
 
-    let { data, error, count } = await query;
+    let { data, error } = await query;
     if (error) {
         console.error(error);
         throw new Error("Orders could not be loaded");

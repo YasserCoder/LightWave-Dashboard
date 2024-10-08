@@ -15,13 +15,19 @@ export async function getMessages({ source, read, page, pageSize, email }) {
     if (read !== "") {
         query = query.eq("read", read === "true");
     }
+    let { count } = await query;
+    const totalPages = Math.ceil(count / pageSize);
+
+    if (page > totalPages) {
+        page = totalPages;
+    }
     if (page) {
         const from = (page - 1) * pageSize;
         const to = from + pageSize - 1;
         query = query.range(from, to);
     }
 
-    let { data, error, count } = await query;
+    let { data, error } = await query;
     if (error) {
         console.error(error);
         throw new Error("Messages could not be loaded");
