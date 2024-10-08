@@ -101,4 +101,4 @@ For any questions or feedback, please reach out to:
 
 ## Inspiration
 
-Design inspiration for the dashboard was taken from [https://www.figma.com/community/file/1324762163080748317/dashstack-free-admin-dashboard-ui-kit-admin-dashboard-ui-kit-admin-dashboard].
+Design inspiration for the dashboard was taken from  [Link](https://www.figma.com/community/file/1324762163080748317/dashstack-free-admin-dashboard-ui-kit-admin-dashboard-ui-kit-admin-dashboard).
