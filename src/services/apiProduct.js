@@ -129,6 +129,11 @@ export async function getProducts({ category, page, pageSize, searchQuery }) {
                 categoryArr.map((catId) => catId)
             );
     }
+    if (searchQuery) {
+        query = query.or(
+            `name.ilike.%${searchQuery}%,brand.ilike.%${searchQuery}%`
+        );
+    }
     let { count } = await query;
     const totalPages = Math.ceil(count / pageSize);
 
@@ -139,11 +144,6 @@ export async function getProducts({ category, page, pageSize, searchQuery }) {
         const from = (page - 1) * pageSize;
         const to = from + pageSize - 1;
         query = query.range(from, to);
-    }
-    if (searchQuery) {
-        query = query.or(
-            `name.ilike.%${searchQuery}%,brand.ilike.%${searchQuery}%`
-        );
     }
 
     let { data, error } = await query;

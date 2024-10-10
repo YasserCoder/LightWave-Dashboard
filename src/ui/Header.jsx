@@ -27,7 +27,8 @@ function Header({ open, setOpen }) {
                 )}
                 <div className="flex items-center w-full justify-between xxs:w-auto xxs:gap-x-6">
                     <div className="flex items-center gap-x-2">
-                        <div
+                        <Link
+                            to={"/profile"}
                             className={`capitalize text-lg xs:text-2xl size-7 xs:size-10 flex justify-center items-center rounded-full ${
                                 !user.user_metadata?.avatar &&
                                 "text-white bg-orange-400"
@@ -43,7 +44,7 @@ function Header({ open, setOpen }) {
                             ) : (
                                 <span>{user.user_metadata.name.charAt(0)}</span>
                             )}
-                        </div>
+                        </Link>
                         <div className="sm:space-y-[2px]">
                             <h3 className="capitalize text-sm xs:text-base font-semibold">
                                 {user.user_metadata.name.split(" ")[0]}

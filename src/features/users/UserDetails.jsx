@@ -42,7 +42,7 @@ function UserDetails() {
                             <div
                                 className={`capitalize text-xl xs:text-3xl size-10 xs:size-12 flex justify-center items-center rounded-full text-white bg-orange-400`}
                             >
-                                {userInfo.avatar !== null ? (
+                                {userInfo.avatar ? (
                                     <img
                                         src={userInfo.avatar}
                                         alt="avatar"
