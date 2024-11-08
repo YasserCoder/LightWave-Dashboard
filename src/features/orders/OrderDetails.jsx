@@ -199,8 +199,8 @@ function Product({ item }) {
                         className="hover:text-colored line-clamp-3"
                         title={item.quantity}
                     >
+                        <span className="text-colored">{`(X${item.quantity}) `}</span>
                         {item.product.name}
-                        <span className="text-colored">{` (X${item.quantity})`}</span>
                     </Link>
                 </p>
             </div>
