@@ -98,6 +98,7 @@ For any questions or feedback, please reach out to:
 -   **Yasser Laissaoui**
 -   **Email**: yasser.laiss01@gmail.com
 -   **GitHub**: [YasserCoder](https://github.com/YasserCoder)
+-   **LinkedIn**: [Yasser Laissaoui](https://linkedin.com/in/yasser-laissaoui)
 
 ## Inspiration
 
