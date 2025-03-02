@@ -23,3 +23,35 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("mockAuthSession", () => {
+    cy.window().then((win) => {
+        cy.stub(win.supabase.auth, "getSession").resolves({
+            data: {
+                session: {
+                    access_token: Cypress.env("SUPABASE_ANON_KEY"),
+                    refresh_token: "mocked-refresh-token",
+                    user: {
+                        id: "mocked-user-id",
+                        email: "test@example.com",
+                        role: "authenticated",
+                        user_metadata: { name: "John Doe" },
+                    },
+                },
+            },
+            error: null,
+        });
+
+        cy.stub(win.supabase.auth, "getUser").resolves({
+            data: {
+                user: {
+                    id: "mocked-user-id",
+                    email: "test@example.com",
+                    role: "authenticated",
+                    user_metadata: { name: "John Doe" },
+                },
+            },
+            error: null,
+        });
+    });
+});
