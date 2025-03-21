@@ -58,14 +58,22 @@ function MostSoldProducts() {
                         {products.map((prod, i) => {
                             return (
                                 <SwiperSlide key={prod.id} className="w-fit">
-                                    <div className="w-[80%] mx-auto h-[312px] bg-white flex flex-col rounded-xl border-2">
+                                    <div
+                                        data-test={prod.name
+                                            .split(" ")
+                                            .join("-")}
+                                        className="w-[80%] mx-auto h-[312px] bg-white flex flex-col rounded-xl border-2"
+                                    >
                                         <div className="relative flex flex-col">
                                             <img
                                                 src={prod.imgUrl}
                                                 alt={prod.imgAlt}
                                                 className="h-[200px] object-contain"
                                             />
-                                            <span className="absolute -top-2 right-3 h-11 pt-3 bg-red-600 text-white text-lg font-bold z-20 px-2">
+                                            <span
+                                                data-test="prod-order"
+                                                className="absolute -top-2 right-3 h-11 pt-3 bg-red-600 text-white text-lg font-bold z-20 px-2"
+                                            >
                                                 {i + 1}
                                             </span>
                                         </div>
@@ -74,7 +82,10 @@ function MostSoldProducts() {
                                                 {prod.name}
                                             </h3>
                                             <p className="text-black text-lg font-semibold space-x-2 content-end mb-2 lg:mb-1">
-                                                <span className="text-red-600">
+                                                <span
+                                                    data-test="prod-quantity"
+                                                    className="text-red-600"
+                                                >
                                                     {prod.quantity}
                                                 </span>
                                                 <span>Sales</span>

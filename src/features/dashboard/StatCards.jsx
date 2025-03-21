@@ -38,10 +38,13 @@ function StatCards({ orders, lastOrders, numDays, count, users, lastUsers }) {
     const usersPer = calculatePercentageChange(lastUsers, users);
     return (
         <div className="flex justify-between flex-wrap gap-y-4 sm:gap-y-6 lg:gap-y-8">
-            <div className="bg-bkg-main rounded-xl p-4 space-y-[30px] basis-[100%] sm:basis-[48%] md:basis-[47%] xl:basis-[24%]">
+            <div
+                data-test="total-users"
+                className="bg-bkg-main rounded-xl p-4 space-y-[30px] basis-[100%] sm:basis-[48%] md:basis-[47%] xl:basis-[24%]"
+            >
                 <div className="flex justify-between">
                     <div className="w-[100px] space-y-4">
-                        <p className="font-light capitalize">total user</p>
+                        <p className="font-light capitalize">total users</p>
                         <h2 className="text-2xl font-extrabold">{count}</h2>
                     </div>
                     <div className="p-4 rounded-3xl bg-indigo-600 bg-opacity-30 h-fit">
@@ -50,7 +53,10 @@ function StatCards({ orders, lastOrders, numDays, count, users, lastUsers }) {
                 </div>
                 <PercentageDiff percentage={usersPer} duration={duration} />
             </div>
-            <div className="bg-bkg-main rounded-xl p-4 space-y-[30px] basis-[100%] sm:basis-[48%] md:basis-[47%] xl:basis-[24%]">
+            <div
+                data-test="total-orders"
+                className="bg-bkg-main rounded-xl p-4 space-y-[30px] basis-[100%] sm:basis-[48%] md:basis-[47%] xl:basis-[24%]"
+            >
                 <div className="flex justify-between">
                     <div className="w-[100px] space-y-4">
                         <p className="font-light capitalize">total orders</p>
@@ -64,7 +70,10 @@ function StatCards({ orders, lastOrders, numDays, count, users, lastUsers }) {
                 </div>
                 <PercentageDiff percentage={ordersPer} duration={duration} />
             </div>
-            <div className="bg-bkg-main rounded-xl p-4 space-y-[30px] basis-[100%] sm:basis-[48%] md:basis-[47%] xl:basis-[24%]">
+            <div
+                data-test="total-sales"
+                className="bg-bkg-main rounded-xl p-4 space-y-[30px] basis-[100%] sm:basis-[48%] md:basis-[47%] xl:basis-[24%]"
+            >
                 <div className="flex justify-between">
                     <div className="w-[100px] space-y-4">
                         <p className="font-light capitalize">total sales</p>
@@ -78,7 +87,10 @@ function StatCards({ orders, lastOrders, numDays, count, users, lastUsers }) {
                 </div>
                 <PercentageDiff percentage={salesPer} duration={duration} />
             </div>
-            <div className="bg-bkg-main rounded-xl p-4 space-y-[30px] basis-[100%] sm:basis-[48%] md:basis-[47%] xl:basis-[24%]">
+            <div
+                data-test="total-pending"
+                className="bg-bkg-main rounded-xl p-4 space-y-[30px] basis-[100%] sm:basis-[48%] md:basis-[47%] xl:basis-[24%]"
+            >
                 <div className="flex justify-between">
                     <div className="w-[100px] space-y-4">
                         <p className="font-light capitalize">total pending</p>

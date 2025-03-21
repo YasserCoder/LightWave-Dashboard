@@ -24,6 +24,10 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+Cypress.Commands.add("getDataTest", (dataTest) => {
+    return cy.get(`[data-test=${dataTest}]`);
+});
+
 Cypress.Commands.add("mockAuthSession", () => {
     cy.window().then((win) => {
         cy.stub(win.supabase.auth, "getSession").resolves({
@@ -35,7 +39,6 @@ Cypress.Commands.add("mockAuthSession", () => {
                         id: "mocked-user-id",
                         email: "test@example.com",
                         role: "authenticated",
-                        user_metadata: { name: "John Doe" },
                     },
                 },
             },
@@ -48,7 +51,15 @@ Cypress.Commands.add("mockAuthSession", () => {
                     id: "mocked-user-id",
                     email: "test@example.com",
                     role: "authenticated",
-                    user_metadata: { name: "John Doe" },
+                    user_metadata: {
+                        name: "John Doe",
+                        email: "test@example.com",
+                        phone: "1234567890",
+                        adress: "1234 Main St",
+                        city: "Anytown",
+                        country: "USA",
+                        postCode: "12345",
+                    },
                 },
             },
             error: null,

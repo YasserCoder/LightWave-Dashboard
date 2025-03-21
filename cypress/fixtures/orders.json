@@ -1,0 +1,37 @@
+[
+    {
+        "created_at": "2025-03-12T00:00:00Z",
+        "status": "delivred",
+        "totalAmount": 100
+    },
+    {
+        "created_at": "2025-03-18T00:00:00Z",
+        "status": "delivred",
+        "totalAmount": 50
+    },
+    {
+        "created_at": "2025-03-17T00:00:00Z",
+        "status": "delivred",
+        "totalAmount": 220
+    },
+    {
+        "created_at": "2025-03-15T00:00:00Z",
+        "status": "delivred",
+        "totalAmount": 360
+    },
+    {
+        "created_at": "2025-03-19T00:00:00Z",
+        "status": "pending",
+        "totalAmount": 55.5
+    },
+    {
+        "created_at": "2025-03-20T00:00:00Z",
+        "status": "delivred",
+        "totalAmount": 135
+    },
+    {
+        "created_at": "2025-03-13T00:00:00Z",
+        "status": "delivred",
+        "totalAmount": 200
+    }
+]

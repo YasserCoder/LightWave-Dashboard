@@ -1,0 +1,14 @@
+[
+    { "id": 1, "name": "Lighting", "parentId": null },
+    { "id": 2, "name": "Electrical Components", "parentId": null },
+    { "id": 3, "name": "Tools and Instruments", "parentId": null },
+    { "id": 4, "name": "Lamps", "parentId": 1 },
+    { "id": 5, "name": "Desk Lamps", "parentId": 4 },
+    { "id": 6, "name": "Wall Lamps", "parentId": 4 },
+    { "id": 7, "name": "Hand Tools", "parentId": 3 },
+    { "id": 8, "name": "Screwdrivers", "parentId": 7 },
+    { "id": 9, "name": "Switches and Sockets", "parentId": 2 },
+    { "id": 10, "name": "Wall Switches", "parentId": 9 },
+    { "id": 11, "name": "Wall Sockets", "parentId": 9 },
+    { "id": 12, "name": "Cables and Wires", "parentId": null }
+]

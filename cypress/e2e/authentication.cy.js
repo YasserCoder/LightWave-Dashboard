@@ -2,7 +2,7 @@ describe("Login", () => {
     beforeEach(() => {
         cy.visit("/login");
     });
-    it.only("simulate a successful login to the dashboard", () => {
+    it("simulate a successful login to the dashboard", () => {
         cy.intercept(
             "GET",
             `${Cypress.env(
